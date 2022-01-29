@@ -1,23 +1,18 @@
 import React from "react";
 import {
-  BrowserRouter as Router,
+  BrowserRouter,
   Routes,
   Route,
-  Link
 } from "react-router-dom";
 import { Login, DocIt } from '../pages';
 
 export default function AppRouter() {
   return (
-    <Router>
+    <BrowserRouter>
       <Routes>
-        <Route path="/docit">
-          <DocIt />
-        </Route>
-        <Route path="/">
-          <Login />
-        </Route>
+        <Route path="/" element={<Login />} />
+        <Route path="/docit" element={<DocIt />} />
       </Routes>
-  </Router>
+  </BrowserRouter>
   );
 }
