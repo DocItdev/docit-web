@@ -3,7 +3,6 @@ import { Button } from 'react-bootstrap';
 import { useDispatch } from 'react-redux';
 import { setToken } from '../ducks/users';
 import getVar from '../config/envConfig';
-import { authenticateGitHubUser } from '../services/userRequests';
 
 
 
@@ -23,6 +22,7 @@ export default function GithubLogin() {
         dispatch(setToken(token));
       }
     }
+    authenticateGitHubUser();
   }, [code])
 
   return (
