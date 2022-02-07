@@ -3,6 +3,7 @@ import { Button } from 'react-bootstrap';
 import { useDispatch } from 'react-redux';
 import { setToken } from '../ducks/users';
 import getVar from '../config/envConfig';
+import axios from 'axios';
 
 
 
@@ -15,11 +16,16 @@ export default function GithubLogin() {
   const code = urlParams.get('code');
   
   useEffect(() => {
+    
     const authenticateGitHubUser = async () => {
-      if (code) {
-        const response = await axios.post(`${getVar('API_HOST')}/api/auth/authenticate`);
-        const { data: { token } } = response;
-        dispatch(setToken(token));
+      try {
+        if (code) {
+          const response = await axios.post(`${getVar('API_HOST')}/api/auth/github`, {code});
+          const { data: { token } } = response;
+          dispatch(setToken(token));
+        }
+      } catch (error) {
+        console.log("OAuth Github error:", error);
       }
     }
     authenticateGitHubUser();
