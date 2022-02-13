@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import Sidebar from '../components/Sidebar';
 import useAuthEffect from '../hooks/useAuthEffect';
 
 
@@ -11,6 +12,7 @@ export default function DocIt() {
       <Link to="/">
         Login Page
       </Link>
+      <Sidebar />
     </div>
   )
 }

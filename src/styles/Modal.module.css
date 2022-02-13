@@ -1,0 +1,16 @@
+.root {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  /* width: 400; */
+  background-color: white;
+}
+
+.container {
+  padding: 5%;
+}
+
+.closeButton {
+  padding-left: 20rem;
+}
