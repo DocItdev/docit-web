@@ -1,23 +1,30 @@
 import React from "react";
 import { TextField } from "@mui/material";
-import { useDispatch } from 'react-redux';
+import { useForm } from "react-hook-form";
+import { useMutation, useQueryClient } from "react-query";
+import { useSelector } from 'react-redux';
 import Modal from "./common/Modal";
 import AsyncButton from "./common/AsyncButton";
-import useAsyncForm from "../hooks/useAsyncForm";
-import { setProject } from "../ducks/projects";
+import postProject from "../utils/postProject";
 
 export default function CreateProjectModal({ open, onClose }) {
-  const dispatch = useDispatch();
-  const { register, handleAsyncSubmit, loading, asyncError } = useAsyncForm(
-    '/api/projects',
-    (data) => {
-      dispatch(setProject(data.project));
-      onClose();
+  const userToken = useSelector(state => state.users.token);
+  const { register, handleSubmit} = useForm();
+  const queryClient = useQueryClient();
+  const { isLoading, isError, error, mutate } = useMutation(newProject => postProject(userToken, newProject), {
+    onSuccess: () => {
+      queryClient.invalidateQueries('projects');
     }
-  );
+  });
+
+  const onSubmit = (values) => {
+    mutate(values);
+    onClose();
+  }
+  
   return (
     <Modal title="Create Project" open={open} onClose={onClose}>
-      <form onSubmit={handleAsyncSubmit}>
+      <form onSubmit={handleSubmit(onSubmit)}>
         <TextField
           variant="outlined"
           margin="normal"
@@ -42,8 +49,8 @@ export default function CreateProjectModal({ open, onClose }) {
           fullWidth
           variant="contained"
           color="primary"
-          loading={loading}
-          error={asyncError}
+          loading={isLoading}
+          error={isError && error}
         >
           Create
         </AsyncButton>

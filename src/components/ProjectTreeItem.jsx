@@ -1,34 +1,35 @@
 import React, { useState } from "react";
 import { TreeItem } from "@mui/lab";
 import { Box, Typography, TextField, Button, Grid } from "@mui/material";
-import { useDispatch } from 'react-redux';
+import { useForm } from "react-hook-form";
+import { useSelector } from 'react-redux';
+import { useMutation, useQueryClient } from "react-query";
 import AsyncButton from "./common/AsyncButton";
 import getTreeNodeId from "../utils/getTreeNodeId";
 import Modal from "./common/Modal";
 import styles from '../styles/ProjectTreeItem.module.css';
-import useAsyncForm from '../hooks/useAsyncForm'
-import { setDocument } from "../ducks/projects";
+import postDocument from "../utils/postDocument";
 
 export default function ProjectTreeItem({ projectName, projectId, children, ...props }) {
   const [opened, setOpened] = useState(false);
-  const dispatch = useDispatch();
-  const {
-    register,
-    handleAsyncSubmit,
-    loading,
-    asyncError
-  } = useAsyncForm(
-    `/api/documents?projectId=${projectId}`,
-    (data) => {
-      dispatch(setDocument({ projectId, doc: data }))
-      setOpened(false);
-    },
-    (err) => console.log(err)
-  );
+  const { register, handleSubmit } = useForm();
+  const userToken = useSelector(state => state.users.token);
+  const queryClient = useQueryClient();
+  const {isLoading, isError, error, mutate} = useMutation(
+    newDoc => postDocument(userToken, projectId, newDoc), {
+      onSuccess: () => {
+        queryClient.invalidateQueries('projects');
+      }
+    });
 
   const toggleOpened = () => {
     setOpened(!opened);
   };
+
+  const onSubmit = (values) => {
+    mutate(values);
+    toggleOpened();
+  }
   return (
     <TreeItem
       {...props}
@@ -46,7 +47,7 @@ export default function ProjectTreeItem({ projectName, projectId, children, ...p
             </Grid>
           </Grid>
           <Modal title="Create Document" open={opened} onClose={toggleOpened}>
-            <form onSubmit={handleAsyncSubmit}>
+            <form onSubmit={handleSubmit(onSubmit)}>
               <TextField
                 variant="outlined"
                 margin="normal"
@@ -62,8 +63,8 @@ export default function ProjectTreeItem({ projectName, projectId, children, ...p
                 fullWidth
                 variant="contained"
                 color="primary"
-                loading={loading}
-                error={asyncError}
+                loading={isLoading}
+                error={isError && error}
               >
                 Create
               </AsyncButton>

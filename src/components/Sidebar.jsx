@@ -3,17 +3,21 @@ import { Button, Typography } from '@mui/material';
 import ProjectTreeView from './ProjectTreeView';
 import styles from '../styles/Sidebar.module.css';
 import CreateProjectModal from './CreateProjectModal';
-import useProjects from '../hooks/useProjects';
 import Loader from './common/Loader';
+import { useQuery } from 'react-query';
+import { useSelector } from 'react-redux';
+import fetchAllProjects from '../utils/fetchAllProjects';
 
 export default function Sidebar() {
   const [opened, setOpened] = useState(false);
-  const { projects, loading } = useProjects();
+  const userToken = useSelector(state => state.users.token);
+  const { isLoading, data } = useQuery('projects', () => fetchAllProjects(userToken))
 
   const toggleOpened = () => {
     setOpened(!opened);
   };
-  if(loading) {
+
+  if(isLoading) {
     return <Loader />
   }
   return (
@@ -24,7 +28,7 @@ export default function Sidebar() {
           New Project
         </Typography>
       </Button>
-      <ProjectTreeView projects={projects} />
+      <ProjectTreeView projects={data.projects} />
       <CreateProjectModal open={opened} onClose={toggleOpened} />
     </aside>
   );
