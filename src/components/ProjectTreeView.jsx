@@ -6,22 +6,25 @@ import ProjectTreeItem from './ProjectTreeItem';
 import DocTreeItem from './DocTreeItem';
 
 
-export default function ProjectTreeView() {
+export default function ProjectTreeView({ projects }) {
   return(
     <TreeView
     aria-label="file system navigator"
     defaultCollapseIcon={<ExpandMoreIcon />}
     defaultExpandIcon={<ChevronRightIcon />}
-    sx={{ height: 240, flexGrow: 1, maxWidth: 400, overflowY: 'auto' }}
+    sx={{ height: '100vh', flexGrow: 1, maxWidth: 400, overflowY: 'auto' }}
   >
-    <ProjectTreeItem projectName="project1">
-      <DocTreeItem docName="document1" />
-      <DocTreeItem docName="document2" />
-    </ProjectTreeItem>
-    <ProjectTreeItem projectName="project2">
-      <DocTreeItem docName="document1" />
-      <DocTreeItem docName="document2" />
-    </ProjectTreeItem>
+    {
+      projects.length && projects.map(({ name, id, Documents }) => (
+        <ProjectTreeItem key={id} projectName={name} projectId={id}>
+          {
+            Documents.length && Documents.map(document => (
+              <DocTreeItem key={document.id} docName={document.name} />
+            ))
+          }
+        </ProjectTreeItem>
+      ))
+    }
   </TreeView>
   )
 }

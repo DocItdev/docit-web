@@ -12,7 +12,7 @@ export default function DocTreeItem({ docName, ...props }) {
    {...props}
    nodeId={getTreeNodeId()}
    label={
-     <Box>
+     <Box style={{ display: 'flex', alignItems: 'flex-start', justifyItems: 'flex-start' }}>
        <Typography component="span">{docName}</Typography>
      </Box>
    }

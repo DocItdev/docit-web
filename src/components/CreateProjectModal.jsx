@@ -1,34 +1,52 @@
 import React from "react";
-import { TextField, Button } from "@mui/material";
+import { TextField } from "@mui/material";
+import { useDispatch } from 'react-redux';
 import Modal from "./common/Modal";
+import AsyncButton from "./common/AsyncButton";
+import useAsyncForm from "../hooks/useAsyncForm";
+import { setProject } from "../ducks/projects";
 
 export default function CreateProjectModal({ open, onClose }) {
+  const dispatch = useDispatch();
+  const { register, handleAsyncSubmit, loading, asyncError } = useAsyncForm(
+    '/api/projects',
+    (data) => {
+      dispatch(setProject(data.project));
+      onClose();
+    }
+  );
   return (
     <Modal title="Create Project" open={open} onClose={onClose}>
-      <form>
+      <form onSubmit={handleAsyncSubmit}>
         <TextField
           variant="outlined"
           margin="normal"
           required
           fullWidth
-          id="projectTitle"
-          label="Title"
-          name="projectTitle"
+          id="projectName"
+          label="Name"
           autoFocus
+          {...register('name')}
         />
         <TextField
           variant="outlined"
           margin="normal"
-          required
           fullWidth
           id="projectDescription"
           label="Description"
-          name="projectDescription"
           autoFocus
+          {...register('description')}
         />
-        <Button type="submit" fullWidth variant="contained" color="primary">
+        <AsyncButton
+          type="submit"
+          fullWidth
+          variant="contained"
+          color="primary"
+          loading={loading}
+          error={asyncError}
+        >
           Create
-        </Button>
+        </AsyncButton>
       </form>
     </Modal>
   );

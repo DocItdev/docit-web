@@ -1,4 +1,4 @@
-
-.addButton {
-  margin-left: 15rem;
+.iconButton {
+  padding: 0 !important;
+  color: #000 !important;
 }

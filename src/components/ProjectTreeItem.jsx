@@ -1,12 +1,30 @@
 import React, { useState } from "react";
 import { TreeItem } from "@mui/lab";
-import { Box, Typography, IconButton, TextField, Button } from "@mui/material";
+import { Box, Typography, TextField, Button, Grid } from "@mui/material";
+import { useDispatch } from 'react-redux';
+import AsyncButton from "./common/AsyncButton";
 import getTreeNodeId from "../utils/getTreeNodeId";
 import Modal from "./common/Modal";
 import styles from '../styles/ProjectTreeItem.module.css';
+import useAsyncForm from '../hooks/useAsyncForm'
+import { setDocument } from "../ducks/projects";
 
-export default function ProjectTreeItem({ projectName, children, ...props }) {
+export default function ProjectTreeItem({ projectName, projectId, children, ...props }) {
   const [opened, setOpened] = useState(false);
+  const dispatch = useDispatch();
+  const {
+    register,
+    handleAsyncSubmit,
+    loading,
+    asyncError
+  } = useAsyncForm(
+    `/api/documents?projectId=${projectId}`,
+    (data) => {
+      dispatch(setDocument({ projectId, doc: data }))
+      setOpened(false);
+    },
+    (err) => console.log(err)
+  );
 
   const toggleOpened = () => {
     setOpened(!opened);
@@ -17,12 +35,18 @@ export default function ProjectTreeItem({ projectName, children, ...props }) {
       nodeId={getTreeNodeId()}
       label={
         <Box>
-          <Typography component="span">{projectName}</Typography>
-          <IconButton className={styles.addButton} onClick={toggleOpened}>
-            <i className="bi bi-plus-circle"></i>
-          </IconButton>
+          <Grid container spacing={2}>
+            <Grid item xs={6} >
+              <Typography  component="span">{projectName}</Typography>
+            </Grid>
+            <Grid item xs={6}>
+              <Button onClick={toggleOpened} className={styles.iconButton}>
+                <i className="bi bi-plus"></i>
+              </Button>
+            </Grid>
+          </Grid>
           <Modal title="Create Document" open={opened} onClose={toggleOpened}>
-            <form>
+            <form onSubmit={handleAsyncSubmit}>
               <TextField
                 variant="outlined"
                 margin="normal"
@@ -30,27 +54,19 @@ export default function ProjectTreeItem({ projectName, children, ...props }) {
                 fullWidth
                 id="docTitle"
                 label="Title"
-                name="docTitle"
                 autoFocus
+                {...register('name')}
               />
-              <TextField
-                variant="outlined"
-                margin="normal"
-                required
-                fullWidth
-                id="docDescription"
-                label="Description"
-                name="docDescription"
-                autoFocus
-              />
-              <Button
+              <AsyncButton
                 type="submit"
                 fullWidth
                 variant="contained"
                 color="primary"
+                loading={loading}
+                error={asyncError}
               >
                 Create
-              </Button>
+              </AsyncButton>
             </form>
           </Modal>
         </Box>
