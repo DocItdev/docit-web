@@ -1,4 +1,17 @@
 .iconButton {
   padding: 0 !important;
   color: #000 !important;
+  margin: 0.2rem;
+  z-index: 1;
+}
+
+.icon {
+  color: #fff;
+}
+
+.newDocButton {
+  color: white !important;
+  border-color: #fff !important;
+  display: flex;
+  align-self: flex-start;
 }

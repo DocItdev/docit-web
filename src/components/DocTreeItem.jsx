@@ -5,6 +5,7 @@ import {
   Typography,
 } from '@mui/material';
 import getTreeNodeId from '../utils/getTreeNodeId';
+import styles from '../styles/DocTreeItem.module.css';
 
 export default function DocTreeItem({ docName, ...props }) {
   return(
@@ -12,8 +13,9 @@ export default function DocTreeItem({ docName, ...props }) {
    {...props}
    nodeId={getTreeNodeId()}
    label={
-     <Box style={{ display: 'flex', alignItems: 'flex-start', justifyItems: 'flex-start' }}>
-       <Typography component="span">{docName}</Typography>
+     <Box className={styles.container}>
+       <i className="bi bi-file-earmark-text"></i>
+       <Typography className={styles.text} component="span">{docName}</Typography>
      </Box>
    }
    />

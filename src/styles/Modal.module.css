@@ -5,12 +5,18 @@
   transform: translate(-50%, -50%);
   /* width: 400; */
   background-color: white;
+  min-width: 25rem;
 }
 
 .container {
   padding: 5%;
 }
 
-.closeButton {
-  padding-left: 20rem;
+.header {
+  padding-left: 2rem;
+  padding-right: 2rem;
+}
+
+.iconButton {
+  padding: 0;
 }

@@ -9,9 +9,10 @@ import postProject from "../utils/postProject";
 
 export default function CreateProjectModal({ open, onClose }) {
   const userToken = useSelector(state => state.users.token);
-  const { register, handleSubmit} = useForm();
+  const { register, handleSubmit, reset} = useForm();
   const queryClient = useQueryClient();
-  const { isLoading, isError, error, mutate } = useMutation(newProject => postProject(userToken, newProject), {
+  const { isLoading, isError, error, mutate } = useMutation(
+    newProject => postProject(userToken, newProject), {
     onSuccess: () => {
       queryClient.invalidateQueries('projects');
     }
@@ -20,6 +21,9 @@ export default function CreateProjectModal({ open, onClose }) {
   const onSubmit = (values) => {
     mutate(values);
     onClose();
+    reset('', {
+      keepValues: false,
+    });
   }
   
   return (
@@ -41,7 +45,6 @@ export default function CreateProjectModal({ open, onClose }) {
           fullWidth
           id="projectDescription"
           label="Description"
-          autoFocus
           {...register('description')}
         />
         <AsyncButton

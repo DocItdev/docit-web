@@ -22,7 +22,7 @@ export default function Sidebar() {
   }
   return (
     <aside className={styles.sidebar}>
-      <Button onClick={toggleOpened}>
+      <Button variant="outlined" className={styles.newProjectButton} onClick={toggleOpened}>
       <i className="bi bi-plus"></i>
         <Typography component="span">
           New Project

@@ -7,10 +7,7 @@ export default function DocIt() {
   useAuthEffect();
   return (
     <div>
-      <h1>DocIt main page</h1>
-      <Link to="/">
-        Login Page
-      </Link>
+      <h3>DocIt main page</h3>
       <Sidebar />
     </div>
   )

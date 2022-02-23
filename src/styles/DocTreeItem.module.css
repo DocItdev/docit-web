@@ -1,0 +1,8 @@
+.container {
+  display: flex;
+  align-items: flex-start;
+  justify-items: flex-start;
+}
+.text {
+  padding-left: 0.5rem;
+}

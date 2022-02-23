@@ -37,12 +37,12 @@ export default function ProjectTreeItem({ projectName, projectId, children, ...p
       label={
         <Box>
           <Grid container spacing={2}>
-            <Grid item xs={6} >
+            <Grid item xs={6} style={{ display: 'flex', alignItems: 'flex-start', justifyItems: 'flex-start' }}>
               <Typography  component="span">{projectName}</Typography>
             </Grid>
             <Grid item xs={6}>
               <Button onClick={toggleOpened} className={styles.iconButton}>
-                <i className="bi bi-plus"></i>
+                <i className={`bi bi-plus-circle ${styles.icon}`}></i>
               </Button>
             </Grid>
           </Grid>
@@ -74,8 +74,8 @@ export default function ProjectTreeItem({ projectName, projectId, children, ...p
       }
     >
       {children}
-      <Button onClick={toggleOpened}>
-        <i className="bi bi-plus"></i>
+      <Button onClick={toggleOpened} className={styles.newDocButton}>
+        <i className={`bi bi-plus ${styles.icon}`}></i>
         <Typography component="span">
           New Document
         </Typography>
