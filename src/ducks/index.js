@@ -1,7 +1,20 @@
-import { combineReducers } from 'redux';
-import usersReducer from './users';
+// Action Constants
+const SET_TOKEN = 'docIt/users/SET_TOKEN';
 
+const initialState = {
+  userToken: '',
+};
 
-export default combineReducers({
-  users: usersReducer,
-})
+export default function reducer(state=initialState, action) {
+  switch(action.type) {
+    case SET_TOKEN:
+      return { ...state, userToken: action.payload };
+    default:
+      return state;
+  }
+}
+
+// Action Creators
+export function setToken(token) {
+  return { type: SET_TOKEN, payload: token };
+}

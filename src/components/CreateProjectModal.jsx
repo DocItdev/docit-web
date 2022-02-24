@@ -8,7 +8,7 @@ import AsyncButton from "./common/AsyncButton";
 import postProject from "../utils/postProject";
 
 export default function CreateProjectModal({ open, onClose }) {
-  const userToken = useSelector(state => state.users.token);
+  const userToken = useSelector(state => state.userToken);
   const { register, handleSubmit, reset} = useForm();
   const queryClient = useQueryClient();
   const { isLoading, isError, error, mutate } = useMutation(

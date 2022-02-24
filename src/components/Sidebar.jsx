@@ -8,9 +8,10 @@ import { useQuery } from 'react-query';
 import { useSelector } from 'react-redux';
 import fetchAllProjects from '../utils/fetchAllProjects';
 
+
 export default function Sidebar() {
   const [opened, setOpened] = useState(false);
-  const userToken = useSelector(state => state.users.token);
+  const userToken = useSelector(state => state.userToken);
   const { isLoading, data } = useQuery('projects', () => fetchAllProjects(userToken))
 
   const toggleOpened = () => {

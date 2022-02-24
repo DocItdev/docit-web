@@ -10,10 +10,11 @@ import Modal from "./common/Modal";
 import styles from '../styles/ProjectTreeItem.module.css';
 import postDocument from "../utils/postDocument";
 
+
 export default function ProjectTreeItem({ projectName, projectId, children, ...props }) {
   const [opened, setOpened] = useState(false);
   const { register, handleSubmit } = useForm();
-  const userToken = useSelector(state => state.users.token);
+  const userToken = useSelector(state => state.userToken);
   const queryClient = useQueryClient();
   const {isLoading, isError, error, mutate} = useMutation(
     newDoc => postDocument(userToken, projectId, newDoc), {
@@ -75,7 +76,7 @@ export default function ProjectTreeItem({ projectName, projectId, children, ...p
     >
       {children}
       <Button onClick={toggleOpened} className={styles.newDocButton}>
-        <i className={`bi bi-plus ${styles.icon}`}></i>
+        <i className={`bi bi-plus ${styles.newDocIcon}`}></i>
         <Typography component="span">
           New Document
         </Typography>
