@@ -5,10 +5,11 @@ import { useForm } from "react-hook-form";
 import { useSelector } from 'react-redux';
 import { useMutation, useQueryClient } from "react-query";
 import AsyncButton from "./common/AsyncButton";
-import getTreeNodeId from "../utils/getTreeNodeId";
+import getTreeNodeId from "../utils/common/getTreeNodeId";
 import Modal from "./common/Modal";
 import styles from '../styles/ProjectTreeItem.module.css';
-import postDocument from "../utils/postDocument";
+import postDocument from "../utils/documents/postDocument";
+import deleteProject from '../utils/projects/deleteProject';
 
 
 export default function ProjectTreeItem({ projectName, projectId, children, ...props }) {
@@ -22,6 +23,12 @@ export default function ProjectTreeItem({ projectName, projectId, children, ...p
         queryClient.invalidateQueries('projects');
       }
     });
+  const deleteMutation = useMutation(
+    () => deleteProject(projectId, userToken), {
+      onSuccess: () => {
+        queryClient.invalidateQueries('projects');
+      }
+  })
 
   const toggleOpened = () => {
     setOpened(!opened);
@@ -37,14 +44,19 @@ export default function ProjectTreeItem({ projectName, projectId, children, ...p
       nodeId={getTreeNodeId()}
       label={
         <Box>
-          <Grid container spacing={2}>
-            <Grid item xs={6} style={{ display: 'flex', alignItems: 'flex-start', justifyItems: 'flex-start' }}>
+          <Grid container spacing={1}>
+            <Grid item xs={8} className={styles.projectTitle}>
               <Typography  component="span">{projectName}</Typography>
             </Grid>
-            <Grid item xs={6}>
-              <Button onClick={toggleOpened} className={styles.iconButton}>
-                <i className={`bi bi-plus-circle ${styles.icon}`}></i>
-              </Button>
+            <Grid item xs={2}>
+              <div onClick={toggleOpened} className={styles.iconButton}>
+                <i className={`bi bi-plus ${styles.icon}`}></i>
+              </div>
+            </Grid>
+            <Grid item xs={2} style={{ display: 'flex', alignItems: 'center' }}>
+              <div onClick={() => deleteMutation.mutate()} className={styles.iconButton}>
+                <i className="bi bi-trash" style={{ color: '#fff' }}></i>
+              </div>
             </Grid>
           </Grid>
           <Modal title="Create Document" open={opened} onClose={toggleOpened}>

@@ -18,7 +18,11 @@ export default function ProjectTreeView({ projects }) {
           <ProjectTreeItem key={id} projectName={name} projectId={id}>
             {Documents.length
               ? Documents.map((document) => (
-                  <DocTreeItem key={document.id} docName={document.name} />
+                  <DocTreeItem
+                    key={document.id}
+                    docId={document.id}
+                    docName={document.name}
+                  />
                 ))
               : null}
           </ProjectTreeItem>

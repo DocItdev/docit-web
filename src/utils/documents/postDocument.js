@@ -1,5 +1,5 @@
 import axios from "axios";
-import getVar from "../config/envConfig";
+import getVar from "../../config/envConfig";
 
 export default async function postDocument(userToken, projectId, document) {
   if (userToken) {
