@@ -1,5 +1,4 @@
 .sidebar {
-  max-width: 25%;
   height: 100vh;
   background-color: #1F5980;
   color: #fff;
@@ -9,4 +8,5 @@
 .newProjectButton {
   color: white !important;
   border-color: #fff !important;
+  margin-bottom: 5% !important;
 }
