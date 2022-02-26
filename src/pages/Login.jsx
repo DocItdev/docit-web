@@ -1,15 +1,17 @@
-import React from "react";
-import GithubLogin from "../components/GithubLogin";
-import GoogleLogin from "../components/GoogleLogin";
-import useAuthEffect from "../hooks/useAuthEffect";
+import React from 'react';
+import { Link } from 'react-router-dom';
+import GithubLogin from '../components/GithubLogin';
+
 
 export default function Login() {
-  useAuthEffect();
-  return (
+
+ return (
     <div>
-      <h1>DocIt Login</h1>
+      <h1>Login page</h1>
+      <Link to="docit">
+        Main Page
+      </Link>
       <GithubLogin />
-      <GoogleLogin />
     </div>
-  );
+  )
 }
