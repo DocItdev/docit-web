@@ -5,11 +5,11 @@ import {
   Typography,
 } from '@mui/material';
 import { useMutation, useQueryClient } from 'react-query';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import getTreeNodeId from '../utils/common/getTreeNodeId';
 import styles from '../styles/DocTreeItem.module.css';
 import deleteDocument from '../utils/documents/deleteDocument';
-
+import { setDocId } from '../ducks';
 
 export default function DocTreeItem({ docName, docId, ...props }) {
   const userToken = useSelector(state => state.userToken);
@@ -19,9 +19,22 @@ export default function DocTreeItem({ docName, docId, ...props }) {
       queryClient.invalidateQueries('projects');
     }
   })
+
+  const dispatch = useDispatch();
+  const selectedDocId = useSelector(state => state.selectedDocId)
+  console.log(selectedDocId);
+
+  function handleClick(){
+    console.log("I need to eat " + docId);
+    dispatch(setDocId(docId));
+    
+  }
+
   return(
+   
    <TreeItem
    {...props}
+   onClick = {handleClick}
    nodeId={getTreeNodeId()}
    label={
      <Grid container spacing={2} className={styles.container}>
@@ -37,5 +50,6 @@ export default function DocTreeItem({ docName, docId, ...props }) {
      </Grid>
    }
    />
+  
   )
 }
