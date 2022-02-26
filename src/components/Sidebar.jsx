@@ -24,7 +24,7 @@ export default function Sidebar() {
     return <Loader />
   }
   return (
-    <Grid item xs={3} className={styles.sidebar}>
+    <div className={styles.sidebar}>
       <Button variant="outlined" className={styles.newProjectButton} onClick={toggleOpened}>
         <Typography component="span">
           New Project
@@ -32,6 +32,6 @@ export default function Sidebar() {
       </Button>
       <ProjectTreeView projects={data.projects} />
       <CreateProjectModal open={opened} onClose={toggleOpened} />
-    </Grid>
+    </div>
   );
 }

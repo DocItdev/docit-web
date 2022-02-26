@@ -10,8 +10,7 @@ export default function DocIt() {
   useAuthEffect();
   //
   return (
-    <div >
-      <Box sx={{ flexGrow: 1 }}>
+      <div>
       <h3>DocIt main page</h3>
         <Grid container >
           <Grid item xs={2}>
@@ -21,7 +20,6 @@ export default function DocIt() {
           <DocumentContainer/>
           </Grid>
         </Grid>
-      </Box>
-    </div>
+      </div>
   )
 }
