@@ -13,7 +13,9 @@ export default function Sidebar() {
   const [opened, setOpened] = useState(false);
   const userToken = useSelector(state => state.userToken);
   const { isLoading, data } = useQuery('projects', () => fetchAllProjects(userToken), {
-    refetchOnWindowFocus: false
+    refetchOnWindowFocus: false,
+    refetchOnMount: false,
+    enabled: userToken !== undefined || userToken !== '',
   })
 
   const toggleOpened = () => {

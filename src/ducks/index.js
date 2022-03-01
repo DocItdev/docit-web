@@ -5,7 +5,7 @@ const SET_DOC_ID = 'SET_DOC_ID';
 //state
 const initialState = {
   userToken: '',
-  selectedDocId: "select document"
+  selectedDocId: '',
 };
 
 //reducers

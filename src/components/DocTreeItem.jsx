@@ -12,26 +12,21 @@ import deleteDocument from '../utils/documents/deleteDocument';
 import { setDocId } from '../ducks';
 
 export default function DocTreeItem({ docName, docId, ...props }) {
-  const userToken = useSelector(state => state.userToken);
+  const { userToken, selectedDocId } = useSelector(state => state);
   const queryClient = useQueryClient();
   const { mutate } = useMutation(() => deleteDocument(docId, userToken), {
     onSuccess: () => {
       queryClient.invalidateQueries('projects');
     }
   })
-
   const dispatch = useDispatch();
-  const selectedDocId = useSelector(state => state.selectedDocId)
-  console.log(selectedDocId);
 
   function handleClick(){
-    console.log("I need to eat " + docId);
     dispatch(setDocId(docId));
-    
+    queryClient.invalidateQueries('posts');  
   }
 
-  return(
-   
+  return (   
    <TreeItem
    {...props}
    onClick = {handleClick}
