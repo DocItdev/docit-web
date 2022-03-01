@@ -11,4 +11,5 @@ export default async function fetchAllProjects(userToken) {
     const response = await axios.get(`${getVar('API_HOST')}/api/projects/all`, opts);
     return response.data;
   }
+  throw new Error('Missing or incorrect user token')
 }

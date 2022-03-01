@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import getVar from '../config/envConfig';
 import GoogleLoggingButton from 'react-google-login';
 import axios from 'axios';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { setToken } from '../ducks';
 
 export default function GoogleLogin() {
