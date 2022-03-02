@@ -7,10 +7,7 @@ export default function DocumentContainer() {
   return (
     <div className="container">
       <PostPortal />
-      <h1 >Document Container</h1>
-      { selectedId }
       <Postbar/>
-      
     </div>
   );
 }

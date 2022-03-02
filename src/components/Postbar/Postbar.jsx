@@ -1,16 +1,40 @@
-import React from "react";
-import Paper from '@mui/material/Paper';
-import Box from '@mui/material/Box';
-import {Editor, EditorState, RichUtils} from 'draft-js';
+import React, {useState} from "react";
+import {Editor, EditorState, RichUtils, convertToRaw} from 'draft-js';
+import { useSelector } from 'react-redux';
+import createPost from "../../utils/posts/createPost";
+import { useMutation, useQueryClient } from "react-query";
 import 'draft-js/dist/Draft.css';
 import './Postbar.css';
 
 
 export default function Postbar() {
     
-  const [editorState, setEditorState] = React.useState(
+  const [editorState, setEditorState] = useState(
     () => EditorState.createEmpty(),
   );
+
+  const { userToken, selectedDocId } = useSelector(state => state);
+  const queryClient = useQueryClient();
+  const { isLoading, isError, error, mutate } = useMutation(
+    newPost => createPost(userToken, selectedDocId, newPost), {
+    onSuccess: () => {
+      queryClient.invalidateQueries('posts');
+    }
+  });
+
+  const handlePost = () => {
+    const contentState = editorState.getCurrentContent();
+    const rawContentState = convertToRaw(contentState);
+    const stringedRawContentState = JSON.stringify(rawContentState);
+    mutate({
+      postType: "text",
+      textContent: stringedRawContentState,
+      title: "",
+      description: ""
+    });
+    
+  }
+
   const onEditorStateChange = (editorState) => {
     setEditorState(editorState);
   };
@@ -30,8 +54,6 @@ export default function Postbar() {
 
   return (
     <div >
-        <h1 >Postbar</h1>
-        
           <div className="postbarEditorContainer">
             testing
             <div className="editors">
@@ -42,9 +64,7 @@ export default function Postbar() {
                 <b>B</b>
               </button>
               <button
-                onClick={() => {
-                  alert("testing post");
-                }}
+                onClick={ handlePost}
               >
                 POST
               </button>
