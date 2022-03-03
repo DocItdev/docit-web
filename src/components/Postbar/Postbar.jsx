@@ -1,5 +1,8 @@
 import React, {useState} from "react";
 import {Editor, EditorState, RichUtils, convertToRaw} from 'draft-js';
+import IconButton from '@mui/material/IconButton';
+import FormatBoldIcon from '@mui/icons-material/FormatBold';
+import Button from '@mui/material/Button';
 import { useSelector } from 'react-redux';
 import createPost from "../../utils/posts/createPost";
 import { useMutation, useQueryClient } from "react-query";
@@ -32,7 +35,6 @@ export default function Postbar() {
       title: "",
       description: ""
     });
-    
   }
 
   const onEditorStateChange = (editorState) => {
@@ -61,8 +63,17 @@ export default function Postbar() {
             </div>
             <div>
               <button className="bold" onClick={onBoldClick} >
-                <b>B</b>
+                B
               </button>
+              <IconButton onClick={onBoldClick} color="primary" aria-label="upload picture" component="span">
+                <FormatBoldIcon color="" />
+              </IconButton>
+
+              <Button > 
+                <FormatBoldIcon />
+              </Button>
+              
+              
               <button
                 onClick={ handlePost}
               >
