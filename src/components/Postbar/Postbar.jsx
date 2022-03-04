@@ -19,14 +19,16 @@ export default function Postbar() {
     () => EditorState.createEmpty(),
   );
 
-  const { userToken, selectedDocId } = useSelector(state => state);
+  const { userToken, selectedDocId } = useSelector((state) => state);
   const queryClient = useQueryClient();
   const { isLoading, isError, error, mutate } = useMutation(
-    newPost => createPost(userToken, selectedDocId, newPost), {
-    onSuccess: () => {
-      queryClient.invalidateQueries('posts');
+    (newPost) => createPost(userToken, selectedDocId, newPost),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries("posts");
+      },
     }
-  });
+  );
 
   const textInput = useRef(null);
 
@@ -34,12 +36,12 @@ export default function Postbar() {
   const handlePost = () => {
     const contentState = editorState.getCurrentContent();
     const rawContentState = convertToRaw(contentState);
-    const stringedRawContentState = JSON.stringify(rawContentState);
+    const jsonContent = JSON.stringify(rawContentState);
     mutate({
       postType: "text",
-      textContent: stringedRawContentState,
+      textContent: jsonContent,
       title: "",
-      description: ""
+      description: "",
     });
 
     onEditorStateChange(editorState.createEmpty());

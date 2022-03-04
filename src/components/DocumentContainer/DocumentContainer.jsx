@@ -1,7 +1,7 @@
 import React from "react";
-import '../styles/DocumentContainer.css';
-import PostPortal from "./PostPortal";
-import Postbar from "./Postbar/Postbar";
+import './DocumentContainer.css';
+import PostPortal from "../PostPortal/PostPortal";
+import Postbar from "../Postbar/Postbar";
 
 export default function DocumentContainer() {
   return (
