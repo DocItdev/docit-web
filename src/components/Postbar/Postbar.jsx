@@ -1,17 +1,16 @@
-import React, {useState} from "react";
-import {Editor, EditorState, RichUtils, convertToRaw} from 'draft-js';
-import IconButton from '@mui/material/IconButton';
-import FormatBoldIcon from '@mui/icons-material/FormatBold';
-import Button from '@mui/material/Button';
+import React, { useState, useRef } from "react";
+import { Editor, EditorState, RichUtils, convertToRaw } from 'draft-js';
 import { useSelector } from 'react-redux';
 import createPost from "../../utils/posts/createPost";
 import { useMutation, useQueryClient } from "react-query";
+import draft from "./Services";
 import 'draft-js/dist/Draft.css';
 import './Postbar.css';
-
+import AllStyleControlsBar from "../RichTextControlBar/RichTextControlBar";
+import AsyncButton from "../common/AsyncButton";
 
 export default function Postbar() {
-    
+
   const [editorState, setEditorState] = useState(
     () => EditorState.createEmpty(),
   );
@@ -25,6 +24,9 @@ export default function Postbar() {
     }
   });
 
+  const textInput = useRef(null);
+
+
   const handlePost = () => {
     const contentState = editorState.getCurrentContent();
     const rawContentState = convertToRaw(contentState);
@@ -35,18 +37,17 @@ export default function Postbar() {
       title: "",
       description: ""
     });
+
+    onEditorStateChange( editorState.createEmpty());
   }
 
   const onEditorStateChange = (editorState) => {
     setEditorState(editorState);
   };
 
-  const onBoldClick = () => {
-    setEditorState(RichUtils.toggleInlineStyle(editorState, "BOLD"));
-  };
 
   const handleKeyCommand = (command) => {
-    const newState = RichUtils.handleKeyCommand( editorState, command );
+    const newState = RichUtils.handleKeyCommand(editorState, command);
     if (newState) {
       setEditorState(newState);
       return "handled";
@@ -54,34 +55,44 @@ export default function Postbar() {
     return "not-handled";
   };
 
-  return (
-    <div >
-          <div className="postbarEditorContainer">
-            testing
-            <div className="editors">
-              <Editor editorState={editorState} onChange={setEditorState} handleKeyCommand={handleKeyCommand}/>
-            </div>
-            <div>
-              <button className="bold" onClick={onBoldClick} >
-                B
-              </button>
-              <IconButton onClick={onBoldClick} color="primary" aria-label="upload picture" component="span">
-                <FormatBoldIcon color="" />
-              </IconButton>
+  //Finish blockquote
+  function getBlockStyle(block) {
+    switch (block.getType()) {
+      case "blockquote":
+        return "blockquote";
+      case "code-block":
+        return "code-block";
+      default:
+        return null;
+    }
+  }
 
-              <Button > 
-                <FormatBoldIcon />
-              </Button>
-              
-              
-              <button
-                onClick={ handlePost}
-              >
-                POST
-              </button>
-            </div>
-          </div>
+  const focus = () => {
+    textInput.current.focus();
+  }
+
+  return (
+    <div>
+      <div className="postbarEditorContainer" >
+        <Editor
+          customStyleMap={draft.styleMap}
+          editorState={editorState}
+          onChange={setEditorState}
+          handleKeyCommand={handleKeyCommand}
+          ref={textInput}
+          blockStyleFn={getBlockStyle}
+        />
+
+        <div onClick={focus} >
+          <AllStyleControlsBar
+
+            editorState={editorState}
+            onEditorStateChange={onEditorStateChange}
+          />
+          <AsyncButton loading={isLoading} error={isError ? error : ""} onClick={handlePost} style={{ float: "right" }} >POST</AsyncButton>
         </div>
-  
+      </div>
+    </div>
+
   );
 }
