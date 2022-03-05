@@ -4,4 +4,51 @@
     transition: all 0.1s ease-out;
   }
 
- 
+  .blockquote {
+    border-left: 5px solid #eee;
+    color: #666;
+    font-family: "Hoefler Text", "Georgia", serif;
+    font-style: italic;
+    margin: 16px 0;
+    padding: 10px 20px;
+  }
+
+ .code-block{
+   color: red;
+   background-color: lightgray;
+   margin:0px 8px;
+   padding: 5px 10px;
+ }
+
+ .RichTextEditor{
+   margin: 2px;
+   padding: 15px 5px;
+ }
+
+ .RichTextControlBar{
+   background-color: #f2f2f2;
+   border-bottom-left-radius: 5px;
+   border-bottom-right-radius: 5px;
+ }
+
+ .RichTextControlBar-Buttons{
+   float: left;
+   margin: 3px 0px 3px 5px;
+ }
+
+ .RichTextControlBar-PostButton{
+   float: right;
+ }
+
+ .RichTextIndividualButton{
+   border-radius: 5px;
+   border-width: 0px;
+   margin: 0px 1px 0px 1px;
+ }
+
+ .RichTextIndividualButton-Active{
+  background-color: #c4c4c4;
+ }
+ .RichTextIndividualButton:hover{
+  background-color: #e3e3e3;
+ }

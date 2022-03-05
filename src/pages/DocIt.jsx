@@ -19,7 +19,7 @@ export default function DocIt() {
           <Sidebar />
         </Grid>
         <Grid item xs={10}>
-        <DocumentContainer/>
+          <DocumentContainer/>
         </Grid>
       </Grid>
   )
