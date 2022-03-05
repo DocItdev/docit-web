@@ -9,9 +9,10 @@ import Post from "../Post";
 export default function PostPortal() {
   const { userToken, selectedDocId } = useSelector(state => state);
   const { isLoading, isFetching, data } = useQuery('posts', () => fetchAllPost(userToken, selectedDocId), {
-    enabled: selectedDocId !== ''
+    enabled: selectedDocId !== '',
+    refetchOnWindowFocus: false,
   })
-  
+
   if (!isLoading && !isFetching) {
     console.log('docId', selectedDocId)
     console.log(data)
