@@ -1,15 +1,12 @@
 import React from 'react';
-import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
-import { Link } from 'react-router-dom';
-import DocumentContainer from '../components/DocumentContainer';
-import Sidebar from '../components/Sidebar';
+import DocumentContainer from '../components/DocumentContainer/DocumentContainer';
+import Sidebar from '../components/Sidebar/Sidebar';
 import useAuthEffect from '../hooks/useAuthEffect';
-import Navbar from '../components/Navbar';
+import Navbar from '../components/Navbar/Navbar';
 
 export default function DocIt() {
   useAuthEffect();
-  //
   return (
       <Grid container >
         <Grid item xs={12}>

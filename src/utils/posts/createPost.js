@@ -8,8 +8,6 @@ export default async function createPost(userToken, docId, postData) {
         Authorization: `Bearer ${userToken}`
       }
     };
-
-    console.log(postData);
     const response = await axios.post(`${getVar('API_HOST')}/api/posts?doc_id=${docId}`, postData, opts);
     return response.data;
   }

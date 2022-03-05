@@ -4,6 +4,7 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import ProjectTreeItem from "./ProjectTreeItem";
 import DocTreeItem from "./DocTreeItem";
+import { TreeItem } from "@mui/lab";
 
 export default function ProjectTreeView({ projects }) {
   return (
@@ -23,6 +24,7 @@ export default function ProjectTreeView({ projects }) {
                     docId={document.id}
                     docName={document.name}
                   />
+                  // <TreeItem nodeId={document.id} label={document.name}/>
                 ))
               : null}
           </ProjectTreeItem>

@@ -1,0 +1,12 @@
+.container {
+  width: 5rem;
+}
+
+.actions {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+.iconButton {
+  border-radius: 15% !important;
+}

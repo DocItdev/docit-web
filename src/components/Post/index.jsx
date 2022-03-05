@@ -1,16 +1,17 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { ListItem, Typography } from '@mui/material';
-
+import { ListItem, Typography, Paper } from '@mui/material';
+import TextPostBlock from './TextPostBlock';
+import styles from './Post.module.css';
 
 export default function Post({ postData: { title, textContent } }) {
   return (
-    <ListItem style={{ backgroundColor: '#fff', marginTop: '5%' }}>
+    <ListItem className={styles.root}>
       {title && (
         <Typography>{title}</Typography>
       )}
       {textContent && (
-        <Typography component="h5">{textContent}</Typography>
+        <TextPostBlock post={textContent} />
       )}
     </ListItem>
   );

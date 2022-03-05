@@ -1,20 +1,18 @@
 import React, { useState } from 'react';
 import { Button, Typography, Grid } from '@mui/material';
-import ProjectTreeView from './ProjectTreeView';
-import styles from '../styles/Sidebar.module.css';
-import CreateProjectModal from './CreateProjectModal';
-import Loader from './common/Loader';
+import ProjectTreeView from '../ProjectTreeView';
+import styles from './Sidebar.module.css';
+import CreateProjectModal from '../CreateProjectModal';
+import Loader from '../common/Loader';
 import { useQuery } from 'react-query';
 import { useSelector } from 'react-redux';
-import fetchAllProjects from '../utils/projects/fetchAllProjects';
+import fetchAllProjects from '../../utils/projects/fetchAllProjects';
 
 
 export default function Sidebar() {
   const [opened, setOpened] = useState(false);
   const userToken = useSelector(state => state.userToken);
   const { isLoading, data } = useQuery('projects', () => fetchAllProjects(userToken), {
-    refetchOnWindowFocus: false,
-    refetchOnMount: false,
     enabled: userToken !== undefined || userToken !== '',
   })
 
