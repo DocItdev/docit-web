@@ -3,6 +3,10 @@ import { Editor, EditorState, RichUtils, convertToRaw } from 'draft-js';
 import { useSelector } from 'react-redux';
 import createPost from "../../utils/posts/createPost";
 import { useMutation, useQueryClient } from "react-query";
+import Box from '@mui/material/Box';
+import Paper from '@mui/material/Paper';
+import Grid from '@mui/material/Grid';
+import SendIcon from '@mui/icons-material/Send';
 import draft from "./Services";
 import 'draft-js/dist/Draft.css';
 import './Postbar.css';
@@ -38,7 +42,7 @@ export default function Postbar() {
       description: ""
     });
 
-    onEditorStateChange( editorState.createEmpty());
+    onEditorStateChange(editorState.createEmpty());
   }
 
   const onEditorStateChange = (editorState) => {
@@ -56,43 +60,52 @@ export default function Postbar() {
   };
 
   //Finish blockquote
-  function getBlockStyle(block) {
-    switch (block.getType()) {
-      case "blockquote":
-        return "blockquote";
-      case "code-block":
-        return "code-block";
-      default:
-        return null;
-    }
-  }
+
 
   const focus = () => {
     textInput.current.focus();
   }
 
   return (
-    <div>
-      <div className="postbarEditorContainer" >
-        <Editor
-          customStyleMap={draft.styleMap}
-          editorState={editorState}
-          onChange={setEditorState}
-          handleKeyCommand={handleKeyCommand}
-          ref={textInput}
-          blockStyleFn={getBlockStyle}
-        />
-
-        <div onClick={focus} >
-          <AllStyleControlsBar
-
+    <Box>
+      <Paper elevation={4} >
+        <div className="RichTextEditor">
+          <Editor
+            customStyleMap={draft.styleMap}
             editorState={editorState}
-            onEditorStateChange={onEditorStateChange}
+            onChange={setEditorState}
+            handleKeyCommand={handleKeyCommand}
+            ref={textInput}
+            blockStyleFn={draft.getBlockStyle}
+            spellCheck={true}
           />
-          <AsyncButton loading={isLoading} error={isError ? error : ""} onClick={handlePost} style={{ float: "right" }} >POST</AsyncButton>
         </div>
-      </div>
-    </div>
+        <div onClick={focus} className="RichTextControlBar">
+          <Grid container >
+            <Grid item xs={8} >
+              <div className="RichTextControlBar-Buttons" >
+                <AllStyleControlsBar
+                  editorState={editorState}
+                  onEditorStateChange={onEditorStateChange}
+                />
+              </div>
+            </Grid>
+            <Grid item xs={4} >
+              <div className="RichTextControlBar-PostButton">
+                <AsyncButton
+                  loading={isLoading}
+                  error={isError ? error : ""}
+                  onClick={handlePost}
+                >
+                  POST
+                </AsyncButton>
+              </div>
+
+            </Grid>
+          </Grid>
+        </div>
+      </Paper>
+    </Box>
 
   );
 }

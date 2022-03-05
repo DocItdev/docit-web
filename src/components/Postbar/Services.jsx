@@ -23,12 +23,14 @@ const draft = {
     ],
     getBlockStyle(block) {
         switch (block.getType()) {
-            case "blockquote":
-                return "RichEditor-blockquote";
-            default:
-                return null;
+          case "blockquote":
+            return "blockquote";
+          case "code-block":
+            return "code-block";
+          default:
+            return null;
         }
-    },
+      },
     // Custom overrides for "code" style.
     styleMap: {
         CODE: {

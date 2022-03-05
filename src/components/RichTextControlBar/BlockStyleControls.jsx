@@ -3,7 +3,11 @@ import StyleButton from "./StyleButton";
 
 const BlockStyleControls = (props) => {
   const { editorState, inputType, onToggle } = props;
-  const currentStyle = editorState.getCurrentInlineStyle();
+  const selection = editorState.getSelection();
+  const blockType = editorState
+  .getCurrentContent()
+  .getBlockForKey(selection.getStartKey())
+  .getType();
 
   return (
     <div className="RichEditor-controls"
@@ -11,7 +15,7 @@ const BlockStyleControls = (props) => {
       {inputType.map((type) => (
         <StyleButton
           key={type.label}
-          active={currentStyle.has(type.style)}
+          active={type.style === blockType}
           label={type.label}
           icon={type.icon}
           onToggle={onToggle}

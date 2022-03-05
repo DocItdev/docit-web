@@ -18,7 +18,7 @@ const RichTextControlBar = (props) => {
     const INLINE_TYPES = draft.INLINE_TYPES || [];
     const BLOCK_TYPES = draft.BLOCK_TYPES || [];
     return (
-    <div style={{display: "inline"}}>
+    <div >
         <InlineStyleControls
             editorState={editorState}
             inputType={INLINE_TYPES}
