@@ -13,7 +13,7 @@ import deleteProject from '../utils/projects/deleteProject';
 
 export default function ProjectTreeItem({ projectName, projectId, children }) {
   const [opened, setOpened] = useState(false);
-  const { register, handleSubmit } = useForm();
+  const { register, handleSubmit, reset } = useForm();
   const userToken = useSelector(state => state.userToken);
   const queryClient = useQueryClient();
   const {isLoading, isError, error, mutate} = useMutation(
@@ -36,6 +36,10 @@ export default function ProjectTreeItem({ projectName, projectId, children }) {
   const onSubmit = (values) => {
     mutate(values);
     toggleOpened();
+    reset({
+      keepValues: false,
+      keepErrors: false,
+    })
   }
   return (
     <TreeItem

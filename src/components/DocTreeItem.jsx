@@ -8,7 +8,7 @@ import deleteDocument from "../utils/documents/deleteDocument";
 import { setDocId } from "../ducks";
 
 export default function DocTreeItem({ docName, docId }) {
-  const { userToken, selectedDocId } = useSelector((state) => state);
+  const userToken = useSelector((state) => state.userToken);
   const queryClient = useQueryClient();
   const { mutate } = useMutation(() => deleteDocument(docId, userToken), {
     onSuccess: () => {
@@ -19,8 +19,6 @@ export default function DocTreeItem({ docName, docId }) {
 
   function handleClick() {
     dispatch(setDocId(docId));
-    queryClient.invalidateQueries("posts");
-    queryClient.clear()
   }
 
   return (

@@ -2,6 +2,8 @@
   display: flex;
   align-items: flex-start;
   justify-items: flex-start;
+  padding-top: 0.1rem;
+  padding-bottom: 0.1rem;
 }
 .text {
   padding-left: 0.5rem;
