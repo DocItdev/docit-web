@@ -1,7 +1,7 @@
 import React from "react";
 import { RichUtils } from "draft-js";
 import InlineStyleControls from "./InlineStyleControls";
-import draft from "../Postbar/Services";
+import draft from "../common/DocItEditor/Services";
 import BlockStyleControls from "./BlockStyleControls";
 
 const RichTextControlBar = (props) => {

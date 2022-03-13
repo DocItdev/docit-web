@@ -1,23 +1,19 @@
-import React, { useState, useMemo } from 'react';
-import { Paper } from '@mui/material';
-import { EditorState, convertFromRaw, Editor } from 'draft-js';
+import React, { useMemo } from 'react';
+import { useSelector } from 'react-redux';
+import { convertFromRaw } from 'draft-js';
+import DocItEditor from '../common/DocItEditor/DocItEditor';
+import updatePost from '../../utils/posts/updatePost';
 
-export default function TextPostBlock({ post }) {
-  const blocks = useMemo(() => convertFromRaw(JSON.parse(post)),[post]);
-  const [editorState, setEditorState] = 
-    useState(EditorState.createWithContent(blocks));
-  const [focused, setFocused] = useState(false);
-
-  const handleChange = (editorState) => {
-    setEditorState(editorState);
-    setFocused(editorState.getSelection().getHasFocus());
-  }
+export default function TextPostBlock({ postText, postId }) {
+  const blocks = useMemo(() => convertFromRaw(JSON.parse(postText)),[postText]);
+  const { editable, userToken, selectedDocId } = useSelector(state => state);
 
   return (
-      <Editor
-        editorState={editorState}
-        onChange={handleChange}
-        readOnly={true}
-      />
-  )
+     <DocItEditor
+      blocks={blocks}
+      readOnly={!editable}
+      buttonText="SAVE"
+      onMutate={postData => updatePost(userToken, selectedDocId,postId, postData)}
+    />
+  );
 }

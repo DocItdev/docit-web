@@ -1,20 +1,18 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import { ListItem, Typography, Paper } from '@mui/material';
+import { ListItem } from '@mui/material';
+import { useSelector } from 'react-redux';
 import TextPostBlock from './TextPostBlock';
 import styles from './Post.module.css';
-import PostMenuBar from '../PostMenuBar/PostMenuBar';
 
-export default function Post({ postData: { title, textContent } }) {
+export default function Post({ postData: { postType, textContent, id } }) {
+  const editable = useSelector(state => state.editable);
+  const editableStyle = editable ? styles.border : '';
   return (
     <>
-    {/* <PostMenuBar /> */}
-    <ListItem className={styles.root}>
-      {title && (
-        <Typography>{title}</Typography>
-      )}
-      {textContent && (
-        <TextPostBlock post={textContent} />
+    <ListItem className={editableStyle}>
+      {postType === 'text' && (
+        <TextPostBlock postText={textContent} postId={id}  />
       )}
     </ListItem>
     </>
