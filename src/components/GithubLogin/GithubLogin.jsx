@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
 import { Button } from 'react-bootstrap';
 import { useDispatch } from 'react-redux';
-import { setToken } from '../ducks';
-import getVar from '../config/envConfig';
+import { setToken } from '../../ducks';
+import getVar from '../../config/envConfig';
 import axios from 'axios';
 
 

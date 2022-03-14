@@ -4,11 +4,11 @@ import { Box, Typography, TextField, Button, Grid } from "@mui/material";
 import { useForm } from "react-hook-form";
 import { useSelector } from 'react-redux';
 import { useMutation, useQueryClient } from "react-query";
-import AsyncButton from "./common/AsyncButton";
-import Modal from "./common/Modal";
-import styles from '../styles/ProjectTreeItem.module.css';
-import postDocument from "../utils/documents/postDocument";
-import deleteProject from '../utils/projects/deleteProject';
+import AsyncButton from "../common/AsyncButton";
+import Modal from "../common/Modal";
+import styles from './ProjectTreeItem.module.css';
+import postDocument from "../../utils/documents/postDocument";
+import deleteProject from '../../utils/projects/deleteProject';
 
 
 export default function ProjectTreeItem({ projectName, projectId, children }) {

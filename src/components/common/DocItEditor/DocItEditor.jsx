@@ -13,7 +13,7 @@ import { useMutation, useQueryClient } from "react-query";
 import draft from "./Services";
 import "draft-js/dist/Draft.css";
 import "./DocItEditor.css";
-import AllStyleControlsBar from "../../RichTextControlBar/RichTextControlBar";
+import AllStyleControlsBar from "../../RichTextControlBar";
 import AsyncButton from "../AsyncButton";
 import { Button } from "@mui/material";
 

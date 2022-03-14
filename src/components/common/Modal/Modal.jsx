@@ -6,7 +6,7 @@ import {
   Grid,
  } from '@mui/material';
  import { Navbar } from 'react-bootstrap';
- import styles from '../../styles/Modal.module.css';
+ import styles from './Modal.module.css';
 
  export default function Modal({title, onClose, children, ...props}) {
    return (

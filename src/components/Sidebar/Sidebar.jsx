@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Button, Typography, Grid } from '@mui/material';
 import ProjectTreeView from '../ProjectTreeView';
 import styles from './Sidebar.module.css';
-import CreateProjectModal from '../CreateProjectModal';
+import CreateProjectModal from '../CreateProjectModal/CreateProjectModal';
 import Loader from '../common/Loader';
 import { useQuery } from 'react-query';
 import { useSelector } from 'react-redux';
