@@ -76,10 +76,16 @@ export default function DocItEditor({
     return "not-handled";
   };
 
+  const handleClick = () => {
+    if(!readOnly) {
+      toggleFocused(true)
+    }
+  }
+
   //Finish blockquote
   return (
     <Grid container>
-      <Grid item xs={12} onClick={() => toggleFocused(true)} className="RichTextEditor">
+      <Grid item xs={12} onClick={handleClick} className="RichTextEditor">
         <Editor
           customStyleMap={draft.styleMap}
           editorState={editorState}
