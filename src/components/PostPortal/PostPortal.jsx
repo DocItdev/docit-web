@@ -49,11 +49,6 @@ export default function PostPortal() {
     }
   },[data])
 
-  if (!isLoading && !isFetching) {
-    //console.log('docId', selectedDocId)
-    //console.log(data)
-  }
-
   const onDragEnd = (result) => {
     const { destination, source, draggableId } = result;
 
@@ -80,7 +75,7 @@ export default function PostPortal() {
     setPostOrder(newPostOrder);
     setPostData(newPostData)
   }
-  return isLoading || isFetching ? <Loader /> : (
+  return isLoading ? <Loader /> : (
 
     <DragDropContext
       onDragEnd={onDragEnd}
@@ -93,7 +88,7 @@ export default function PostPortal() {
               ref={providedDrop.innerRef}
             >
               <FlatList
-                list={postData}
+                list={data}
                 renderItem={(post, index) => (
 
                   <div key={post.id}>
