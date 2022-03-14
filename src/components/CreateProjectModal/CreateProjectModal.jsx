@@ -3,9 +3,9 @@ import { TextField } from "@mui/material";
 import { useForm } from "react-hook-form";
 import { useMutation, useQueryClient } from "react-query";
 import { useSelector } from 'react-redux';
-import Modal from "./common/Modal";
-import AsyncButton from "./common/AsyncButton";
-import postProject from "../utils/projects/postProject";
+import Modal from "../common/Modal";
+import AsyncButton from "../common/AsyncButton";
+import postProject from "../../utils/projects/postProject";
 
 export default function CreateProjectModal({ open, onClose }) {
   const userToken = useSelector(state => state.userToken);

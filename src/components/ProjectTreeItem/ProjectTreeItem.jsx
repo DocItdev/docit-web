@@ -1,27 +1,18 @@
 import React, { useState } from "react";
 import { TreeItem } from "@mui/lab";
-import { Box, Typography, TextField, Button, Grid } from "@mui/material";
-import { useForm } from "react-hook-form";
+import { Box, Typography,Button, Grid } from "@mui/material";
 import { useSelector } from 'react-redux';
 import { useMutation, useQueryClient } from "react-query";
-import AsyncButton from "./common/AsyncButton";
-import Modal from "./common/Modal";
-import styles from '../styles/ProjectTreeItem.module.css';
-import postDocument from "../utils/documents/postDocument";
-import deleteProject from '../utils/projects/deleteProject';
+import styles from './ProjectTreeItem.module.css';
+import postDocument from "../../utils/documents/postDocument";
+import deleteProject from '../../utils/projects/deleteProject';
+import DocumentForm from "../common/DocumentForm";
 
 
 export default function ProjectTreeItem({ projectName, projectId, children }) {
   const [opened, setOpened] = useState(false);
-  const { register, handleSubmit } = useForm();
   const userToken = useSelector(state => state.userToken);
   const queryClient = useQueryClient();
-  const {isLoading, isError, error, mutate} = useMutation(
-    newDoc => postDocument(userToken, projectId, newDoc), {
-      onSuccess: () => {
-        queryClient.invalidateQueries('projects');
-      }
-    });
   const deleteMutation = useMutation(
     () => deleteProject(projectId, userToken), {
       onSuccess: () => {
@@ -33,10 +24,6 @@ export default function ProjectTreeItem({ projectName, projectId, children }) {
     setOpened(!opened);
   };
 
-  const onSubmit = (values) => {
-    mutate(values);
-    toggleOpened();
-  }
   return (
     <TreeItem
       nodeId={projectId}
@@ -57,30 +44,14 @@ export default function ProjectTreeItem({ projectName, projectId, children }) {
               </div>
             </Grid>
           </Grid>
-          <Modal title="Create Document" open={opened} onClose={toggleOpened}>
-            <form onSubmit={handleSubmit(onSubmit)}>
-              <TextField
-                variant="outlined"
-                margin="normal"
-                required
-                fullWidth
-                id="docTitle"
-                label="Title"
-                autoFocus
-                {...register('name')}
-              />
-              <AsyncButton
-                type="submit"
-                fullWidth
-                variant="contained"
-                color="primary"
-                loading={isLoading}
-                error={isError && error}
-              >
-                Create
-              </AsyncButton>
-            </form>
-          </Modal>
+          <DocumentForm
+            title="Create Document"
+            buttonText="Create"
+            open={opened}
+            onClose={toggleOpened}
+            onMutate={newDoc => postDocument(userToken, projectId, newDoc)}
+            onSuccess={() => toggleOpened()}
+          />
         </Box>
       }
     >

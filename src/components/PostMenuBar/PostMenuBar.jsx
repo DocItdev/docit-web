@@ -1,19 +1,22 @@
 import React from 'react';
-import { Card, CardActions, IconButton } from '@mui/material';
-import { Delete, ModeEdit } from '@mui/icons-material';
+import { Box, IconButton } from '@mui/material';
+import { Delete } from '@mui/icons-material';
 import styles from './PostMenuBar.module.css';
+import { useMutation, useQueryClient } from 'react-query';
+import deletePost from '../../utils/posts/deletePost';
 
-export default function PostMenuBar({ className }) {
+export default function PostMenuBar({ userToken, docId, postId }) {
+  const queryClient = useQueryClient();
+  const {mutate} = useMutation(() => deletePost(userToken, docId, postId), {
+    onSuccess: () => {
+      queryClient.invalidateQueries('posts');
+    }
+  })
   return (
-    <Card className={styles.container}>
-      <CardActions disableSpacing className={styles.actions}>
-        <IconButton className={styles.iconButton} >
-         <ModeEdit fontSize='small' />
-        </IconButton>
-        <IconButton className={styles.iconButton}>
+    <Box className={styles.container}>
+        <IconButton onClick={() => mutate()} className={styles.iconButton}>
           <Delete fontSize='small' />
         </IconButton>
-      </CardActions>
-    </Card>
+    </Box>
   )
 }

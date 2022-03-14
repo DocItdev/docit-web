@@ -2,9 +2,9 @@ import React from "react";
 import TreeView from "@mui/lab/TreeView";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
-import ProjectTreeItem from "./ProjectTreeItem";
-import DocTreeItem from "./DocTreeItem";
-import { TreeItem } from "@mui/lab";
+import ProjectTreeItem from "../ProjectTreeItem";
+import DocTreeItem from "../DocTreeItem";
+
 
 export default function ProjectTreeView({ projects }) {
   return (
