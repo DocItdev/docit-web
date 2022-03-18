@@ -4,7 +4,7 @@ import { ListItem } from '@mui/material';
 import { useSelector } from 'react-redux';
 import TextPostBlock from './TextPostBlock';
 import styles from './Post.module.css';
-import PostMenuBar from '../PostMenuBar/PostMenuBar';
+import PostMenuBar from '../PostMenuBar';
 
 export default function Post({ postData: { postType, textContent, id } }) {
   const {editable, selectedDocId, userToken} = useSelector(state => state);

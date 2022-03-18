@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useMutation, useQuery, useQueryClient } from 'react-query';
+import { useMutation, useQuery } from 'react-query';
 import { useSelector } from 'react-redux';
 import FlatList from '../common/FlatList';
 import fetchAllPost from '../../utils/posts/fetchAllPost';
@@ -15,10 +15,9 @@ export default function PostPortal() {
     refetchOnWindowFocus: false,
     enabled: selectedDocId !== '',
   });
-  const queryClient = useQueryClient();
   const { mutate } = useMutation(postIndexes => updatePostIndex(userToken, selectedDocId, postIndexes), {
     onSuccess: ()=>{
-      queryClient.invalidateQueries('posts');
+      refetch()
     }
   });
 
@@ -37,7 +36,7 @@ export default function PostPortal() {
   // },[data])
 
   const onDragEnd = (result) => {
-    const { destination, source, draggableId } = result;
+    const { destination, source, } = result;
 
     if (!destination) { return };
     if (
@@ -47,15 +46,7 @@ export default function PostPortal() {
       return;
     }
 
-    // const newPostData = [...postData];
-    // const tempData = newPostData[destination.index];
-    // newPostData[destination.index] = postData[source.index];
-    // newPostData[source.index] = tempData;
-
-    [data[source.index], data[destination.index]] = [data[destination.index], data[source.index]];
-
-
-    //setPostData(newPostData);
+    data.splice(destination.index, 0, data.splice(source.index, 1)[0]);
 
     const postIndexes = createPostOrderObject(
         data, 
