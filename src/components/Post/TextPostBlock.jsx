@@ -7,13 +7,15 @@ import updatePost from '../../utils/posts/updatePost';
 export default function TextPostBlock({ postText, postId }) {
   const blocks = useMemo(() => convertFromRaw(JSON.parse(postText)),[postText]);
   const { editable, userToken, selectedDocId } = useSelector(state => state);
-
   return (
+    <div>
+      {postId}
      <DocItEditor
       blocks={blocks}
       readOnly={!editable}
       buttonText="SAVE"
       onMutate={postData => updatePost(userToken, selectedDocId,postId, postData)}
     />
+    </div>
   );
 }
