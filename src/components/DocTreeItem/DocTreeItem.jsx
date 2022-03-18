@@ -27,7 +27,6 @@ export default function DocTreeItem({ docName, docId }) {
   const toggleOpened = () => {
     setOpened(!opened);
   }
-  console.log(opened)
   return (
     <>
       <TreeItem
