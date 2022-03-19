@@ -49,7 +49,6 @@ export default function PostPortal() {
     mutate(postIndexes);
 
   }
-
   return isLoading ? <Loader /> : (
 
     <DragDropContext

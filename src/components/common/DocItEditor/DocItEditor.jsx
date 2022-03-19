@@ -55,11 +55,13 @@ export default function DocItEditor({
     const contentState = editorState.getCurrentContent();
     const rawContentState = convertToRaw(contentState);
     const jsonContent = JSON.stringify(rawContentState);
+    const postData = queryClient.getQueryData('posts');
     mutate({
       postType: "text",
       textContent: jsonContent,
       title: "",
       description: "",
+      index: postData?.length
     });
   };
 
