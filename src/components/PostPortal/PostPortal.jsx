@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { useMutation, useQuery } from 'react-query';
+import React, { useEffect } from "react";
+import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { useSelector } from 'react-redux';
 import FlatList from '../common/FlatList';
 import fetchAllPost from '../../utils/posts/fetchAllPost';
@@ -10,7 +10,8 @@ import updatePostIndex from "../../utils/posts/updatePostIndex";
 import createPostOrderObject from "../../utils/posts/createPostOrderObject";
 
 export default function PostPortal() {
-  const { userToken, selectedDocId } = useSelector(state => state);
+  const { userToken, selectedDocId, editable } = useSelector(state => state);
+  const queryClient = useQueryClient();
   const { isLoading, data, refetch } = useQuery('posts', () => fetchAllPost(userToken, selectedDocId), {
     refetchOnWindowFocus: false,
     enabled: selectedDocId !== '',
@@ -21,19 +22,11 @@ export default function PostPortal() {
     }
   });
 
-  //const[postData, setPostData] = useState(data);
-
   useEffect(() => {
     if (selectedDocId) {
       refetch();
     }
   }, [selectedDocId]);
-
-  // useEffect(()=>{
-  //   if(data){
-  //     setPostData(data);
-  //   }
-  // },[data])
 
   const onDragEnd = (result) => {
     const { destination, source, } = result;
@@ -45,11 +38,11 @@ export default function PostPortal() {
     ) {
       return;
     }
-
-    data.splice(destination.index, 0, data.splice(source.index, 1)[0]);
-
+    const postData = [...data];
+    postData.splice(destination.index, 0, postData.splice(source.index, 1)[0]);
+    queryClient.setQueryData('posts', postData);
     const postIndexes = createPostOrderObject(
-        data, 
+        postData, 
         Math.min(source.index, destination.index), 
         Math.max(source.index, destination.index)  
       );
@@ -74,14 +67,13 @@ export default function PostPortal() {
                 renderItem={(post, index) => (
 
                   <div key={post.id}>
-                    <Draggable draggableId={post.id} index={index}>{
+                    <Draggable draggableId={post.id} index={index} isDragDisabled={!editable}>{
                       (provided, snapshot) => (
                         <div
                           {...provided.draggableProps}
                           {...provided.dragHandleProps}
                           ref={provided.innerRef}
                           index={index}
-                
                         >
                           <Post
                             key={post.id}
@@ -101,7 +93,6 @@ export default function PostPortal() {
             </div>
           )
         }
-
       </Droppable>
     </DragDropContext>
   );
