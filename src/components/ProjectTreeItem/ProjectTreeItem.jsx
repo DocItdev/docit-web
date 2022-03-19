@@ -3,10 +3,13 @@ import { TreeItem } from "@mui/lab";
 import { Box, Typography,Button, Grid } from "@mui/material";
 import { useSelector } from 'react-redux';
 import { useMutation, useQueryClient } from "react-query";
+import { Delete, Add, ModeEdit } from '@mui/icons-material';
+
 import styles from './ProjectTreeItem.module.css';
 import postDocument from "../../utils/documents/postDocument";
 import deleteProject from '../../utils/projects/deleteProject';
 import DocumentForm from "../common/DocumentForm";
+import SideMenu from "../common/SideMenu";
 
 
 export default function ProjectTreeItem({ projectName, projectId, children }) {
@@ -18,11 +21,17 @@ export default function ProjectTreeItem({ projectName, projectId, children }) {
       onSuccess: () => {
         queryClient.invalidateQueries('projects');
       }
-  })
+  });
 
   const toggleOpened = () => {
     setOpened(!opened);
   };
+
+  const actionButtons = [
+    { icon: ModeEdit, title: 'Edit Project' },
+    { icon: Add, title: 'Create Document', onClick: toggleOpened },
+    { icon: Delete, title: 'Delete', onClick: () => deleteMutation.mutate() }
+  ]
 
   return (
     <TreeItem
@@ -30,18 +39,13 @@ export default function ProjectTreeItem({ projectName, projectId, children }) {
       label={
         <Box>
           <Grid container spacing={1}>
-            <Grid item xs={8} className={styles.projectTitle}>
+            <Grid item xs={9} className={styles.projectTitle}>
               <Typography  component="span">{projectName}</Typography>
             </Grid>
-            <Grid item xs={2}>
-              <div onClick={toggleOpened} className={styles.iconButton}>
-                <i className={`bi bi-plus ${styles.icon}`}></i>
-              </div>
-            </Grid>
-            <Grid item xs={2} style={{ display: 'flex', alignItems: 'center' }}>
-              <div onClick={() => deleteMutation.mutate()} className={styles.iconButton}>
-                <i className="bi bi-trash" style={{ color: '#fff' }}></i>
-              </div>
+            <Grid item xs={3}>
+              <SideMenu
+                menuItems={actionButtons}
+              />
             </Grid>
           </Grid>
           <DocumentForm
