@@ -12,11 +12,12 @@ import {
 } from "@mui/material";
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 
-export default function SideMenu({ menuItems }) {
+export default function PopperMenu({ menuItems }) {
   const [open, setOpen] = useState(false);
   const anchorRef = useRef(null);
 
-  const handleToggle = () => {
+  const handleToggle = (event) => {
+    event.stopPropagation();
     setOpen((prevOpen) => !prevOpen);
   };
 
@@ -85,9 +86,10 @@ export default function SideMenu({ menuItems }) {
                   onKeyDown={handleListKeyDown}
                 >
                   { menuItems?.map(({ title, onClick, icon: MuiIcon }) => (
-                    <MenuItem key={title} onClick={() => {
+                    <MenuItem key={title} onClick={(e) => {
+                      e.stopPropagation();
                       onClick();
-                      handleClose();
+                      handleClose(e);
                     }}>
                         <ListItemIcon>
                           <MuiIcon />

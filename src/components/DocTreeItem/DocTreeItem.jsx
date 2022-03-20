@@ -10,7 +10,7 @@ import deleteDocument from "../../utils/documents/deleteDocument";
 import { setDocId } from "../../ducks";
 import DocumentForm from "../common/DocumentForm";
 import updateDocument from "../../utils/documents/updateDocument";
-import SideMenu from "../common/SideMenu";
+import SideMenu from "../common/PopperMenu";
 
 export default function DocTreeItem({ docName, docId }) {
   const { userToken } = useSelector((state) => state);
@@ -61,6 +61,7 @@ export default function DocTreeItem({ docName, docId }) {
         onClose={toggleOpened}
         onMutate={docData => updateDocument(userToken, docId, docData)}
         onSuccess={toggleOpened}
+        initialValues={{ title: docName }}
       />
     </>
   );

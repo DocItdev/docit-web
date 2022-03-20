@@ -5,7 +5,6 @@ import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import ProjectTreeItem from "../ProjectTreeItem";
 import DocTreeItem from "../DocTreeItem";
 
-
 export default function ProjectTreeView({ projects }) {
   return (
     <TreeView
@@ -14,8 +13,13 @@ export default function ProjectTreeView({ projects }) {
       defaultExpandIcon={<ChevronRightIcon />}
     >
       {projects.length &&
-        projects.map(({ name, id, Documents }) => (
-          <ProjectTreeItem key={id} projectName={name} projectId={id}>
+        projects.map(({ name, id, description, Documents }) => (
+          <ProjectTreeItem
+            key={id}
+            projectName={name}
+            projectDescription={description}
+            projectId={id}
+          >
             {Documents.length
               ? Documents.map((document) => (
                   <DocTreeItem
@@ -23,7 +27,6 @@ export default function ProjectTreeView({ projects }) {
                     docId={document.id}
                     docName={document.name}
                   />
-                  // <TreeItem nodeId={document.id} label={document.name}/>
                 ))
               : null}
           </ProjectTreeItem>

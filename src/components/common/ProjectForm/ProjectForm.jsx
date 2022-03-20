@@ -1,17 +1,17 @@
 import React from "react";
 import { TextField } from "@mui/material";
-import { useMutation, useQueryClient } from "react-query";
 import { useForm } from "react-hook-form";
+import { useMutation, useQueryClient } from "react-query";
 import PropTypes from "prop-types";
 
 import Modal from "../Modal";
 import AsyncButton from "../AsyncButton";
 
-export default function DocumentForm({
+export default function ProjectForm({
   open,
-  buttonText,
-  title,
   onClose,
+  title,
+  buttonText,
   onMutate,
   onSuccess,
   initialValues,
@@ -20,31 +20,41 @@ export default function DocumentForm({
   const queryClient = useQueryClient();
   const { isLoading, isError, error, mutate } = useMutation(onMutate, {
     onSuccess: () => {
-      queryClient.invalidateQueries("projects");
       onSuccess();
-      reset({
+      onClose();
+      reset("", {
         keepValues: false,
-        keepErrors: false,
       });
+      queryClient.invalidateQueries("projects");
     },
   });
 
   const onSubmit = (values) => {
     mutate(values);
   };
+
   return (
     <Modal title={title} open={open} onClose={onClose}>
       <form onSubmit={handleSubmit(onSubmit)}>
         <TextField
-        defaultValue={initialValues.title}
+          defaultValue={initialValues.projectName}
           variant="outlined"
           margin="normal"
           required
           fullWidth
-          id="docTitle"
-          label="Title"
+          id="projectName"
+          label="Name"
           autoFocus
           {...register("name")}
+        />
+        <TextField
+          defaultValue={initialValues.projectDescription}
+          variant="outlined"
+          margin="normal"
+          fullWidth
+          id="projectDescription"
+          label="Description"
+          {...register("description")}
         />
         <AsyncButton
           type="submit"
@@ -61,7 +71,7 @@ export default function DocumentForm({
   );
 }
 
-DocumentForm.propTypes = {
+ProjectForm.propTypes = {
   title: PropTypes.string.isRequired,
   buttonText: PropTypes.string.isRequired,
   onMutate: PropTypes.func.isRequired,
@@ -69,13 +79,15 @@ DocumentForm.propTypes = {
   onClose: PropTypes.func.isRequired,
   onSuccess: PropTypes.func,
   initialValues: PropTypes.shape({
-    title: PropTypes.string,
-  }),
+    projectName: PropTypes.string,
+    projectDescription: PropTypes.string
+  })
 };
 
-DocumentForm.defaultProps = {
+ProjectForm.defaultProps = {
   onSuccess: () => {},
   initialValues: {
-    title: '',
+    projectName: '',
+    projectDescription: '',
   },
 };

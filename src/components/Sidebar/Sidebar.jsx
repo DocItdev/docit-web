@@ -2,11 +2,12 @@ import React, { useState } from 'react';
 import { Button, Typography, Grid } from '@mui/material';
 import ProjectTreeView from '../ProjectTreeView';
 import styles from './Sidebar.module.css';
-import CreateProjectModal from '../CreateProjectModal/CreateProjectModal';
+import ProjectForm from '../common/ProjectForm';
 import Loader from '../common/Loader';
 import { useQuery } from 'react-query';
 import { useSelector } from 'react-redux';
 import fetchAllProjects from '../../utils/projects/fetchAllProjects';
+import postProject from '../../utils/projects/postProject';
 
 
 export default function Sidebar() {
@@ -31,7 +32,13 @@ export default function Sidebar() {
         </Typography>
       </Button>
       <ProjectTreeView projects={data.projects} />
-      <CreateProjectModal open={opened} onClose={toggleOpened} />
+      <ProjectForm
+        open={opened}
+        onClose={toggleOpened}
+        onMutate={newProject => postProject(userToken, newProject)}
+        title="CreateProject"
+        buttonText="Create"
+      />
     </div>
   );
 }
