@@ -68,6 +68,7 @@ export default function PopperMenu({ menuItems }) {
         transition
         disablePortal
         style={{ zIndex: 5 }}
+        onBlur={handleClose}
       >
         {({ TransitionProps, placement }) => (
           <Grow
