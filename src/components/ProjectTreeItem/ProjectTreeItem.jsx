@@ -10,7 +10,7 @@ import postDocument from "../../utils/documents/postDocument";
 import deleteProject from "../../utils/projects/deleteProject";
 import updateProject from "../../utils/projects/updateProject";
 import DocumentForm from "../common/DocumentForm";
-import SideMenu from "../common/PopperMenu";
+import PopperMenu from "../common/PopperMenu";
 import ProjectForm from "../common/ProjectForm";
 
 export default function ProjectTreeItem({
@@ -56,7 +56,7 @@ export default function ProjectTreeItem({
               <Typography component="span">{projectName}</Typography>
             </Grid>
             <Grid item xs={3}>
-              <SideMenu menuItems={actionButtons} />
+              <PopperMenu menuItems={actionButtons} />
             </Grid>
           </Grid>
           <DocumentForm
