@@ -1,0 +1,44 @@
+.iconButton {
+  padding: 0 !important;
+  color: #000 !important;
+  margin: 0.2rem;
+  z-index: 2;
+  display: inline-block;
+  border-radius: 10%;
+  min-width: 20%;
+}
+
+.iconButton:hover {
+  background-color: rgba(255, 255, 255, 0.3) !important;
+}
+
+.projectTitle {
+  display: flex !important;
+  align-items: center !important;
+  justify-items: flex-start !important;
+}
+
+
+.icon {
+  color: #fff;
+  font-size: x-large;
+
+}
+
+.newDocButton {
+  color: white !important;
+  border-color: #fff !important;
+  display: flex !important;
+  align-self: flex-start !important;
+  text-transform: capitalize !important;
+  padding: 0 !important;
+}
+
+.newDocButton:hover {
+  background-color: rgba(255, 255, 255, 0.3) !important;
+}
+
+.newDocIcon {
+  color: #fff;
+  font-size: x-large;
+}

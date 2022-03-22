@@ -1,0 +1,14 @@
+.container {
+  max-width: 5rem;
+  position: absolute;
+  left: 95%;
+  z-index: 2;
+}
+
+.actions {
+  padding: 0;
+}
+
+.iconButton {
+  border-radius: 15% !important;
+}
