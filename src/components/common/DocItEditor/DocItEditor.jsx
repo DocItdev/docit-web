@@ -84,7 +84,6 @@ export default function DocItEditor({
     }
   }
 
-  //Finish blockquote
   return (
     <Grid container>
       <Grid item xs={12} onClick={handleClick} className="RichTextEditor">
