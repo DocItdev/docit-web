@@ -1,0 +1,17 @@
+{
+  "name": "docit-frontend-web",
+  "description": "Front-end application for docit multimedia documentation tool",
+  "keywords": [
+    "productivity",
+    "documentation",
+    "engineering",
+    "JavaScript",
+    "software"
+  ],
+  "website": "https://docit.dev",
+  "buildpacks": [
+    {
+      "url": "mars/create-react-app"
+    }
+  ]
+}
