@@ -42,7 +42,7 @@ export default function PostBar() {
                   }}
                 >
 
-                  <i class={featureArray[i].icon}></i>
+                  <i className={featureArray[i].icon}></i>
 
                 </button>
                 <Popover
