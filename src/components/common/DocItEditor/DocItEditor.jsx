@@ -37,9 +37,14 @@ export default function DocItEditor({
       if (!alwaysFocused) {
         setFocused(false);
       }
-      queryClient.invalidateQueries('posts');
-    }
-  })
+      const newEditorState = EditorState.push(
+        editorState,
+        ContentState.createFromText("")
+      );
+      setEditorState(newEditorState);
+      queryClient.invalidateQueries("posts");
+    },
+  });
 
   const focus = () => {
     textInput.current.focus();
@@ -55,13 +60,13 @@ export default function DocItEditor({
     const contentState = editorState.getCurrentContent();
     const rawContentState = convertToRaw(contentState);
     const jsonContent = JSON.stringify(rawContentState);
-    const postData = queryClient.getQueryData('posts');
+    const postData = queryClient.getQueryData("posts");
     mutate({
       postType: "text",
       textContent: jsonContent,
       title: "",
       description: "",
-      index: postData?.length
+      index: postData?.length,
     });
   };
 
@@ -79,10 +84,10 @@ export default function DocItEditor({
   };
 
   const handleClick = () => {
-    if(!readOnly) {
-      toggleFocused(true)
+    if (!readOnly) {
+      toggleFocused(true);
     }
-  }
+  };
 
   return (
     <Grid container>
