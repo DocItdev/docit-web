@@ -39,7 +39,7 @@ export default function DocItEditor({
       }
       const newEditorState = EditorState.push(
         editorState,
-        ContentState.createFromText("")
+        ContentState.createFromText(""),
       );
       setEditorState(newEditorState);
       queryClient.invalidateQueries("posts");
