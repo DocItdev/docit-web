@@ -7,7 +7,7 @@ export default function MediaBar({ features }) {
   return (
     <>
       {features.map(({ featureDescription, featureName, icon, onClick }) => (
-        <Grid item>
+        <Grid item key={featureName}>
           <PopupState variant="popover" popupId="demo-popup-popover">
             {(popupState) => (
               <div>

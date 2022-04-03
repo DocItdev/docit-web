@@ -44,7 +44,7 @@ export default function PostBar() {
 
   return (
     <Paper elevation={4}>
-      {openVideo && <RecorderBar start={openVideo} />}
+      <RecorderBar start={openVideo} setOpen={value => setOpenVideo(value)} />
       <Grid style={{ paddingLeft: "5px" }} container spacing={0}>
         <MediaBar features={featureData} />
       </Grid>
