@@ -6,7 +6,7 @@ import {
   RichUtils,
   convertToRaw,
 } from "draft-js";
-import Grid from "@mui/material/Grid";
+import { Button, Grid } from "@mui/material";
 import PropTypes from "prop-types";
 import { useMutation, useQueryClient } from "react-query";
 
@@ -15,7 +15,6 @@ import "draft-js/dist/Draft.css";
 import "./DocItEditor.css";
 import AllStyleControlsBar from "../../RichTextControlBar";
 import AsyncButton from "../AsyncButton";
-import { Button } from "@mui/material";
 
 export default function DocItEditor({
   blocks,
@@ -24,6 +23,7 @@ export default function DocItEditor({
   buttonText,
   alwaysFocused,
   onSuccess,
+  renderPreview,
 }) {
   const [editorState, setEditorState] = useState(() =>
     blocks ? EditorState.createWithContent(blocks) : EditorState.createEmpty()
@@ -39,7 +39,7 @@ export default function DocItEditor({
       }
       const newEditorState = EditorState.push(
         editorState,
-        ContentState.createFromText(""),
+        ContentState.createFromText("")
       );
       setEditorState(newEditorState);
       queryClient.invalidateQueries("posts");
@@ -91,6 +91,11 @@ export default function DocItEditor({
 
   return (
     <Grid container>
+      {renderPreview && (
+        <Grid item xs={12}>
+          {renderPreview()}
+        </Grid>
+      )}
       <Grid item xs={12} onClick={handleClick} className="RichTextEditor">
         <Editor
           customStyleMap={draft.styleMap}
@@ -142,6 +147,7 @@ DocItEditor.propTypes = {
   readOnly: PropTypes.bool,
   buttonText: PropTypes.string,
   alwaysFocused: PropTypes.bool,
+  renderPreview: PropTypes.func,
 };
 
 DocItEditor.defaultProps = {
@@ -151,9 +157,5 @@ DocItEditor.defaultProps = {
   readOnly: false,
   alwaysFocused: false,
   buttonText: "POST",
-  buttonProps: {
-    isLoading: false,
-    isError: false,
-    error: "",
-  },
+  renderPreview: null,
 };

@@ -6,9 +6,10 @@ import createPost from "../../utils/posts/createPost";
 import DocItEditor from "../common/DocItEditor/DocItEditor";
 import MediaBar from "./MediaBar";
 import RecorderBar from "./RecorderBar";
+import MediaPreview from "../MediaPreview";
 
 export default function PostBar() {
-  const { userToken, selectedDocId } = useSelector((state) => state);
+  const { userToken, selectedDocId, videoBlobUrl } = useSelector((state) => state);
   const [openVideo, setOpenVideo] = useState(false);
 
   const featureData = [
@@ -41,7 +42,6 @@ export default function PostBar() {
       icon: "bi bi-file-arrow-up",
     },
   ];
-
   return (
     <Paper elevation={4}>
       <RecorderBar start={openVideo} setOpen={value => setOpenVideo(value)} />
@@ -51,6 +51,7 @@ export default function PostBar() {
       <DocItEditor
         onMutate={(newPost) => createPost(userToken, selectedDocId, newPost)}
         alwaysFocused={true}
+        renderPreview={() => <MediaPreview type="video" />}
       />
     </Paper>
   );

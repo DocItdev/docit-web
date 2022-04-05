@@ -4,8 +4,10 @@ import {  Box, IconButton } from "@mui/material";
 import { Pause, PlayArrow, Stop, MicOff, FiberManualRecord } from "@mui/icons-material";
 import { useReactMediaRecorder } from "react-media-recorder";
 import { useStopwatch } from "react-timer-hook";
+import { useDispatch } from 'react-redux';
 import Timer from "../common/Timer";
 import styles from './Postbar.module.css'
+import { setVideoBlobUrl } from '../../ducks'
 
 export default function RecorderBar({ start, setOpen }) {
   const {
@@ -29,6 +31,7 @@ export default function RecorderBar({ start, setOpen }) {
     pause: pauseTimer,
     reset: resetTimer,
   } = useStopwatch({ autoStart: false });
+  const dispatch = useDispatch();
 
   const visibleStates = ["recording", "paused"];
 
@@ -55,7 +58,13 @@ export default function RecorderBar({ start, setOpen }) {
     if (status === 'recording') {
       startTimer();
     }
-  }, [status])
+  }, [status]);
+
+  useEffect(() => {
+    if (mediaBlobUrl) {
+      dispatch(setVideoBlobUrl(mediaBlobUrl));
+    }
+  }, [mediaBlobUrl])
 
   const handlePause = () => {
     pauseRecording();
