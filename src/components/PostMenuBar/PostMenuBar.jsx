@@ -25,7 +25,8 @@ export default function PostMenuBar({ userToken, docId, postId }) {
     }
   );
 
-  const handleClick = () => {
+  const handleClick = (event) => {
+    event.stopPropagation();
     const postData = queryClient.getQueryData('posts');
     const newPostData = postData.filter((post) => post.id !== postId);
     const postIndexes = createPostOrderObject(newPostData,0, newPostData.length - 1);
