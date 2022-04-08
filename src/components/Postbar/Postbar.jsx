@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid";
 import createPost from "../../utils/posts/createPost";
@@ -7,10 +7,22 @@ import DocItEditor from "../common/DocItEditor/DocItEditor";
 import MediaBar from "./MediaBar";
 import RecorderBar from "./RecorderBar";
 import MediaPreview from "../MediaPreview";
+import uploadMediaFile from "../../utils/posts/uploadMediaFile";
+import { setVideoBlobUrl } from "../../ducks";
 
 export default function PostBar() {
   const { userToken, selectedDocId, videoBlobUrl } = useSelector((state) => state);
   const [openVideo, setOpenVideo] = useState(false);
+  const dispatch = useDispatch();
+
+  const handleMutation = async (postData) => {
+    if (videoBlobUrl) {
+      const { path } = await uploadMediaFile(userToken, videoBlobUrl);
+      postData.mediaBlobUrl = path;
+    }
+    console.log(postData)
+    return createPost(userToken, selectedDocId, postData);
+  }
 
   const featureData = [
     {
@@ -49,7 +61,8 @@ export default function PostBar() {
         <MediaBar features={featureData} />
       </Grid>
       <DocItEditor
-        onMutate={(newPost) => createPost(userToken, selectedDocId, newPost)}
+        onMutate={handleMutation}
+        onSuccess={() => dispatch(setVideoBlobUrl(''))}
         alwaysFocused={true}
         renderPreview={() => <MediaPreview type="video" />}
       />

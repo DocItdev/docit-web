@@ -127,7 +127,7 @@ export default function DocItEditor({
             <div className="RichTextControlBar-PostButton">
               <AsyncButton
                 loading={isLoading}
-                error={isError ? error : ""}
+                error={isError ? error.message : ""}
                 onClick={handlePost}
               >
                 {buttonText}

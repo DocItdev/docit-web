@@ -21,6 +21,7 @@ export default function VideoPreview() {
   return videoBlobUrl ? (
     <Card
       component={Grid}
+      item
       xs={6}
       sx={{ margin: "1rem" }}
       variant="outlined"
