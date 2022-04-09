@@ -1,13 +1,19 @@
 import React, { useEffect, useState, useMemo } from "react";
 import PropTypes from "prop-types";
-import {  Box, IconButton } from "@mui/material";
-import { Pause, PlayArrow, Stop, MicOff, FiberManualRecord } from "@mui/icons-material";
+import { Box, IconButton } from "@mui/material";
+import {
+  Pause,
+  PlayArrow,
+  Stop,
+  MicOff,
+  FiberManualRecord,
+} from "@mui/icons-material";
 import { useReactMediaRecorder } from "react-media-recorder";
 import { useStopwatch } from "react-timer-hook";
-import { useDispatch } from 'react-redux';
+import { useDispatch } from "react-redux";
 import Timer from "../common/Timer";
-import styles from './Postbar.module.css'
-import { setVideoBlobUrl } from '../../ducks'
+import styles from "./Postbar.module.css";
+import { setVideoBlobUrl } from "../../ducks";
 
 export default function RecorderBar({ start, setOpen }) {
   const {
@@ -21,7 +27,10 @@ export default function RecorderBar({ start, setOpen }) {
     muteAudio,
     unMuteAudio,
     isAudioMuted,
-  } = useReactMediaRecorder({ screen: true });
+  } = useReactMediaRecorder({
+    screen: true,
+    blobPropertyBag: { type: "video/mp4" },
+  });
   const [show, setShow] = useState(false);
   const {
     hours,
@@ -55,7 +64,7 @@ export default function RecorderBar({ start, setOpen }) {
   }, [status]);
 
   useEffect(() => {
-    if (status === 'recording') {
+    if (status === "recording") {
       startTimer();
     }
   }, [status]);
@@ -64,7 +73,7 @@ export default function RecorderBar({ start, setOpen }) {
     if (mediaBlobUrl) {
       dispatch(setVideoBlobUrl(mediaBlobUrl));
     }
-  }, [mediaBlobUrl])
+  }, [mediaBlobUrl]);
 
   const handlePause = () => {
     pauseRecording();
@@ -81,23 +90,25 @@ export default function RecorderBar({ start, setOpen }) {
     resetTimer();
   };
   const buttonStyle = {
-    paddingLeft: '1rem',
-    paddingRight: '1rem',
-    display: 'flex',
-    alignItems: 'center',
-    justifyItems: 'center',
+    paddingLeft: "1rem",
+    paddingRight: "1rem",
+    display: "flex",
+    alignItems: "center",
+    justifyItems: "center",
   };
   return !show ? (
     <div />
   ) : (
-    < Box sx={{ backgroundColor: "#FBFBFB", display: 'flex', flexDirection: 'row' }}>
-      < Box sx={buttonStyle}>
+    <Box
+      sx={{ backgroundColor: "#FBFBFB", display: "flex", flexDirection: "row" }}
+    >
+      <Box sx={buttonStyle}>
         <FiberManualRecord className={styles.dot} />
-      </ Box>
-      < Box sx={buttonStyle}>
-       <Timer hours={hours} minutes={minutes} seconds={seconds} />
-      </ Box>
-      < Box sx={buttonStyle}>
+      </Box>
+      <Box sx={buttonStyle}>
+        <Timer hours={hours} minutes={minutes} seconds={seconds} />
+      </Box>
+      <Box sx={buttonStyle}>
         {status === "recording" ? (
           <IconButton onClick={handlePause} sx={{ color: "inherit" }}>
             <Pause />
@@ -107,21 +118,21 @@ export default function RecorderBar({ start, setOpen }) {
             <PlayArrow />
           </IconButton>
         )}
-      </ Box>
-      < Box sx={buttonStyle}>
+      </Box>
+      <Box sx={buttonStyle}>
         <IconButton onClick={handleStop} sx={{ color: "inherit" }}>
           <Stop />
         </IconButton>
-      </ Box>
-      < Box sx={buttonStyle}>
+      </Box>
+      <Box sx={buttonStyle}>
         <IconButton
           onClick={isAudioMuted ? unMuteAudio : muteAudio}
           sx={{ color: isAudioMuted ? "red" : "inherit" }}
         >
           <MicOff />
         </IconButton>
-      </ Box>
-    </ Box>
+      </Box>
+    </Box>
   );
 }
 
