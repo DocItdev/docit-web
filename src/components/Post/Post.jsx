@@ -5,8 +5,9 @@ import { useSelector } from 'react-redux';
 import TextPostBlock from './TextPostBlock';
 import styles from './Post.module.css';
 import PostMenuBar from '../PostMenuBar';
+import VideoPost from './VideoPost';
 
-export default function Post({ postData: { postType, textContent, id } }) {
+export default function Post({ postData: { postType, textContent, id, mediaFilePath } }) {
   const {editable, selectedDocId, userToken} = useSelector(state => state);
   const editableStyle = editable ? styles.border : '';
   return (
@@ -15,6 +16,9 @@ export default function Post({ postData: { postType, textContent, id } }) {
     <ListItem className={editableStyle}>
       {postType === 'text' && (
         <TextPostBlock postText={textContent} postId={id}  />
+      )}
+      {postType === 'video' && (
+        <VideoPost filePath={mediaFilePath} />
       )}
     </ListItem>
     </>

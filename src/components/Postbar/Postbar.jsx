@@ -7,7 +7,7 @@ import DocItEditor from "../common/DocItEditor/DocItEditor";
 import MediaBar from "./MediaBar";
 import RecorderBar from "./RecorderBar";
 import MediaPreview from "../MediaPreview";
-import uploadMediaFile from "../../utils/posts/uploadMediaFile";
+import uploadMediaFile from "../../utils/mediaStorage/uploadMediaFile";
 import { setVideoBlobUrl } from "../../ducks";
 
 export default function PostBar() {
@@ -18,7 +18,8 @@ export default function PostBar() {
   const handleMutation = async (postData) => {
     if (videoBlobUrl) {
       const { path } = await uploadMediaFile(userToken, videoBlobUrl);
-      postData.mediaBlobUrl = path;
+      postData.mediaFilePath = path;
+      postData.postType = 'video';
     }
     console.log(postData)
     return createPost(userToken, selectedDocId, postData);
