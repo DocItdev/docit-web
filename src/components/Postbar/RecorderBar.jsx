@@ -15,7 +15,7 @@ import Timer from "../common/Timer";
 import styles from "./Postbar.module.css";
 import { setVideoBlobUrl } from "../../ducks";
 
-export default function RecorderBar({ start, setOpen }) {
+export default function RecorderBar({ start, resetTriggerFeature }) {
   const {
     status,
     startRecording,
@@ -59,7 +59,7 @@ export default function RecorderBar({ start, setOpen }) {
       setShow(true);
     } else {
       setShow(false);
-      setOpen(false);
+      resetTriggerFeature();
     }
   }, [status]);
 
