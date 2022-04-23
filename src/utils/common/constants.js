@@ -24,3 +24,8 @@ export class MediaFeatures {
     this.name = name;
   }
 }
+
+export const MediaTypes = {
+  VIDEO: 'video',
+  IMAGE: 'image'
+}

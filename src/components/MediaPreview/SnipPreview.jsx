@@ -2,18 +2,22 @@ import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import {
     IconButton,
+    
     Card,
     CardActions,
     CardContent,
     Grid,
 } from "@mui/material";
 import { Cancel } from "@mui/icons-material";
-import { setSnipDataUri } from "../../ducks";
+import UndoIcon from '@mui/icons-material/Undo';
+import { setMediaBlobUrl } from "../../ducks";
 import ReactCrop from 'react-image-crop'
 import 'react-image-crop/dist/ReactCrop.css'
+import { setMediaType } from "../../ducks";
+import { MediaTypes } from "../../utils/common/constants";
 
 export default function VideoPreview() {
-    const snipDataUri = useSelector((state) => state.snipDataUri);
+    const mediaBlobUrl = useSelector((state) => state.mediaBlobUrl);
     const [crop, setCrop] = useState({ width: 0, height: 0 });
     const [completedCrop, setCompletedCrop] = useState(0);
     const [snip, setSnip] = useState("");
@@ -28,23 +32,15 @@ export default function VideoPreview() {
     var imageH = 464;
     var imageW = 800;
 
-    const handleDelete = () => {
-        setFinalSnip("");
-        setCrop({ width: 0, height: 0 });
-        setDisplayCrop(true);
-        dispatch(setSnipDataUri(''))
-    }
 
     useEffect(() => {
 
         const t = setTimeout(() => {
-            console.log("something")
             // eslint-disable-next-line no-unused-expressions
 
             // We use canvasPreview as it's much faster than imgPreview.
             if (completedCrop) {
 
-                console.log("hit");
                 onCompleteProcessImg();
             }
 
@@ -55,15 +51,39 @@ export default function VideoPreview() {
         }
     }, [completedCrop]);
 
+    const handleDelete = () => {
+        setFinalSnip("");
+        setCrop({ width: 0, height: 0 });
+        setDisplayCrop(true);
+        dispatch(setMediaBlobUrl(''))
+    }
+
+    const handleUndo = () => {
+        console.log(snip);
+        setMediaBlobUrl(snip);
+        setFinalSnip("");
+        setCrop({ width: 0, height: 0 });
+        console.log(mediaBlobUrl);
+        setTimeout(()=>{ setDisplayCrop(true)},5000);
+       
+    }
+
+   
+
     function onCompleteProcessImg() {
+        console.log(mediaBlobUrl);
+
         const image = document.createElement('img');
-        image.srcset = snipDataUri;
+        image.srcset = mediaBlobUrl;
         const canvas = document.createElement('canvas');
         const ctx = canvas.getContext('2d')
 
+        console.log(image.naturalHeight);
+        console.log(image.naturalWidth);
         const scale = 1;
         const scaleX = imageNW / imageW
         const scaleY = imageNH / imageH
+      
         const pixelRatio = window.devicePixelRatio
         canvas.width = Math.floor(crop.width * scaleX * pixelRatio)
         canvas.height = Math.floor(crop.height * scaleY * pixelRatio)
@@ -90,10 +110,17 @@ export default function VideoPreview() {
 
         setDisplayCrop(false);
         setFinalSnip(canvas.toDataURL());
+        canvas.toBlob((blob)=>{
+            setSnip(mediaBlobUrl);
+            const url = URL.createObjectURL(blob);
+            console.log(url);
+            dispatch(setMediaBlobUrl(url));
+            dispatch(setMediaType(MediaTypes.IMAGE))
+        })
     }
 
 
-    return snipDataUri ? (
+    return mediaBlobUrl ? (
         <Card
             component={Grid}
             item
@@ -105,22 +132,27 @@ export default function VideoPreview() {
 
                 <Grid item xs={11}>
                     <CardContent>
-                        {snipDataUri && displayCrop &&
+                        {mediaBlobUrl && displayCrop &&
                             <ReactCrop crop={crop} onChange={c => { setCrop(c) }}
                                 onComplete={(c) => setCompletedCrop(c)}
                             >
-                                <img id="screenshot-preview" src={snipDataUri} objectFit="contain" alt="test" width="100%" height="100%" />
+                                <img id="screenshot-preview" src={mediaBlobUrl} objectFit="contain" alt="test" width={snipImgWidth} height={snipImgHeight} />
                             </ReactCrop>
                         }
-                        <br />
-                        <img id="cropedImg" src={finalSnip} alt="test" width={completedCrop.width * 1.2} height={completedCrop.height * 1.2} />
-                    </CardContent>
+                        { finalSnip &&
+                            <img id="cropedImg" src={finalSnip} alt="test" /*width={completedCrop.width * 2} height={completedCrop.height * 2}*/ />
+                        }
+                        </CardContent>
                 </Grid>
                 <Grid item xs={1}>
                     <CardActions disableSpacing>
-                        <IconButton onClick={handleDelete} sx={{ marginLeft: "auto" }}>
-                            <Cancel />
+                    <IconButton onClick={handleUndo} sx={{ marginLeft: "auto" }}>
+                            <UndoIcon color="primary" fontSize="large"/>
                         </IconButton>
+                        <IconButton onClick={handleDelete} sx={{ marginLeft: "auto" }}>
+                            <Cancel  color="error"  fontSize="small" />
+                        </IconButton>
+                        
                     </CardActions>
                 </Grid>
             </Grid>

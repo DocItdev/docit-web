@@ -13,7 +13,8 @@ import { useStopwatch } from "react-timer-hook";
 import { useDispatch } from "react-redux";
 import Timer from "../common/Timer";
 import styles from "./Postbar.module.css";
-import { setVideoBlobUrl } from "../../ducks";
+import { setMediaBlobUrl, setMediaType } from "../../ducks";
+import { MediaTypes } from "../../utils/common/constants";
 
 export default function RecorderBar({ start, resetTriggerFeature }) {
   const {
@@ -71,7 +72,8 @@ export default function RecorderBar({ start, resetTriggerFeature }) {
 
   useEffect(() => {
     if (mediaBlobUrl) {
-      dispatch(setVideoBlobUrl(mediaBlobUrl));
+      dispatch(setMediaBlobUrl(mediaBlobUrl));
+      dispatch(setMediaType(MediaTypes.VIDEO));
     }
   }, [mediaBlobUrl]);
 

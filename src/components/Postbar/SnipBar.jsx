@@ -3,7 +3,8 @@ import PropTypes from "prop-types";
 import { Box, IconButton } from "@mui/material";
 import { useDispatch } from "react-redux";
 import styles from "./Postbar.module.css";
-import { setSnipDataUri } from "../../ducks";
+import { setMediaBlobUrl, setMediaType } from "../../ducks";
+import { MediaTypes } from "../../utils/common/constants";
 
 /**
  * 
@@ -20,7 +21,11 @@ export default function SnipBar({ start, resetTriggerFeature }) {
     useEffect(() => {
         const handleStart = async () => {
             const canvas = await takeScreenshotCanvas();
-            dispatch(setSnipDataUri(canvas.toDataURL()));
+            canvas.toBlob((blob)=>{
+                const url = URL.createObjectURL(blob);
+                dispatch(setMediaBlobUrl(url));
+                dispatch(setMediaType(MediaTypes.IMAGE))
+            });
         };
         if (start) {
             handleStart();

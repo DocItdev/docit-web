@@ -6,6 +6,7 @@ import TextPostBlock from "./TextPostBlock";
 import styles from "./Post.module.css";
 import PostMenuBar from "../PostMenuBar";
 import VideoPost from "./VideoPost";
+import ImagePost from "./ImagePost";
 
 export default function Post({ postData }) {
   const { editable, selectedDocId, userToken } = useSelector((state) => state);

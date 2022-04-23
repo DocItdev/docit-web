@@ -8,22 +8,22 @@ import MediaBar from "./MediaBar";
 import RecorderBar from "./RecorderBar";
 import MediaPreview from "../MediaPreview";
 import uploadMediaFile from "../../utils/mediaStorage/uploadMediaFile";
-import { setVideoBlobUrl } from "../../ducks";
+import { setMediaBlobUrl } from "../../ducks";
 import SnipBar from "./SnipBar";
 import { MediaFeatures } from "../../utils/common/constants";
 
 export default function PostBar() {
-  const { userToken, selectedDocId, videoBlobUrl } = useSelector((state) => state);
+  const { userToken, selectedDocId, mediaBlobUrl, mediaType } = useSelector((state) => state);
   const [featureTrigger, setFeatureTrigger] = useState(MediaFeatures.NONE);
   const [featurePreview, setFeaturePreview] = useState(MediaFeatures.NONE);
   const dispatch = useDispatch();
 
 
   const handleMutation = async (postData) => {
-    if (videoBlobUrl) {
-      const { path } = await uploadMediaFile(userToken, videoBlobUrl);
+    if (mediaBlobUrl) {
+      const { path } = await uploadMediaFile(userToken, mediaBlobUrl);
       postData.mediaFilePath = path;
-      postData.postType = 'video';
+      postData.postType = mediaType;
     }
     console.log(postData)
     return createPost(userToken, selectedDocId, postData);
@@ -75,7 +75,7 @@ export default function PostBar() {
       </Grid>
       <DocItEditor
         onMutate={handleMutation}
-        onSuccess={() => dispatch(setVideoBlobUrl(''))}
+        onSuccess={() => dispatch(setMediaBlobUrl(''))}
         alwaysFocused={true}
         renderPreview={() => <MediaPreview type={featurePreview} />}
       />
