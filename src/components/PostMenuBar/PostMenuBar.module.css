@@ -1,7 +1,6 @@
 .container {
   max-width: 5rem;
-  position: absolute;
-  left: 95%;
+  margin-left: auto;
   z-index: 1;
 }
 

@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { ListItem } from "@mui/material";
+import { ListItem, Grid } from "@mui/material";
 import { useSelector } from "react-redux";
 import TextPostBlock from "./TextPostBlock";
 import styles from "./Post.module.css";
@@ -12,21 +12,25 @@ export default function Post({ postData }) {
   const { postType, textContent, id, mediaFilePath } = postData;
   const editableStyle = editable ? styles.border : "";
   return (
-    <>
+    <Grid container className={editableStyle}>
       {editable && (
-        <PostMenuBar
-          postData={postData}
-          docId={selectedDocId}
-          userToken={userToken}
-        />
+        <Grid item xs={12}>
+          <PostMenuBar
+            postData={postData}
+            docId={selectedDocId}
+            userToken={userToken}
+          />
+        </Grid>
       )}
-      <ListItem className={editableStyle}>
-        {postType === "text" && (
-          <TextPostBlock postText={textContent} postId={id} />
-        )}
-        {postType === "video" && <VideoPost filePath={mediaFilePath} />}
-      </ListItem>
-    </>
+      <Grid item xs={12}>
+        <ListItem>
+          {postType === "text" && (
+            <TextPostBlock postText={textContent} postId={id} />
+          )}
+          {postType === "video" && <VideoPost filePath={mediaFilePath} />}
+        </ListItem>
+      </Grid>
+    </Grid>
   );
 }
 
