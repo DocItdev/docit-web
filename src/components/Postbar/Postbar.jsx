@@ -8,18 +8,22 @@ import MediaBar from "./MediaBar";
 import RecorderBar from "./RecorderBar";
 import MediaPreview from "../MediaPreview";
 import uploadMediaFile from "../../utils/mediaStorage/uploadMediaFile";
-import { setVideoBlobUrl } from "../../ducks";
+import { setMediaBlobUrl } from "../../ducks";
+import SnipBar from "./SnipBar";
+import { MediaFeatures } from "../../utils/common/constants";
 
 export default function PostBar() {
-  const { userToken, selectedDocId, videoBlobUrl } = useSelector((state) => state);
-  const [openVideo, setOpenVideo] = useState(false);
+  const { userToken, selectedDocId, mediaBlobUrl, mediaType } = useSelector((state) => state);
+  const [featureTrigger, setFeatureTrigger] = useState(MediaFeatures.NONE);
+  const [featurePreview, setFeaturePreview] = useState(MediaFeatures.NONE);
   const dispatch = useDispatch();
 
+
   const handleMutation = async (postData) => {
-    if (videoBlobUrl) {
-      const { path } = await uploadMediaFile(userToken, videoBlobUrl);
+    if (mediaBlobUrl) {
+      const { path } = await uploadMediaFile(userToken, mediaBlobUrl);
       postData.mediaFilePath = path;
-      postData.postType = 'video';
+      postData.postType = mediaType;
     }
     console.log(postData)
     return createPost(userToken, selectedDocId, postData);
@@ -30,7 +34,10 @@ export default function PostBar() {
       featureName: "Screen Recording",
       featureDescription: "Record your screen",
       icon: "bi bi-camera-video",
-      onClick: () => setOpenVideo(true),
+      onClick: () => {
+        setFeaturePreview(MediaFeatures.SCREEN_REC);
+        setFeatureTrigger(MediaFeatures.SCREEN_REC);
+      },
     },
     {
       featureName: "Voice Recording",
@@ -47,6 +54,10 @@ export default function PostBar() {
       featureDescription:
         "Take a screenshot and edit it just like the snipping tool",
       icon: "bi bi-scissors",
+      onClick: () => {
+        setFeaturePreview(MediaFeatures.SCREEN_SNIP);
+        setFeatureTrigger(MediaFeatures.SCREEN_SNIP);
+      }
     },
     {
       featureName: "Upload Files",
@@ -57,15 +68,16 @@ export default function PostBar() {
   ];
   return (
     <Paper elevation={4}>
-      <RecorderBar start={openVideo} setOpen={value => setOpenVideo(value)} />
+      <RecorderBar start={featureTrigger === MediaFeatures.SCREEN_REC} resetTriggerFeature={() => setFeatureTrigger(MediaFeatures.NONE)} />
+      <SnipBar start={featureTrigger === MediaFeatures.SCREEN_SNIP} resetTriggerFeature={() => setFeatureTrigger(MediaFeatures.NONE)} />
       <Grid style={{ paddingLeft: "5px" }} container spacing={0}>
         <MediaBar features={featureData} />
       </Grid>
       <DocItEditor
         onMutate={handleMutation}
-        onSuccess={() => dispatch(setVideoBlobUrl(''))}
+        onSuccess={() => dispatch(setMediaBlobUrl(''))}
         alwaysFocused={true}
-        renderPreview={() => <MediaPreview type="video" />}
+        renderPreview={() => <MediaPreview type={featurePreview} />}
       />
     </Paper>
   );

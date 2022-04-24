@@ -8,17 +8,17 @@ import {
   Grid,
 } from "@mui/material";
 import { Cancel } from "@mui/icons-material";
-import { setVideoBlobUrl } from "../../ducks";
+import { setMediaBlobUrl } from "../../ducks";
 
 export default function VideoPreview() {
-  const videoBlobUrl = useSelector((state) => state.videoBlobUrl);
+  const mediaBlobUrl = useSelector((state) => state.mediaBlobUrl);
   const dispatch = useDispatch();
 
   const handleDelete = () => {
-    dispatch(setVideoBlobUrl(''))
+    dispatch(setMediaBlobUrl(''))
   }
 
-  return videoBlobUrl ? (
+  return mediaBlobUrl ? (
     <Card
       component={Grid}
       item
@@ -33,7 +33,7 @@ export default function VideoPreview() {
       </CardActions>
       <CardContent>
         <video controls width="100%" height="100%">
-          <source src={videoBlobUrl} type="video/mp4" />
+          <source src={mediaBlobUrl} type="video/mp4" />
         </video>
       </CardContent>
     </Card>

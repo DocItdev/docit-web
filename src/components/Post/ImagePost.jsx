@@ -2,7 +2,7 @@ import React from "react";
 import { Box, CircularProgress } from "@mui/material";
 import useDownloadUrl from "../../hooks/useDownloadUrl";
 
-export default function VideoPost({ filePath }) {
+export default function ImagePost({ filePath }) {
   const {mediaDownloadUrl, isLoading} = useDownloadUrl(filePath);
   if (isLoading) {
     return (
@@ -11,17 +11,10 @@ export default function VideoPost({ filePath }) {
       </Box>
     );
   }
+  
   return (
     <Box>
-      <video
-        id={filePath}
-        preload="metadata"
-        controls
-        width="60%"
-        height="50%"
-      >
-        <source src={mediaDownloadUrl} type="video/mp4" />
-      </video>
+      <img src={mediaDownloadUrl} width="100%" height="100%"/> 
     </Box>
   );
 }
