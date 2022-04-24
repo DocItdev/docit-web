@@ -18,7 +18,7 @@ export default function Login() {
   return (
 
     <div style={{ backgroundColor: "#FFEDDA" }}>
-      <div style={{ marginTop: "50px", marginBottom: "-11%" }}>
+      <div style={{ marginTop: "0px", marginBottom: "-11%" }}>
         <Grid justify="center" container spacing={0}>
           <Grid align="center" item xs={6}>
             <Card alignItems="center"
