@@ -1,15 +1,9 @@
 import React from "react";
-import { Box } from "@mui/material";
-import { CircularProgress } from "@mui/material";
-import { useQuery } from "react-query";
-import { useSelector } from "react-redux";
-import getFileDownloadUrl from "../../utils/mediaStorage/getFileDownloadUrl";
+import { Box, CircularProgress } from "@mui/material";
+import useDownloadUrl from "../../hooks/useDownloadUrl";
 
 export default function VideoPost({ filePath }) {
-  const userToken = useSelector((state) => state.userToken);
-  const { isLoading, data } = useQuery("storageToken", () =>
-    getFileDownloadUrl(userToken, filePath)
-  );
+  const {mediaDownloadUrl, isLoading} = useDownloadUrl(filePath);
   if (isLoading) {
     return (
       <Box>
@@ -26,7 +20,7 @@ export default function VideoPost({ filePath }) {
         width="60%"
         height="50%"
       >
-        <source src={data.mediaDownloadUrl} type="video/mp4" />
+        <source src={mediaDownloadUrl} type="video/mp4" />
       </video>
     </Box>
   );

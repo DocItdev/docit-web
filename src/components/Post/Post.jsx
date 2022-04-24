@@ -29,6 +29,7 @@ export default function Post({ postData }) {
             <TextPostBlock postText={textContent} postId={id} />
           )}
           {postType === "video" && <VideoPost filePath={mediaFilePath} />}
+          {postType === "image" && <ImagePost filePath={mediaFilePath}/>}
         </ListItem>
       </Grid>
     </Grid>

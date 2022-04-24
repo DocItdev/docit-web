@@ -1,15 +1,9 @@
 import React from "react";
-import { Box } from "@mui/material";
-import { CircularProgress } from "@mui/material";
-import { useQuery } from "react-query";
-import { useSelector } from "react-redux";
-import getFileDownloadUrl from "../../utils/mediaStorage/getFileDownloadUrl";
+import { Box, CircularProgress } from "@mui/material";
+import useDownloadUrl from "../../hooks/useDownloadUrl";
 
 export default function ImagePost({ filePath }) {
-  const userToken = useSelector((state) => state.userToken);
-  const { isLoading, data } = useQuery("storageToken", () =>
-    getFileDownloadUrl(userToken, filePath)
-  );
+  const {mediaDownloadUrl, isLoading} = useDownloadUrl(filePath);
   if (isLoading) {
     return (
       <Box>
@@ -17,9 +11,10 @@ export default function ImagePost({ filePath }) {
       </Box>
     );
   }
+  
   return (
     <Box>
-      <img src={data.mediaDownloadUrl} width="100%" height="100%"/> 
+      <img src={mediaDownloadUrl} width="100%" height="100%"/> 
     </Box>
   );
 }

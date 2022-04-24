@@ -32,6 +32,15 @@ export default function VideoPreview() {
     var imageH = 464;
     var imageW = 800;
 
+    useEffect(()=>{
+        if(mediaBlobUrl === ""){
+            setCrop({ width: 0, height: 0 });
+            setCompletedCrop(0);
+            setSnip("");
+            setDisplayCrop(true);
+            setFinalSnip("");
+        }
+    }, [mediaBlobUrl])
 
     useEffect(() => {
 
@@ -51,6 +60,8 @@ export default function VideoPreview() {
         }
     }, [completedCrop]);
 
+    
+
     const handleDelete = () => {
         setFinalSnip("");
         setCrop({ width: 0, height: 0 });
@@ -60,12 +71,12 @@ export default function VideoPreview() {
 
     const handleUndo = () => {
         console.log(snip);
-        setMediaBlobUrl(snip);
+        dispatch(setMediaBlobUrl(snip));
         setFinalSnip("");
         setCrop({ width: 0, height: 0 });
         console.log(mediaBlobUrl);
-        setTimeout(()=>{ setDisplayCrop(true)},5000);
-       
+        //setTimeout(()=>{ setDisplayCrop(true)},5000);
+        setDisplayCrop(true)
     }
 
    
