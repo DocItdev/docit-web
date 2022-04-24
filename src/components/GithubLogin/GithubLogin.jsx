@@ -33,9 +33,9 @@ export default function GithubLogin() {
 
   return (
     <div>
-      <Button href={`${authUrl}&client_id=${clientId}&client_secret=${clientSecret}`}>
+      <Button style={{backgroundColor:"black", borderWidth:"0px", width: "177px", height: "42px"}} href={`${authUrl}&client_id=${clientId}&client_secret=${clientSecret}`}>
         <i className="bi bi-github"></i>
-        <span>Login with GitHub</span>
+        <span>&nbsp;Login with GitHub</span>
       </Button>
     </div>
   )
