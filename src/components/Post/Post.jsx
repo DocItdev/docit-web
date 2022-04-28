@@ -7,6 +7,7 @@ import styles from "./Post.module.css";
 import PostMenuBar from "../PostMenuBar";
 import VideoPost from "./VideoPost";
 import ImagePost from "./ImagePost";
+import AudioPost from './AudioPost';
 
 export default function Post({ postData }) {
   const { editable, selectedDocId, userToken } = useSelector((state) => state);
@@ -30,6 +31,7 @@ export default function Post({ postData }) {
           )}
           {postType === "video" && <VideoPost filePath={mediaFilePath} />}
           {postType === "image" && <ImagePost filePath={mediaFilePath}/>}
+          {postType === "audio" && <AudioPost filePath={mediaFilePath}/>}
         </ListItem>
       </Grid>
     </Grid>

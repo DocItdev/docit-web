@@ -16,7 +16,7 @@ import styles from "./Postbar.module.css";
 import { setMediaBlobUrl, setMediaType } from "../../ducks";
 import { MediaTypes } from "../../utils/common/constants";
 
-export default function RecorderBar({ start, resetTriggerFeature }) {
+export default function VideoRecorderBar({ start, resetTriggerFeature }) {
   const {
     status,
     startRecording,
@@ -138,11 +138,11 @@ export default function RecorderBar({ start, resetTriggerFeature }) {
   );
 }
 
-RecorderBar.propTypes = {
+VideoRecorderBar.propTypes = {
   start: PropTypes.bool.isRequired,
   setOpen: PropTypes.func,
 };
 
-RecorderBar.defaultProps = {
+VideoRecorderBar.defaultProps = {
   setOpen: () => {},
 };
