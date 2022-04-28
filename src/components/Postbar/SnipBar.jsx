@@ -51,16 +51,16 @@ export default function SnipBar({ start, resetTriggerFeature }) {
     }
 
     async function takeScreenshotStream() {
-        const width = 1900;
-        const height = 1100;
+        const width = 1920;
+        const height = 1080;
 
         const errors = [];
         let stream;
         const mediaStreamConstraints = {
             audio: false,
             video: {
-                width,
-                height,
+                 width,
+                 height,
                 frameRate: 50,
             },
         };
@@ -91,6 +91,8 @@ export default function SnipBar({ start, resetTriggerFeature }) {
                 const canvas = document.createElement('canvas');
                 canvas.width = video.videoWidth;
                 canvas.height = video.videoHeight;
+                console.log(video.videoWidth);
+                console.log(video.videoHeight);
                 const context = canvas.getContext('2d')
                 context.drawImage(video, 0, 0, video.videoWidth, video.videoHeight)
                 resolve(canvas)
