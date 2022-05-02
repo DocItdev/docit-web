@@ -11,6 +11,7 @@ export default function ProjectTreeView({ projects }) {
       aria-label="file system navigator"
       defaultCollapseIcon={<ExpandMoreIcon />}
       defaultExpandIcon={<ChevronRightIcon />}
+      defaultExpanded={projects.map((project) => project.id)}
     >
       {projects.length &&
         projects.map(({ name, id, description, Documents }) => (

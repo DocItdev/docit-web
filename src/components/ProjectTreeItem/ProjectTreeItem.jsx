@@ -3,7 +3,7 @@ import { TreeItem } from "@mui/lab";
 import { Box, Typography, Button, Grid } from "@mui/material";
 import { useSelector } from "react-redux";
 import { useMutation, useQueryClient } from "react-query";
-import { Delete, Add, ModeEdit } from "@mui/icons-material";
+import { Delete, Add, ModeEdit, AddBoxOutlined } from "@mui/icons-material";
 
 import styles from "./ProjectTreeItem.module.css";
 import postDocument from "../../utils/documents/postDocument";
@@ -32,18 +32,25 @@ export default function ProjectTreeItem({
     }
   );
 
-  const toggleOpened = () => {
+  const toggleOpened = (event) => {
+    event?.stopPropagation();
     setOpened(!opened);
   };
 
-  const toggleProjOpened = () => {
+  const toggleProjOpened = (event) => {
+    event?.stopPropagation();
     setProjOpened(!projOpened);
+  };
+
+  const handleDelete = (event) => {
+    event?.stopPropagation();
+    deleteMutation.mutate();
   };
 
   const actionButtons = [
     { icon: ModeEdit, title: "Edit Project", onClick: toggleProjOpened },
     { icon: Add, title: "Create Document", onClick: toggleOpened },
-    { icon: Delete, title: "Delete", onClick: () => deleteMutation.mutate() },
+    { icon: Delete, title: "Delete", onClick: handleDelete },
   ];
 
   return (
@@ -65,7 +72,6 @@ export default function ProjectTreeItem({
             open={opened}
             onClose={toggleOpened}
             onMutate={(newDoc) => postDocument(userToken, projectId, newDoc)}
-            onSuccess={() => toggleOpened()}
           />
           <ProjectForm
             title="Update Project"
@@ -81,10 +87,20 @@ export default function ProjectTreeItem({
       }
     >
       {children}
-      <Button onClick={toggleOpened} className={styles.newDocButton}>
-        <i className={`bi bi-plus ${styles.newDocIcon}`}></i>
-        <Typography component="span">New Document</Typography>
-      </Button>
+      <TreeItem
+        nodeId="new-document"
+        onClick={toggleOpened}
+        label={
+          <Box>
+            <Grid container>
+              <Grid item className={styles.projectTitle}>
+                <AddBoxOutlined sx={{ marginRight: 1 }} />
+                <Typography component="span">New Document</Typography>
+              </Grid>
+            </Grid>
+          </Box>
+        }
+      />
     </TreeItem>
   );
 }

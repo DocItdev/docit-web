@@ -21,7 +21,7 @@ export default function DocumentForm({
   const { isLoading, isError, error, mutate } = useMutation(onMutate, {
     onSuccess: () => {
       queryClient.invalidateQueries("projects");
-      onSuccess();
+      onClose();
       reset({
         keepValues: false,
         keepErrors: false,
@@ -33,10 +33,15 @@ export default function DocumentForm({
     mutate(values);
   };
   return (
-    <Modal title={title} open={open} onClose={onClose}>
+    <Modal
+      onClick={(event) => event.stopPropagation()}
+      title={title}
+      open={open}
+      onClose={onClose}
+    >
       <form onSubmit={handleSubmit(onSubmit)}>
         <TextField
-        defaultValue={initialValues.title}
+          defaultValue={initialValues.title}
           variant="outlined"
           margin="normal"
           required
@@ -76,6 +81,6 @@ DocumentForm.propTypes = {
 DocumentForm.defaultProps = {
   onSuccess: () => {},
   initialValues: {
-    title: '',
+    title: "",
   },
 };
