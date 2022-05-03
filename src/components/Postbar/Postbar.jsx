@@ -11,6 +11,7 @@ import uploadMediaFile from "../../utils/mediaStorage/uploadMediaFile";
 import { setMediaBlobUrl } from "../../ducks";
 import SnipBar from "./SnipBar";
 import { MediaFeatures } from "../../utils/common/constants";
+import FileUploadBar from "./FileUploadBar";
 
 export default function PostBar() {
   const { userToken, selectedDocId, mediaBlobUrl, mediaType } = useSelector((state) => state);
@@ -64,12 +65,18 @@ export default function PostBar() {
       featureDescription:
         "Upload Files of any size and any type and preview them here",
       icon: "bi bi-file-arrow-up",
+      onClick: () => {
+        setFeaturePreview(MediaFeatures.UPLOAD_FILE);
+        setFeatureTrigger(MediaFeatures.UPLOAD_FILE);
+      }
     },
   ];
   return (
     <Paper elevation={4}>
       <RecorderBar start={featureTrigger === MediaFeatures.SCREEN_REC} resetTriggerFeature={() => setFeatureTrigger(MediaFeatures.NONE)} />
       <SnipBar start={featureTrigger === MediaFeatures.SCREEN_SNIP} resetTriggerFeature={() => setFeatureTrigger(MediaFeatures.NONE)} />
+      <FileUploadBar  start={featureTrigger === MediaFeatures.UPLOAD_FILE} resetTriggerFeature={() => setFeatureTrigger(MediaFeatures.NONE)}/>
+
       <Grid style={{ paddingLeft: "5px" }} container spacing={0}>
         <MediaBar features={featureData} />
       </Grid>
