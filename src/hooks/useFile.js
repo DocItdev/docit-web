@@ -1,32 +1,32 @@
 import { useEffect, useState } from "react";
 import { useSelector, } from 'react-redux';
-import getFileDownloadUrl from "../utils/mediaStorage/getFileDownloadUrl";
+import getFile from "../utils/mediaStorage/getFile";
 import { AsyncStatus } from "../utils/common/constants";
 
 
-export default function useDownloadUrl(filePath) {
+export default function useFile(filePath) {
   const userToken = useSelector(state => state.userToken);
-    const [mediaDownloadUrl, setMediaDownloadUrl] = useState("");
+    const [data, setData] = useState(null);
     const [error, setError] = useState("");
     const [status, setStatus] = useState(AsyncStatus.IDLE);
     
   useEffect(() => {
-    const getDownloadUrl = async () => {
+    const getUploadedFile = async () => {
         try {
             setStatus(AsyncStatus.LOADING);
-            const data = await getFileDownloadUrl(userToken, filePath);
-            setMediaDownloadUrl(data.mediaDownloadUrl);
+            const file = await getFile(userToken, filePath);
+            setData(file)
             setStatus(AsyncStatus.SUCCESS);
         } catch (err) {   
             setError(err.message);
             setStatus(AsyncStatus.FAILURE);
         }
     };
-    getDownloadUrl();
+    getUploadedFile();
 
   },[userToken, filePath]);
   return {
-      mediaDownloadUrl,
+      ...data,
       error,
       status,
       isLoading: status === AsyncStatus.LOADING
