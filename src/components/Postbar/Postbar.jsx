@@ -8,22 +8,23 @@ import MediaBar from "./MediaBar";
 import VideoRecorderBar from "./VideoRecorderBar";
 import MediaPreview from "../MediaPreview";
 import uploadMediaFile from "../../utils/mediaStorage/uploadMediaFile";
-import { setMediaBlobUrl } from "../../ducks";
+import { setMediaBlobUrl, setFileName, setMediaType } from "../../ducks";
 import SnipBar from "./SnipBar";
 import { MediaFeatures } from "../../utils/common/constants";
 import AudioRecorderBar from "./AudioRecorderBar";
 
 export default function PostBar() {
-  const { userToken, selectedDocId, mediaBlobUrl, mediaType } = useSelector(
-    (state) => state
-  );
+
+  const { userToken, selectedDocId, mediaBlobUrl, mediaType, fileName } =
+    useSelector((state) => state);
+
   const [featureTrigger, setFeatureTrigger] = useState(MediaFeatures.NONE);
   const [featurePreview, setFeaturePreview] = useState(MediaFeatures.NONE);
   const dispatch = useDispatch();
 
   const handleMutation = async (postData) => {
     if (mediaBlobUrl) {
-      const { path } = await uploadMediaFile(userToken, mediaBlobUrl);
+      const { path } = await uploadMediaFile(userToken, mediaBlobUrl, fileName);
       postData.mediaFilePath = path;
       postData.postType = mediaType;
     }
@@ -70,8 +71,18 @@ export default function PostBar() {
       featureDescription:
         "Upload Files of any size and any type and preview them here",
       icon: "bi bi-file-arrow-up",
+      onClick: () => {
+        setFeaturePreview(MediaFeatures.UPLOAD_FILE);
+        setFeatureTrigger(MediaFeatures.UPLOAD_FILE);
+      }
     },
   ];
+
+  const clearMediaState = () => {
+    dispatch(setMediaBlobUrl(""))
+    dispatch(setFileName(undefined));
+    dispatch(setMediaType(''));
+  }
   return (
     <Paper elevation={4}>
       <VideoRecorderBar
@@ -82,16 +93,18 @@ export default function PostBar() {
         start={featureTrigger === MediaFeatures.SCREEN_SNIP}
         resetTriggerFeature={() => setFeatureTrigger(MediaFeatures.NONE)}
       />
+
       <AudioRecorderBar 
         start={featureTrigger === MediaFeatures.VOICE_REC}
         resetTriggerFeature={() => setFeatureTrigger(MediaFeatures.NONE)}
         />
+
       <Grid style={{ paddingLeft: "5px" }} container spacing={0}>
         <MediaBar features={featureData} />
       </Grid>
       <DocItEditor
         onMutate={handleMutation}
-        onSuccess={() => dispatch(setMediaBlobUrl(""))}
+        onSuccess={clearMediaState}
         alwaysFocused={true}
         renderPreview={() => <MediaPreview type={featurePreview} />}
       />

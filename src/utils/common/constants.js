@@ -28,5 +28,7 @@ export class MediaFeatures {
 export const MediaTypes = {
   VIDEO: 'video',
   IMAGE: 'image',
+  FILE: 'file'
   AUDIO: 'audio'
+
 }

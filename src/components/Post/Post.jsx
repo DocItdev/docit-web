@@ -7,12 +7,15 @@ import styles from "./Post.module.css";
 import PostMenuBar from "../PostMenuBar";
 import VideoPost from "./VideoPost";
 import ImagePost from "./ImagePost";
+import FilePost from "./FilePost";
+
 import AudioPost from './AudioPost';
 
 export default function Post({ postData }) {
   const { editable, selectedDocId, userToken } = useSelector((state) => state);
   const { postType, textContent, id, mediaFilePath } = postData;
   const editableStyle = editable ? styles.border : "";
+
   return (
     <Grid container className={editableStyle}>
       {editable && (
@@ -31,6 +34,7 @@ export default function Post({ postData }) {
           )}
           {postType === "video" && <VideoPost filePath={mediaFilePath} />}
           {postType === "image" && <ImagePost filePath={mediaFilePath}/>}
+          {postType === "file" && <FilePost filePath={mediaFilePath} />}
           {postType === "audio" && <AudioPost filePath={mediaFilePath}/>}
         </ListItem>
       </Grid>
