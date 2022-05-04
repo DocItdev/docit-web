@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import VideoPreview from "./VideoPreview";
 import { MediaFeatures } from "../../utils/common/constants";
 import SnipPreview from "./SnipPreview";
+import FilePreview from "./FilePreview";
 
 export default function MediaPreview({ type, ...props }) {
   const renderPreview = () => {
@@ -11,6 +12,8 @@ export default function MediaPreview({ type, ...props }) {
         return <VideoPreview {...props} />;
       case MediaFeatures.SCREEN_SNIP:
         return <SnipPreview />
+      case MediaFeatures.UPLOAD_FILE:
+        return <FilePreview {...props} show={true} />
       default:
         return <span />;
     }

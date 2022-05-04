@@ -71,11 +71,13 @@ export default function PostBar() {
       }
     },
   ];
+
+  /*<FileUploadBar  start={featureTrigger === MediaFeatures.UPLOAD_FILE} resetTriggerFeature={() => setFeatureTrigger(MediaFeatures.NONE)}/>*/
   return (
     <Paper elevation={4}>
       <RecorderBar start={featureTrigger === MediaFeatures.SCREEN_REC} resetTriggerFeature={() => setFeatureTrigger(MediaFeatures.NONE)} />
       <SnipBar start={featureTrigger === MediaFeatures.SCREEN_SNIP} resetTriggerFeature={() => setFeatureTrigger(MediaFeatures.NONE)} />
-      <FileUploadBar  start={featureTrigger === MediaFeatures.UPLOAD_FILE} resetTriggerFeature={() => setFeatureTrigger(MediaFeatures.NONE)}/>
+      
 
       <Grid style={{ paddingLeft: "5px" }} container spacing={0}>
         <MediaBar features={featureData} />

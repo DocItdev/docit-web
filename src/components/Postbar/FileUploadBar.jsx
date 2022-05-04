@@ -1,9 +1,5 @@
 import React, { useEffect, useState, useCallback, useMemo } from "react";
 import { useDropzone } from 'react-dropzone'
-import PropTypes from "prop-types";
-import { Box } from "@mui/material";
-import { FolderOpen } from "@mui/icons-material";
-
 import { useDispatch } from "react-redux";
 
 import { setMediaBlobUrl, setMediaType } from "../../ducks";
@@ -14,7 +10,7 @@ const baseStyle = {
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    padding: '20px',
+    padding: '100px',
     borderWidth: 2,
     borderRadius: 2,
     borderColor: '#eeeeee',
@@ -52,12 +48,14 @@ export default function FileUploadBar({ start, resetTriggerFeature }) {
         }
     }, [start]);
 
-    const onDrop = useCallback(acceptedFiles => {
+    const onDrop = useCallback(acceptedFile => {
         // Do something with the files
-        console.log(acceptedFiles)
+        console.log(acceptedFile)
         //take the first file 
-        dispatch(setMediaBlobUrl(acceptedFiles));
+        const url = URL.createObjectURL(acceptedFile[0]);
+        dispatch(setMediaBlobUrl(url));
         dispatch(setMediaType(MediaTypes.FILE))
+        console.log(url);
         setShow(false);
     }, [])
 
@@ -82,7 +80,7 @@ export default function FileUploadBar({ start, resetTriggerFeature }) {
             Upload File
             <div {...getRootProps({ style })}>
                 <input {...getInputProps()} />
-                <p>Drag 'n' drop some files here, or click to select files</p>
+                <p>Drag 'n' drop a file here, or click to select a file</p>
             </div>
         </div>
     );

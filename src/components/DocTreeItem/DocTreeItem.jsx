@@ -22,7 +22,6 @@ export default function DocTreeItem({ docName, docId }) {
   });
   const dispatch = useDispatch();
   const [opened, setOpened] = useState(false);
-  console.log(userToken)
   const handleClick = (event) => {
     event.stopPropagation();
     dispatch(setDocId(docId));
