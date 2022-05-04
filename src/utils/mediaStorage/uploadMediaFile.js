@@ -1,12 +1,12 @@
 import axios from "axios";
 import getVar from "../../config/envConfig";
 
-export default async function uploadMediaFile(userToken, mediaBlobUrl, fileName = "blob") {
+export default async function uploadMediaFile(userToken, mediaBlobUrl, fileName = 'blob') {
   if (userToken) {
     const localRes = await fetch(mediaBlobUrl);
     const blob = await localRes.blob();
-    console.log(blob);
     const formData = new FormData();
+    console.log('filename', fileName);
     formData.append('media_file', blob, fileName);
     const opts = {
       headers: {

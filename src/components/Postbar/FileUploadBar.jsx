@@ -2,7 +2,7 @@ import React, { useEffect, useState, useCallback, useMemo } from "react";
 import { useDropzone } from 'react-dropzone'
 import { useDispatch } from "react-redux";
 
-import { setMediaBlobUrl, setMediaType } from "../../ducks";
+import { setFileName, setMediaBlobUrl, setMediaType } from "../../ducks";
 import { MediaTypes } from "../../utils/common/constants";
 
 const baseStyle = {
@@ -55,6 +55,7 @@ export default function FileUploadBar({ start, resetTriggerFeature }) {
         const url = URL.createObjectURL(acceptedFile[0]);
         dispatch(setMediaBlobUrl(url));
         dispatch(setMediaType(MediaTypes.FILE))
+        dispatch(setFileName(acceptedFile[0].name))
         console.log(url);
         setShow(false);
     }, [])

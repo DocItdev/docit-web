@@ -11,7 +11,7 @@ import {
 } from "@mui/material";
 import { Cancel } from "@mui/icons-material";
 import FilePresentIcon from '@mui/icons-material/FilePresent';
-import { setMediaBlobUrl } from "../../ducks";
+import { setFileName, setMediaBlobUrl } from "../../ducks";
 import { setMediaType } from "../../ducks";
 import { MediaTypes } from "../../utils/common/constants";
 
@@ -77,6 +77,7 @@ export default function FilePreview(show) {
         const url = URL.createObjectURL(acceptedFile[0]);
         dispatch(setMediaBlobUrl(url));
         dispatch(setMediaType(MediaTypes.FILE))
+        dispatch(setFileName(acceptedFile[0].name));
         console.log(url);
         setShowDropzone(false);
     }, [])

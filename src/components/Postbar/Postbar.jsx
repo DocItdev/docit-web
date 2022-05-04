@@ -8,27 +8,26 @@ import MediaBar from "./MediaBar";
 import RecorderBar from "./RecorderBar";
 import MediaPreview from "../MediaPreview";
 import uploadMediaFile from "../../utils/mediaStorage/uploadMediaFile";
-import { setMediaBlobUrl } from "../../ducks";
+import { setMediaBlobUrl, setFileName, setMediaType } from "../../ducks";
 import SnipBar from "./SnipBar";
 import { MediaFeatures } from "../../utils/common/constants";
-import FileUploadBar from "./FileUploadBar";
 
 export default function PostBar() {
-  const { userToken, selectedDocId, mediaBlobUrl, mediaType } = useSelector((state) => state);
+  const { userToken, selectedDocId, mediaBlobUrl, mediaType, fileName } =
+    useSelector((state) => state);
   const [featureTrigger, setFeatureTrigger] = useState(MediaFeatures.NONE);
   const [featurePreview, setFeaturePreview] = useState(MediaFeatures.NONE);
   const dispatch = useDispatch();
 
-
   const handleMutation = async (postData) => {
     if (mediaBlobUrl) {
-      const { path } = await uploadMediaFile(userToken, mediaBlobUrl);
+      const { path } = await uploadMediaFile(userToken, mediaBlobUrl, fileName);
       postData.mediaFilePath = path;
       postData.postType = mediaType;
     }
-    console.log(postData)
+    console.log(postData);
     return createPost(userToken, selectedDocId, postData);
-  }
+  };
 
   const featureData = [
     {
@@ -58,7 +57,7 @@ export default function PostBar() {
       onClick: () => {
         setFeaturePreview(MediaFeatures.SCREEN_SNIP);
         setFeatureTrigger(MediaFeatures.SCREEN_SNIP);
-      }
+      },
     },
     {
       featureName: "Upload Files",
@@ -72,19 +71,27 @@ export default function PostBar() {
     },
   ];
 
-  /*<FileUploadBar  start={featureTrigger === MediaFeatures.UPLOAD_FILE} resetTriggerFeature={() => setFeatureTrigger(MediaFeatures.NONE)}/>*/
+  const clearMediaState = () => {
+    dispatch(setMediaBlobUrl(""))
+    dispatch(setFileName(undefined));
+    dispatch(setMediaType(''));
+  }
   return (
     <Paper elevation={4}>
-      <RecorderBar start={featureTrigger === MediaFeatures.SCREEN_REC} resetTriggerFeature={() => setFeatureTrigger(MediaFeatures.NONE)} />
-      <SnipBar start={featureTrigger === MediaFeatures.SCREEN_SNIP} resetTriggerFeature={() => setFeatureTrigger(MediaFeatures.NONE)} />
-      
-
+      <RecorderBar
+        start={featureTrigger === MediaFeatures.SCREEN_REC}
+        resetTriggerFeature={() => setFeatureTrigger(MediaFeatures.NONE)}
+      />
+      <SnipBar
+        start={featureTrigger === MediaFeatures.SCREEN_SNIP}
+        resetTriggerFeature={() => setFeatureTrigger(MediaFeatures.NONE)}
+      />
       <Grid style={{ paddingLeft: "5px" }} container spacing={0}>
         <MediaBar features={featureData} />
       </Grid>
       <DocItEditor
         onMutate={handleMutation}
-        onSuccess={() => dispatch(setMediaBlobUrl(''))}
+        onSuccess={clearMediaState}
         alwaysFocused={true}
         renderPreview={() => <MediaPreview type={featurePreview} />}
       />

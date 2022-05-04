@@ -26,7 +26,7 @@ console.log(Metadata);
            <Grid item justify="center" direction="row" align="center">
                <CardContent style={{border:"solid 3px #1F5980", borderRadius: "3px"}}>
                    <FilePresentIcon style={{ color: "#1F5980", fontSize: "100px" }} />
-                   Download File
+                  {Metadata.originalname}
                </CardContent>
            </Grid>
            </a>
