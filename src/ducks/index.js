@@ -4,6 +4,7 @@ const SET_DOC_ID = 'docIt/documents/SET_DOC_ID';
 const SET_EDITABLE = 'docIt/posts/SET_EDITABLE';
 const SET_MEDIA_BLOB_URL = 'docIt/posts/SET_MEDIA_BLOB_URL';
 const SET_MEDIA_TYPE = 'docIt/posts/SET_MEDIA_TYPE';
+const SET_FILE_NAME = 'docIt/posts/SET_FILE_NAME';
 
 //state
 const initialState = {
@@ -13,7 +14,8 @@ const initialState = {
   videoBlobUrl: '',
   snipDataUri: '',
   mediaBlobUrl: '',
-  mediaType:''
+  mediaType:'',
+  fileName: undefined,
 };
 
 //reducers
@@ -29,6 +31,8 @@ export default function reducer(state = initialState, action) {
       return { ...state, mediaBlobUrl: action.payload };
     case SET_MEDIA_TYPE:
       return { ...state, mediaType: action.payload };
+      case SET_FILE_NAME:
+        return { ...state, fileName: action.payload };
     default:
       return state;
   }
@@ -53,4 +57,8 @@ export function setMediaBlobUrl(blobUrl) {
 
 export function setMediaType(mediaType) {
   return { type: SET_MEDIA_TYPE, payload: mediaType };
+}
+
+export function setFileName(fileName) {
+  return { type: SET_FILE_NAME, payload: fileName };
 }

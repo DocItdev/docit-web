@@ -1,9 +1,9 @@
 import React from "react";
 import { Box, CircularProgress } from "@mui/material";
-import useDownloadUrl from "../../hooks/useDownloadUrl";
+import useFile from "../../hooks/useFile";
 
 export default function ImagePost({ filePath }) {
-  const {mediaDownloadUrl, isLoading} = useDownloadUrl(filePath);
+  const {mediaDownloadUrl, isLoading} = useFile(filePath);
   if (isLoading) {
     return (
       <Box>

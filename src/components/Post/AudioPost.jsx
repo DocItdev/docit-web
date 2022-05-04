@@ -1,9 +1,9 @@
 import React from "react";
 import { Box, CircularProgress } from "@mui/material";
-import useFile from "../../hooks/useFile";
+import useDownloadUrl from "../../hooks/useDownloadUrl";
 
-export default function VideoPost({ filePath }) {
-  const {mediaDownloadUrl, isLoading} = useFile(filePath);
+export default function AudioPost({ filePath }) {
+  const {mediaDownloadUrl, isLoading} = useDownloadUrl(filePath);
   if (isLoading) {
     return (
       <Box>
@@ -13,15 +13,13 @@ export default function VideoPost({ filePath }) {
   }
   return (
     <Box>
-      <video
+      <audio
         id={filePath}
         preload="metadata"
         controls
-        width="60%"
-        height="50%"
       >
-        <source src={mediaDownloadUrl} type="video/mp4" />
-      </video>
+        <source src={mediaDownloadUrl} type="audio/wav" />
+      </audio>
     </Box>
   );
 }

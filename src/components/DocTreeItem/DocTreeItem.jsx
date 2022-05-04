@@ -22,18 +22,24 @@ export default function DocTreeItem({ docName, docId }) {
   });
   const dispatch = useDispatch();
   const [opened, setOpened] = useState(false);
-
-   const handleClick = () => {
+  const handleClick = (event) => {
+    event.stopPropagation();
     dispatch(setDocId(docId));
   }
 
-  const toggleOpened = () => {
+  const toggleOpened = (event) => {
+    event.stopPropagation();
     setOpened(!opened);
+  }
+
+  const handleDelete = (event) => {
+    event.stopPropagation();
+    mutate() 
   }
 
   const actionButtons = [
     { icon: ModeEdit, title: 'Edit Document', onClick: toggleOpened },
-    { icon: Delete, title: 'Delete', onClick: () => mutate() },
+    { icon: Delete, title: 'Delete', onClick: handleDelete },
   ];
   return (
     <>

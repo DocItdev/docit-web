@@ -1,7 +1,7 @@
 import axios from "axios";
 import getVar from "../../config/envConfig";
 
-export default async function getFileDownloadUrl(userToken, filePath) {
+export default async function getFile(userToken, filePath) {
   if (userToken) {
     const opts = {
       headers: {
