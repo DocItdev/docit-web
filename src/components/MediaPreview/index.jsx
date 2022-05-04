@@ -4,6 +4,8 @@ import VideoPreview from "./VideoPreview";
 import { MediaFeatures } from "../../utils/common/constants";
 import SnipPreview from "./SnipPreview";
 import FilePreview from "./FilePreview";
+import AudioPreview from "./AudioPreview";
+
 
 export default function MediaPreview({ type, ...props }) {
   const renderPreview = () => {
@@ -14,6 +16,11 @@ export default function MediaPreview({ type, ...props }) {
         return <SnipPreview />
       case MediaFeatures.UPLOAD_FILE:
         return <FilePreview {...props} show={true} />
+
+        return <SnipPreview />;
+      case MediaFeatures.VOICE_REC:
+        return <AudioPreview />;
+
       default:
         return <span />;
     }
