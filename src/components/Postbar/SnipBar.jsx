@@ -91,8 +91,6 @@ export default function SnipBar({ start, resetTriggerFeature }) {
                 const canvas = document.createElement('canvas');
                 canvas.width = video.videoWidth;
                 canvas.height = video.videoHeight;
-                console.log(video.videoWidth);
-                console.log(video.videoHeight);
                 const context = canvas.getContext('2d')
                 context.drawImage(video, 0, 0, video.videoWidth, video.videoHeight)
                 resolve(canvas)
