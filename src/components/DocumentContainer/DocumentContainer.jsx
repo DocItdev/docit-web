@@ -10,7 +10,7 @@ export default function DocumentContainer() {
     <div className="container">
       <PostPortal />
       {editable &&
-        <div style={{position: "sticky", bottom: "0"}}>
+        <div style={{position: "sticky", marginBottom:"15px", bottom: "0"}}>
           <PostBar/>
         </div>}
     </div>
