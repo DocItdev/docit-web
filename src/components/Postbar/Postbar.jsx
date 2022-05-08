@@ -72,7 +72,7 @@ export default function PostBar() {
     },
     {
       featureName: "Diagram Maker",
-      featureDescription: "Make a diagram",
+      featureDescription: "Coming Soon! :) ",
       icon: "bi bi-diagram-2",
     },
   ];
