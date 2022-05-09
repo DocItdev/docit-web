@@ -15,7 +15,6 @@ export default function Post({ postData }) {
   const { editable, selectedDocId, userToken } = useSelector((state) => state);
   const { postType, textContent, id, mediaFilePath } = postData;
   const editableStyle = editable ? styles.border : "";
-
   return (
     <Grid container className={editableStyle}>
       {editable && (

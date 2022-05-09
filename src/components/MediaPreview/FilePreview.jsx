@@ -72,7 +72,6 @@ export default function FilePreview(show) {
     const onDrop = useCallback(acceptedFile => {
         // Do something with the files
         setFileObject(acceptedFile[0]);
-        console.log(acceptedFile)
         //take the first file 
         const url = URL.createObjectURL(acceptedFile[0]);
         dispatch(setMediaBlobUrl(url));

@@ -25,6 +25,7 @@ export default function Navbar() {
                 <Switch
                   checked={editable}
                   onChange={handleChange}
+                  color="warning"
                   inputProps={{ "aria-label": "controlled" }}
                 />
               }

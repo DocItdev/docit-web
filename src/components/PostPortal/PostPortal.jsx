@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useMutation, useQuery, useQueryClient } from 'react-query';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import FlatList from '../common/FlatList';
 import fetchAllPost from '../../utils/posts/fetchAllPost';
 import Loader from "../common/Loader";
@@ -8,9 +8,11 @@ import Post from "../Post";
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import updatePostIndex from "../../utils/posts/updatePostIndex";
 import createPostOrderObject from "../../utils/posts/createPostOrderObject";
+import { setEditable } from "../../ducks";
 
 export default function PostPortal() {
   const { userToken, selectedDocId, editable } = useSelector(state => state);
+  const dispatch = useDispatch();
   const queryClient = useQueryClient();
   const { isLoading, data, refetch } = useQuery('posts', () => fetchAllPost(userToken, selectedDocId), {
     refetchOnWindowFocus: false,
@@ -27,6 +29,12 @@ export default function PostPortal() {
       refetch();
     }
   }, [selectedDocId]);
+
+  useEffect(() => {
+    if(!isLoading && data?.length < 2) {
+      dispatch(setEditable(true));
+    }
+  }, [isLoading, data])
 
   const onDragEnd = (result) => {
     const { destination, source, } = result;

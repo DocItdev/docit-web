@@ -89,7 +89,7 @@ export default function PopperMenu({ menuItems }) {
                   { menuItems?.map(({ title, onClick, icon: MuiIcon }) => (
                     <MenuItem key={title} onClick={(e) => {
                       e.stopPropagation();
-                      onClick();
+                      onClick(e);
                       handleClose(e);
                     }}>
                         <ListItemIcon>

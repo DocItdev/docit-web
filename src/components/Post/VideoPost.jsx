@@ -1,15 +1,12 @@
 import React from "react";
-import { Box, CircularProgress } from "@mui/material";
+import { Box } from "@mui/material";
 import useFile from "../../hooks/useFile";
+import Loader from "../common/Loader";
 
 export default function VideoPost({ filePath }) {
   const {mediaDownloadUrl, isLoading} = useFile(filePath);
   if (isLoading) {
-    return (
-      <Box>
-        <CircularProgress />
-      </Box>
-    );
+    return <Loader />;
   }
   return (
     <Box>

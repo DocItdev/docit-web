@@ -70,35 +70,35 @@ export default function VideoPreview() {
     }
 
     const handleUndo = () => {
-        console.log(snip);
         dispatch(setMediaBlobUrl(snip));
         setFinalSnip("");
         setCrop({ width: 0, height: 0 });
-        console.log(mediaBlobUrl);
-        //setTimeout(()=>{ setDisplayCrop(true)},5000);
         setDisplayCrop(true)
     }
 
    
 
     function onCompleteProcessImg() {
-        console.log(mediaBlobUrl);
-
+        // create img element and set its source to the fullscreen screenshot stored in the mediaBlobUrl
         const image = document.createElement('img');
         image.srcset = mediaBlobUrl;
+
+        // create a canvas element which will be used to draw and scale the image to get a crop
         const canvas = document.createElement('canvas');
         const ctx = canvas.getContext('2d')
 
-        console.log(image.naturalHeight);
-        console.log(image.naturalWidth);
-        const scale = 1;
-        const scaleX = imageNW / imageW
-        const scaleY = imageNH / imageH
-      
-        const pixelRatio = window.devicePixelRatio
-        canvas.width = Math.floor(crop.width * scaleX * pixelRatio)
-        canvas.height = Math.floor(crop.height * scaleY * pixelRatio)
+        // when we take a crop it is doing so from the 800x400 while the actual image is 1900 by 1200
+        // to have a clear crop we need to scale the crop from the smaller image to the larger
+        const scaleX = image.naturalWidth / imageW
+        const scaleY = image.naturalHeight / imageH
+        
+        // we need to set the width of the canvas to the size of the crop after the crop has been scaled
+        canvas.width = Math.floor(crop.width * scaleX)
+        canvas.height = Math.floor(crop.height * scaleY)
+
         ctx.imageSmoothingQuality = 'high'
+        
+        // we then position the crop on the canvas 
         const cropX = crop.x * scaleX
         const cropY = crop.y * scaleY
         const centerX = image.naturalWidth / 2
@@ -106,25 +106,16 @@ export default function VideoPreview() {
         ctx.save()
         ctx.translate(centerX, centerY)
         ctx.translate(-cropX, -cropY)
-        ctx.scale(scale, scale)
         ctx.translate(-centerX, -centerY)
 
-        ctx.drawImage(image,
-            0,
-            0,
-            image.naturalWidth,
-            image.naturalHeight,
-            0,
-            0,
-            image.naturalWidth,
-            image.naturalHeight);
+        // draw the image on the canvas and set it on the img tag
+        ctx.drawImage(image, 0, 0, image.naturalWidth, image.naturalHeight, 0, 0, image.naturalWidth , image.naturalHeight);
 
         setDisplayCrop(false);
         setFinalSnip(canvas.toDataURL());
         canvas.toBlob((blob)=>{
             setSnip(mediaBlobUrl);
             const url = URL.createObjectURL(blob);
-            console.log(url);
             dispatch(setMediaBlobUrl(url));
             dispatch(setMediaType(MediaTypes.IMAGE))
         })
@@ -147,12 +138,16 @@ export default function VideoPreview() {
                             <ReactCrop crop={crop} onChange={c => { setCrop(c) }}
                                 onComplete={(c) => setCompletedCrop(c)}
                             >
-                                <img id="screenshot-preview" src={mediaBlobUrl} objectFit="contain" alt="test" width={snipImgWidth} height={snipImgHeight} />
+                                <img id="screenshot-preview" src={mediaBlobUrl} objectFit="contain" alt="test" 
+                                     width={snipImgWidth} height={snipImgHeight}
+                                 />
                             </ReactCrop>
                         }
+                        <canvas id="cropCanvas" ></canvas>
                         { finalSnip &&
-                            <img id="cropedImg" src={finalSnip} alt="test" /*width={completedCrop.width * 2} height={completedCrop.height * 2}*/ />
+                            <img id="cropedImg" src={finalSnip} alt="test" style={{maxWidth: imageW}} /*width={completedCrop.width * 2} height={completedCrop.height * 2}*/ />
                         }
+
                         </CardContent>
                 </Grid>
                 <Grid item xs={1}>

@@ -51,16 +51,16 @@ export default function SnipBar({ start, resetTriggerFeature }) {
     }
 
     async function takeScreenshotStream() {
-        const width = 1900;
-        const height = 1100;
+        const width = 1920;
+        const height = 1080;
 
         const errors = [];
         let stream;
         const mediaStreamConstraints = {
             audio: false,
             video: {
-                width,
-                height,
+                 width,
+                 height,
                 frameRate: 50,
             },
         };

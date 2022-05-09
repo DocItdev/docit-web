@@ -49,14 +49,11 @@ export default function FileUploadBar({ start, resetTriggerFeature }) {
     }, [start]);
 
     const onDrop = useCallback(acceptedFile => {
-        // Do something with the files
-        console.log(acceptedFile)
         //take the first file 
         const url = URL.createObjectURL(acceptedFile[0]);
         dispatch(setMediaBlobUrl(url));
         dispatch(setMediaType(MediaTypes.FILE))
         dispatch(setFileName(acceptedFile[0].name))
-        console.log(url);
         setShow(false);
     }, [])
 

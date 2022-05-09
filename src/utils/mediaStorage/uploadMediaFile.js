@@ -6,7 +6,6 @@ export default async function uploadMediaFile(userToken, mediaBlobUrl, fileName 
     const localRes = await fetch(mediaBlobUrl);
     const blob = await localRes.blob();
     const formData = new FormData();
-    console.log('filename', fileName);
     formData.append('media_file', blob, fileName);
     const opts = {
       headers: {
