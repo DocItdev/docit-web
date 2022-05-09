@@ -10,7 +10,7 @@ export default function ImagePost({ filePath }) {
   }
   return (
     <Box>
-      <img src={mediaDownloadUrl} width="100%" height="100%"/> 
+      <img src={mediaDownloadUrl} style={{ maxWidth:"800px"}} width="100%" height="100%"/> 
     </Box>
   );
 }

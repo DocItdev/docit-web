@@ -51,11 +51,6 @@ export default function PostBar() {
       },
     },
     {
-      featureName: "Diagram Maker",
-      featureDescription: "Make a diagram",
-      icon: "bi bi-diagram-2",
-    },
-    {
       featureName: "ScreenShot",
       featureDescription:
         "Take a screenshot and edit it just like the snipping tool",
@@ -69,11 +64,16 @@ export default function PostBar() {
       featureName: "Upload Files",
       featureDescription:
         "Upload Files of any size and any type and preview them here",
-      icon: "bi bi-file-arrow-up",
+      icon: "bi bi-paperclip",
       onClick: () => {
         setFeaturePreview(MediaFeatures.UPLOAD_FILE);
         setFeatureTrigger(MediaFeatures.UPLOAD_FILE);
       }
+    },
+    {
+      featureName: "Diagram Maker",
+      featureDescription: "Coming Soon! :) ",
+      icon: "bi bi-diagram-2",
     },
   ];
 

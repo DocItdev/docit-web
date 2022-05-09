@@ -145,7 +145,7 @@ export default function VideoPreview() {
                         }
                         <canvas id="cropCanvas" ></canvas>
                         { finalSnip &&
-                            <img id="cropedImg" src={finalSnip} alt="test" /*style={{maxWidth: imageW, objectFit: "contain"}}*/ /*width={completedCrop.width * 2} height={completedCrop.height * 2}*/ />
+                            <img id="cropedImg" src={finalSnip} alt="test" style={{maxWidth: imageW}} /*width={completedCrop.width * 2} height={completedCrop.height * 2}*/ />
                         }
 
                         </CardContent>
