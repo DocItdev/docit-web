@@ -18,7 +18,7 @@ export default function FilePost({ filePath }) {
             style={{ border: "solid 3px #1F5980", borderRadius: "3px" }}
           >
             <FilePresentIcon style={{ color: "#1F5980", fontSize: "100px" }} />
-            {Metadata.originalname}
+            {Metadata?.originalname}
           </CardContent>
         </Grid>
       </a>
