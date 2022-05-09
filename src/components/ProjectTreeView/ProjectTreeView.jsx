@@ -1,17 +1,26 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useDispatch } from 'react-redux';
 import TreeView from "@mui/lab/TreeView";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import ProjectTreeItem from "../ProjectTreeItem";
 import DocTreeItem from "../DocTreeItem";
+import { setDocId } from "../../ducks";
 
 export default function ProjectTreeView({ projects }) {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    if (projects[0]?.Documents?.length > 0) {
+      dispatch(setDocId(projects[0].Documents[0].id));
+    }
+  }, [projects])
   return (
     <TreeView
       aria-label="file system navigator"
       defaultCollapseIcon={<ExpandMoreIcon />}
       defaultExpandIcon={<ChevronRightIcon />}
       defaultExpanded={projects.map((project) => project.id)}
+      defaultSelected={projects[0]?.Documents[0]?.id}
     >
       {projects.length &&
         projects.map(({ name, id, description, Documents }) => (

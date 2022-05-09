@@ -28,7 +28,6 @@ export default function PostBar() {
       postData.mediaFilePath = path;
       postData.postType = mediaType;
     }
-    console.log(postData);
     return createPost(userToken, selectedDocId, postData);
   };
 

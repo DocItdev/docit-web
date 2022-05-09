@@ -37,11 +37,13 @@ export default function DocItEditor({
       if (!alwaysFocused) {
         setFocused(false);
       }
-      const newEditorState = EditorState.push(
-        editorState,
-        ContentState.createFromText("")
-      );
-      setEditorState(newEditorState);
+      if(!blocks) {
+        const newEditorState = EditorState.push(
+          editorState,
+          ContentState.createFromText("")
+        );
+        setEditorState(newEditorState);
+      }
       queryClient.invalidateQueries("posts");
     },
   });
