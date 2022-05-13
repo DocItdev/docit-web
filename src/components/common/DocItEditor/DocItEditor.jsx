@@ -23,7 +23,6 @@ export default function DocItEditor({
   buttonText,
   alwaysFocused,
   onSuccess,
-  renderPreview,
 }) {
   const [editorState, setEditorState] = useState(() =>
     blocks ? EditorState.createWithContent(blocks) : EditorState.createEmpty()
@@ -93,11 +92,6 @@ export default function DocItEditor({
 
   return (
     <Grid container>
-      {renderPreview && (
-        <Grid item xs={12}>
-          {renderPreview()}
-        </Grid>
-      )}
       <Grid item xs={12} onClick={handleClick} className="RichTextEditor">
         <Editor
           customStyleMap={draft.styleMap}
@@ -110,9 +104,10 @@ export default function DocItEditor({
           readOnly={readOnly}
         />
       </Grid>
+      
       {!readOnly && focused && (
         <Grid container onClick={focus} className="RichTextControlBar">
-          <Grid item xs={blocks && focused ? 10 : 8}>
+          <Grid item xs={blocks && focused ? 9 : 7}>
             <div className="RichTextControlBar-Buttons">
               <AllStyleControlsBar
                 editorState={editorState}
@@ -121,7 +116,7 @@ export default function DocItEditor({
             </div>
           </Grid>
           {blocks && focused && (
-            <Grid item xs={1}>
+            <Grid item xs={2}>
               <Button onClick={() => toggleFocused(false)}>Cancel</Button>
             </Grid>
           )}
@@ -149,7 +144,7 @@ DocItEditor.propTypes = {
   readOnly: PropTypes.bool,
   buttonText: PropTypes.string,
   alwaysFocused: PropTypes.bool,
-  renderPreview: PropTypes.func,
+
 };
 
 DocItEditor.defaultProps = {
@@ -159,5 +154,4 @@ DocItEditor.defaultProps = {
   readOnly: false,
   alwaysFocused: false,
   buttonText: "POST",
-  renderPreview: null,
 };

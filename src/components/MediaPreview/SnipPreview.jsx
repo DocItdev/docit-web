@@ -127,7 +127,7 @@ export default function VideoPreview() {
             component={Grid}
             item
             xs={12}
-            sx={{ margin: "1rem" }}
+            sx={{ margin: "1rem", maxHeight:"30%" }}
             variant="outlined"
         >
             <Grid container spacing={0}>

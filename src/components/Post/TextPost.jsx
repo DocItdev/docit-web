@@ -4,7 +4,7 @@ import { convertFromRaw } from "draft-js";
 import DocItEditor from "../common/DocItEditor/DocItEditor";
 import updatePost from "../../utils/posts/updatePost";
 
-export default function TextPostBlock({ postText, postId }) {
+export default function TextPost({ postText, postId }) {
   const blocks = useMemo(
     () => convertFromRaw(JSON.parse(postText)),
     [postText]
