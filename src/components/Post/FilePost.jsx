@@ -11,13 +11,17 @@ export default function FilePost({ filePath }) {
     return <Loader />;
   }
   return (
-    <Grid container>
+    <Grid 
+      container 
+      alignItems="center"
+      justifyContent="center">
       <a href={mediaDownloadUrl} target="_blank" download>
-        <Grid item justify="center" direction="row" align="center">
-          <CardContent
-            style={{ border: "solid 3px #1F5980", borderRadius: "3px" }}
-          >
-            <FilePresentIcon style={{ color: "#1F5980", fontSize: "100px" }} />
+        <Grid 
+          item  
+          direction="row" 
+          align="center">
+          <CardContent>
+            <FilePresentIcon style={{ color: "#1F5980", fontSize: "35px" }} />
             {Metadata?.originalname}
           </CardContent>
         </Grid>

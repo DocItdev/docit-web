@@ -101,11 +101,12 @@ export default function PostBar() {
       <Grid style={{ paddingLeft: "5px" }} container spacing={0}>
         <MediaBar features={featureData} />
       </Grid>
+      <MediaPreview type={featurePreview} />
       <DocItEditor
         onMutate={handleMutation}
         onSuccess={clearMediaState}
         alwaysFocused={true}
-        renderPreview={() => <MediaPreview type={featurePreview} />}
+
       />
     </Paper>
   );
