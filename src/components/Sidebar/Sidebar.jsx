@@ -7,6 +7,7 @@ import {
   FormControlLabel,
   Drawer,
   IconButton,
+  Divider,
 } from "@mui/material";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ProjectTreeView from "../ProjectTreeView";
@@ -82,6 +83,9 @@ export default function Sidebar({ drawerIsOpened, onClose }) {
           />
         </FormControl>
       )}
+      <Divider sx={{ marginTop: '5%', marginBottom: '5%' }} />
+      <ProjectTreeView projects={data.projects} />
+      <Divider sx={{ marginTop: '5%', marginBottom: '5%' }} />
       <Button
         variant="outlined"
         className={styles.newProjectButton}
@@ -89,7 +93,6 @@ export default function Sidebar({ drawerIsOpened, onClose }) {
       >
         <Typography component="span">New Project</Typography>
       </Button>
-      <ProjectTreeView projects={data.projects} />
       <ProjectForm
         open={opened}
         onClose={toggleOpened}

@@ -18,7 +18,7 @@ export default function DocIt() {
         color="transparent"
         variant="outlined"
       >
-        <Toolbar sx={{ maxHeight: 48 }}>
+        <Toolbar variant="dense">
           <IconButton
             color="inherit"
             aria-label="open drawer"
