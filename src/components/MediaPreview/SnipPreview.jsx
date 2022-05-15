@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import {
     IconButton,
-    
+
     Card,
     CardActions,
     CardContent,
@@ -23,6 +23,11 @@ export default function VideoPreview() {
     const [snip, setSnip] = useState("");
     const [displayCrop, setDisplayCrop] = useState(true);
     const [finalSnip, setFinalSnip] = useState("");
+    const [imageDynamicWidth, setImageDynamicWidth] = useState(200);
+    const [imageDynamicHeight, setImageDynamicHeight] = useState(100);
+    const [hover, setHover] = useState(false);
+
+
     const dispatch = useDispatch();
 
     const snipImgWidth = 800;
@@ -32,8 +37,8 @@ export default function VideoPreview() {
     var imageH = 464;
     var imageW = 800;
 
-    useEffect(()=>{
-        if(mediaBlobUrl === ""){
+    useEffect(() => {
+        if (mediaBlobUrl === "") {
             setCrop({ width: 0, height: 0 });
             setCompletedCrop(0);
             setSnip("");
@@ -60,7 +65,7 @@ export default function VideoPreview() {
         }
     }, [completedCrop]);
 
-    
+
 
     const handleDelete = () => {
         setFinalSnip("");
@@ -76,12 +81,21 @@ export default function VideoPreview() {
         setDisplayCrop(true)
     }
 
-   
+
 
     function onCompleteProcessImg() {
         // create img element and set its source to the fullscreen screenshot stored in the mediaBlobUrl
         const image = document.createElement('img');
         image.srcset = mediaBlobUrl;
+
+        //get the dynamic height and width of the screenshot-preview image and set them in the state
+        const screenshotPreview = document.getElementById('screenshot-preview');
+        console.log(screenshotPreview.width);
+        console.log(screenshotPreview.naturalWidth);
+        setImageDynamicWidth(screenshotPreview.width);
+        setImageDynamicHeight(screenshotPreview.height);
+
+        
 
         // create a canvas element which will be used to draw and scale the image to get a crop
         const canvas = document.createElement('canvas');
@@ -89,15 +103,15 @@ export default function VideoPreview() {
 
         // when we take a crop it is doing so from the 800x400 while the actual image is 1900 by 1200
         // to have a clear crop we need to scale the crop from the smaller image to the larger
-        const scaleX = image.naturalWidth / imageW
-        const scaleY = image.naturalHeight / imageH
-        
+        const scaleX = image.naturalWidth / screenshotPreview.width
+        const scaleY = image.naturalHeight / screenshotPreview.height
+
         // we need to set the width of the canvas to the size of the crop after the crop has been scaled
         canvas.width = Math.floor(crop.width * scaleX)
         canvas.height = Math.floor(crop.height * scaleY)
 
         ctx.imageSmoothingQuality = 'high'
-        
+
         // we then position the crop on the canvas 
         const cropX = crop.x * scaleX
         const cropY = crop.y * scaleY
@@ -109,11 +123,11 @@ export default function VideoPreview() {
         ctx.translate(-centerX, -centerY)
 
         // draw the image on the canvas and set it on the img tag
-        ctx.drawImage(image, 0, 0, image.naturalWidth, image.naturalHeight, 0, 0, image.naturalWidth , image.naturalHeight);
+        ctx.drawImage(image, 0, 0, image.naturalWidth, image.naturalHeight, 0, 0, image.naturalWidth, image.naturalHeight);
 
         setDisplayCrop(false);
         setFinalSnip(canvas.toDataURL());
-        canvas.toBlob((blob)=>{
+        canvas.toBlob((blob) => {
             setSnip(mediaBlobUrl);
             const url = URL.createObjectURL(blob);
             dispatch(setMediaBlobUrl(url));
@@ -121,50 +135,77 @@ export default function VideoPreview() {
         })
     }
 
+    const handleOnMouseEnter = () => {
+        setHover(true);
+      }
+      const handleOnMouseLeave = () => {
+        setHover(false);
+      }
+    
 
     return mediaBlobUrl ? (
-        <Card
-            component={Grid}
-            item
-            xs={12}
-            sx={{ margin: "1rem", maxHeight:"30%" }}
-            variant="outlined"
-        >
-            <Grid container spacing={0}>
 
-                <Grid item xs={11}>
-                    <CardContent>
-                        {mediaBlobUrl && displayCrop &&
-                            <ReactCrop crop={crop} onChange={c => { setCrop(c) }}
-                                onComplete={(c) => setCompletedCrop(c)}
-                            >
-                                <img id="screenshot-preview" src={mediaBlobUrl} objectFit="contain" alt="test" 
-                                     width={snipImgWidth} height={snipImgHeight}
-                                 />
-                            </ReactCrop>
-                        }
-                        <canvas id="cropCanvas" ></canvas>
-                        { finalSnip &&
-                            <img id="cropedImg" src={finalSnip} alt="test" style={{maxWidth: imageW}} /*width={completedCrop.width * 2} height={completedCrop.height * 2}*/ />
-                        }
-
-                        </CardContent>
+        <Grid container spacing={0}>
+            <Grid 
+                item 
+                xs={12} 
+                display="inline-flex" 
+                justifyContent="right" 
+                alignItems="center" 
+            >
+                <Grid item xs={1} >
+                    <IconButton 
+                        onClick={handleUndo} 
+                        sx={{ marginLeft: "auto" }}
+                    >
+                        <UndoIcon color="primary" fontSize="large" />
+                    </IconButton>
                 </Grid>
-                <Grid item xs={1}>
-                    <CardActions disableSpacing>
-                    <IconButton onClick={handleUndo} sx={{ marginLeft: "auto" }}>
-                            <UndoIcon color="primary" fontSize="large"/>
-                        </IconButton>
-                        <IconButton onClick={handleDelete} sx={{ marginLeft: "auto" }}>
-                            <Cancel  color="error"  fontSize="small" />
-                        </IconButton>
-                        
-                    </CardActions>
+                <Grid item xs={1} >
+                    <IconButton 
+                        onClick={handleDelete} 
+                        sx={{ marginLeft: "auto" }}  
+                        onMouseEnter={handleOnMouseEnter} 
+                        onMouseLeave={handleOnMouseLeave}
+                    >
+                        <Cancel 
+                            color="error" 
+                            fontSize="small"
+                            color={hover ? "error" : "disabled"}  
+                        />
+                    </IconButton>
                 </Grid>
             </Grid>
+            <Grid item xs={12}>
 
+                {mediaBlobUrl && displayCrop &&
+                    <ReactCrop 
+                        crop={crop} 
+                        onChange={c => { setCrop(c) }}
+                        onComplete={(c) => setCompletedCrop(c)}
+                    >
+                        <img 
+                            id="screenshot-preview" 
+                            src={mediaBlobUrl} 
+                            objectFit="contain" 
+                            alt="test"
+                            //width={snipImgWidth} height={snipImgHeight}
+                        />
+                    </ReactCrop>
+                }
+                
+                {finalSnip &&
+                    <img 
+                        id="cropedImg" 
+                        src={finalSnip} 
+                        alt="test" 
+                        //style={{ maxWidth: imageW }} 
+                        //width={imageDynamicWidth} height={imageDynamicHeight}
+                    />
+                }
 
-        </Card>
+            </Grid>
+        </Grid>
     ) : (
         <span />
     );

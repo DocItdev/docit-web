@@ -15,6 +15,7 @@ import "draft-js/dist/Draft.css";
 import "./DocItEditor.css";
 import AllStyleControlsBar from "../../RichTextControlBar";
 import AsyncButton from "../AsyncButton";
+import SendIcon from '@mui/icons-material/Send';
 
 export default function DocItEditor({
   blocks,
@@ -126,8 +127,12 @@ export default function DocItEditor({
                 loading={isLoading}
                 error={isError ? error.message : ""}
                 onClick={handlePost}
+                startIcon={<SendIcon size="large"/>}
+                color="primary"
+                variant="contained"
               >
                 {buttonText}
+                
               </AsyncButton>
             </div>
           </Grid>

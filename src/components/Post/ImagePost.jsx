@@ -1,16 +1,24 @@
 import React from "react";
-import { Box } from "@mui/material";
+import { Box, Container } from "@mui/material";
 import useFile from "../../hooks/useFile";
 import Loader from "../common/Loader";
 
 export default function ImagePost({ filePath }) {
-  const {mediaDownloadUrl, isLoading} = useFile(filePath);
+  const { mediaDownloadUrl, isLoading } = useFile(filePath);
   if (isLoading) {
     return <Loader />;
   }
   return (
-    <Box>
-      <img src={mediaDownloadUrl} style={{ maxWidth:"800px"}} width="100%" height="100%"/> 
+    <Box
+      style={{ alignItems: "center" }}
+      width="100%"
+      display="flex"
+      alignItems="center"
+      justifyContent="center"
+    >
+      <div>
+        <img src={mediaDownloadUrl} style={{ maxWidth: "100%"}} />
+      </div>
     </Box>
   );
 }

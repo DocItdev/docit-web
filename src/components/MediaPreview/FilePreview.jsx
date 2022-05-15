@@ -117,7 +117,7 @@ export default function FilePreview(show) {
                     <Grid container>
                         <Grid item xs={11} justify="center" direction="row" align="center">
                             <CardContent>
-                                <FilePresentIcon style={{ color: "#1F5980", fontSize: "100px" }} />
+                                <FilePresentIcon style={{ color: "#1F5980", fontSize: "35px" }} />
                                 {fileObject.name}
                             </CardContent>
                         </Grid>
