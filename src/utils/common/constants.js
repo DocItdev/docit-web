@@ -32,3 +32,5 @@ export const MediaTypes = {
   AUDIO: 'audio'
 
 }
+
+export const drawerWidth = 270;
