@@ -11,6 +11,11 @@ export const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open
       duration: theme.transitions.duration.leavingScreen,
     }),
     marginLeft: `-${drawerWidth}px`,
+    overflow: 'hidden',
+    height: '100vh',
+    paddingRight: 0,
+    paddingLeft: 0,    
+    paddingBottom: 0,
     ...(open && {
       transition: theme.transitions.create('margin', {
         easing: theme.transitions.easing.easeOut,
