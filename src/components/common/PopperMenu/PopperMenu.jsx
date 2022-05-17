@@ -57,7 +57,14 @@ export default function PopperMenu({ menuItems }) {
         aria-expanded={open ? "true" : undefined}
         aria-haspopup="true"
         onClick={handleToggle}
-        style={{ color: 'white', borderRadius: 10 }}
+        sx={{
+          color: 'white',
+          borderRadius: '5px',
+          padding: 0,
+          '&:hover': {
+            backgroundColor: 'rgba(255, 255, 255, 0.3)',
+          }
+        }}
       >
         <MoreVertIcon />
       </IconButton>

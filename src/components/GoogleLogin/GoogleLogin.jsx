@@ -3,7 +3,7 @@ import getVar from '../../config/envConfig';
 import GoogleLoggingButton from 'react-google-login';
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
-import { setToken } from '../../ducks';
+import { setToken, setUser } from '../../ducks';
 
 export default function GoogleLogin() {
   const dispatch = useDispatch();
@@ -12,8 +12,9 @@ export default function GoogleLogin() {
   const handleSuccess = async (response) => {
     if (response.tokenId) {
       const apiResponse = await axios.post(`${getVar('API_HOST')}/api/auth/google`, {token: response.tokenId});
-      const { data: { token } } = apiResponse;
+      const { data: { token, user } } = apiResponse;
       dispatch(setToken(token));
+      dispatch(setUser(user));
     }
   }
 
