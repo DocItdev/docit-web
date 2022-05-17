@@ -8,10 +8,11 @@ import {
   Drawer,
   IconButton,
   Divider,
+  Grid,
 } from "@mui/material";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
+import AddIcon from "@mui/icons-material/Add";
 import ProjectTreeView from "../ProjectTreeView";
-import styles from "./Sidebar.module.css";
 import ProjectForm from "../common/ProjectForm";
 import Loader from "../common/Loader";
 import { useQuery } from "react-query";
@@ -24,7 +25,9 @@ import { drawerWidth } from "../../utils/common/constants";
 
 export default function Sidebar({ drawerIsOpened, onClose }) {
   const [opened, setOpened] = useState(false);
-  const { userToken, editable, selectedDocId } = useSelector((state) => state);
+  const { userToken, editable, selectedDocId, user } = useSelector(
+    (state) => state
+  );
   const dispatch = useDispatch();
   const { isLoading, data } = useQuery(
     "projects",
@@ -42,7 +45,6 @@ export default function Sidebar({ drawerIsOpened, onClose }) {
   const handleChange = (event) => {
     dispatch(setEditable(event.target.checked));
   };
-
   return isLoading ? (
     <Loader />
   ) : (
@@ -64,9 +66,16 @@ export default function Sidebar({ drawerIsOpened, onClose }) {
       open={drawerIsOpened}
     >
       <DrawerHeader>
-        <IconButton onClick={onClose}>
-          <ChevronLeftIcon sx={{ color: "#fff" }} />
-        </IconButton>
+        <Grid container sx={{ display: 'flex', alignItems: 'center' }}>
+          <Grid item xs={10} sx={{ justifyItems: 'flex-start' }}>
+            <Typography>{`${user.firstName} ${user.lastName}`}</Typography>
+          </Grid>
+          <Grid item xs={2} sx={{ justifyItems: 'flex-end' }}>
+            <IconButton onClick={onClose}>
+              <ChevronLeftIcon sx={{ color: "#fff" }} />
+            </IconButton>
+          </Grid>
+        </Grid>
       </DrawerHeader>
       {selectedDocId && (
         <FormControl>
@@ -83,14 +92,20 @@ export default function Sidebar({ drawerIsOpened, onClose }) {
           />
         </FormControl>
       )}
-      <Divider sx={{ marginTop: '5%', marginBottom: '5%' }} />
+      <Divider sx={{ marginTop: "5%", marginBottom: "5%" }} />
       <ProjectTreeView projects={data.projects} />
-      <Divider sx={{ marginTop: '5%', marginBottom: '5%' }} />
+      <Divider sx={{ marginTop: "5%", marginBottom: "5%" }} />
       <Button
-        variant="outlined"
-        className={styles.newProjectButton}
         onClick={toggleOpened}
+        sx={{
+          color: "#fff",
+          width: "100%",
+          "&:hover": {
+            backgroundColor: "rgba(255, 255, 255, 0.3)",
+          },
+        }}
       >
+        <AddIcon sx={{ marginRight: "5%" }} />
         <Typography component="span">New Project</Typography>
       </Button>
       <ProjectForm
