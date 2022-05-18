@@ -199,8 +199,8 @@ export default function VideoPreview() {
                         id="cropedImg" 
                         src={finalSnip} 
                         alt="test" 
-                        //style={{ maxWidth: imageW }} 
-                        //width={imageDynamicWidth} height={imageDynamicHeight}
+                        style={{ maxWidth: imageDynamicWidth }} 
+                        
                     />
                 }
 
