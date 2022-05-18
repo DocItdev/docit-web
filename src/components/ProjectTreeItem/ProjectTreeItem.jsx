@@ -31,6 +31,15 @@ export default function ProjectTreeItem({
       },
     }
   );
+  const [hover, setHover] = useState(false);
+
+  const handleOnMouseEnter = () => {
+    setHover(true);
+  };
+
+  const handleOnMouseLeave = () => {
+    setHover(false);
+  };
 
   const toggleOpened = (event) => {
     event?.stopPropagation();
@@ -48,7 +57,7 @@ export default function ProjectTreeItem({
   };
 
   const actionButtons = [
-    { icon: ModeEdit, title: "Edit Project", onClick: toggleProjOpened },
+    { icon: ModeEdit, title: "Rename", onClick: toggleProjOpened },
     { icon: Add, title: "Create Document", onClick: toggleOpened },
     { icon: Delete, title: "Delete", onClick: handleDelete },
   ];
@@ -57,12 +66,26 @@ export default function ProjectTreeItem({
     <TreeItem
       nodeId={projectId}
       label={
-        <Box>
-          <Grid container spacing={1}>
+        <Box
+          onMouseEnter={handleOnMouseEnter}
+          onMouseLeave={handleOnMouseLeave}
+        >
+          <Grid
+            container
+            spacing={1}
+            sx={{ minHeight: 44, alignItems: "center" }}
+          >
             <Grid item xs={9} className={styles.projectTitle}>
               <Typography component="span">{projectName}</Typography>
             </Grid>
-            <Grid item xs={3}>
+            <Grid
+              item
+              xs={3}
+              sx={{
+                display: "none",
+                ...(hover && { display: "flex" }),
+              }}
+            >
               <PopperMenu menuItems={actionButtons} />
             </Grid>
           </Grid>
@@ -88,11 +111,11 @@ export default function ProjectTreeItem({
     >
       {children}
       <TreeItem
-        nodeId="new-document"
+        nodeId={`${projectId}-new-document`}
         onClick={toggleOpened}
         label={
           <Box>
-            <Grid container>
+            <Grid container sx={{ minHeight: 44, alignItems: "center" }}>
               <Grid item className={styles.projectTitle}>
                 <AddBoxOutlined sx={{ marginRight: 1 }} />
                 <Typography component="span">New Document</Typography>

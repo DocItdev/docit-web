@@ -86,6 +86,7 @@ export default function PostPortal() {
                             key={post.id}
                             postData={post}
                           />
+                          
                         </div>
 
                       )}
@@ -94,7 +95,7 @@ export default function PostPortal() {
                   </div>
                 )}
                 
-                renderWhenEmpty={() => <div>List is empty!</div>}
+                renderWhenEmpty={() => <div>You need to create a project and document first :)</div>}
               />
               {providedDrop.placeholder}
             </div>

@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { Button } from 'react-bootstrap';
 import { useDispatch } from 'react-redux';
-import { setToken } from '../../ducks';
+import { setToken, setUser } from '../../ducks';
 import getVar from '../../config/envConfig';
 import axios from 'axios';
 
@@ -21,8 +21,9 @@ export default function GithubLogin() {
       try {
         if (code) {
           const response = await axios.post(`${getVar('API_HOST')}/api/auth/github`, {code});
-          const { data: { token } } = response;
+          const { data: { token, user } } = response;
           dispatch(setToken(token));
+          dispatch(setUser(user));
         }
       } catch (error) {
         console.log("OAuth Github error:", error);

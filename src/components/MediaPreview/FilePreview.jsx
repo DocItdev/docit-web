@@ -47,19 +47,19 @@ const rejectStyle = {
 
 export default function FilePreview(show) {
     const mediaBlobUrl = useSelector((state) => state.mediaBlobUrl);
-    const [showDropzone, setShowDropzone] = useState(false);
+    const [showDropzone, setShowDropzone] = useState(true);
     const [fileObject, setFileObject] = useState(null);
     const dispatch = useDispatch();
 
-    useEffect(() => {
-        if (show) {
-            setShowDropzone(true)
-        }
-    }, [show])
+    // useEffect(() => {
+    //     if (show) {
+    //         setShowDropzone(true)
+    //     }
+    // }, [show])
 
     useEffect(() => {
         if (mediaBlobUrl === "") {
-
+            
         } else {
             setShowDropzone(false)
         }
@@ -117,7 +117,7 @@ export default function FilePreview(show) {
                     <Grid container>
                         <Grid item xs={11} justify="center" direction="row" align="center">
                             <CardContent>
-                                <FilePresentIcon style={{ color: "#1F5980", fontSize: "100px" }} />
+                                <FilePresentIcon style={{ color: "#1F5980", fontSize: "35px" }} />
                                 {fileObject.name}
                             </CardContent>
                         </Grid>

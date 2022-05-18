@@ -1,9 +1,10 @@
 import React from "react";
-import { Box, CircularProgress } from "@mui/material";
+import { Box, CircularProgress, Grid } from "@mui/material";
 import useFile from "../../hooks/useFile";
 
+
 export default function AudioPost({ filePath }) {
-  const {mediaDownloadUrl, isLoading} = useFile(filePath);
+  const { mediaDownloadUrl, isLoading } = useFile(filePath);
   if (isLoading) {
     return (
       <Box>
@@ -12,14 +13,31 @@ export default function AudioPost({ filePath }) {
     );
   }
   return (
-    <Box>
-      <audio
-        id={filePath}
-        preload="metadata"
-        controls
-      >
-        <source src={mediaDownloadUrl} type="audio/wav" />
-      </audio>
-    </Box>
+
+    <Grid
+      container
+      alignItems="center"
+      justifyContent="center"
+    >
+      <Grid
+        item
+        align="center"
+        justify="center">
+        <audio
+          id={filePath}
+          preload="metadata"
+          controls
+        >
+          <source 
+            src={mediaDownloadUrl} 
+            type="audio/wav" 
+          />
+        </audio>
+      </Grid>
+
+    </Grid>
+
   );
 }
+
+

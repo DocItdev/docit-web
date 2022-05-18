@@ -14,8 +14,8 @@ export default function VideoPost({ filePath }) {
         id={filePath}
         preload="metadata"
         controls
-        width="60%"
-        height="50%"
+        width="100%"
+        height="100%"
       >
         <source src={mediaDownloadUrl} type="video/mp4" />
       </video>
