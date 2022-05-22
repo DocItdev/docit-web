@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 import { ListItem, Grid } from "@mui/material";
 import { useSelector } from "react-redux";
 import TextPost from "./TextPost";
-import styles from "./Post.module.css";
 import PostMenuBar from "../PostMenuBar";
 import VideoPost from "./VideoPost";
 import ImagePost from "./ImagePost";
@@ -15,7 +14,6 @@ export default function Post({ postData }) {
   const [hover, setHover] = useState(false);
   const { editable, selectedDocId, userToken } = useSelector((state) => state);
   const { postType, textContent, id, mediaFilePath } = postData;
-  const editableStyle = editable ? styles.border : "";
   
   const handleOnMouseEnter=()=>{
     setHover(true);
@@ -28,7 +26,14 @@ export default function Post({ postData }) {
   return (
     <Grid 
       container 
-      className={editableStyle} 
+      sx={{
+        minHeight: 100,
+        ...(editable && {
+          '&:hover': {
+            outline: '0.8pt ridge #f5f5f5'
+          }
+        })
+      }}
       onMouseEnter={handleOnMouseEnter} 
       onMouseLeave={handleOnMouseLeave} 
     >
