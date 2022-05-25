@@ -1,3 +1,5 @@
+import { ContentState } from 'draft-js';
+
 const draft = {
     //All icons are from bootstrap: https://icons.getbootstrap.com/ 
     INLINE_TYPES: [
@@ -21,7 +23,7 @@ const draft = {
         { label: "H2", style: "header-two", icon:"bi bi-type-h2"  },
         { label: "H3", style: "header-three", icon:"bi bi-type-h3"  },
     ],
-    getBlockStyle(block) {
+    getBlockStyle(block: ContentState) {
         switch (block.getType()) {
           case "blockquote":
             return "blockquote";
