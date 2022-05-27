@@ -6,6 +6,7 @@ import { useSelector, } from 'react-redux';
 export default function useAuthEffect() {
   const navigate = useNavigate();
   const userToken = useSelector(state => state.userToken);
+  console.log('userToken', userToken);
   useEffect(() => {
     if (userToken) {
       navigate('../docit', { replace: true });
