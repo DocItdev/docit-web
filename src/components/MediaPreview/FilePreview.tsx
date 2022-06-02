@@ -1,24 +1,20 @@
-import React, { useEffect, useState, useCallback, useMemo } from "react";
+import { useEffect, useState, useCallback, useMemo, CSSProperties } from "react";
 import { useDropzone } from 'react-dropzone'
 import { useSelector, useDispatch } from "react-redux";
-import {
-    IconButton,
-
-    Card,
-    CardActions,
-    CardContent,
-    Grid,
-} from "@mui/material";
-import { Cancel } from "@mui/icons-material";
+import IconButton from '@mui/material/IconButton'
+import Card from '@mui/material/Card';
+import CardActions from '@mui/material/CardActions';
+import CardContent from '@mui/material/CardContent';
+import Grid from '@mui/material/Grid';
+import Cancel from "@mui/icons-material/Cancel";
 import FilePresentIcon from '@mui/icons-material/FilePresent';
 import { setFileName, setMediaBlobUrl } from "../../ducks";
 import { setMediaType } from "../../ducks";
 import { MediaTypes } from "../../utils/common/constants";
+import { RootState } from "../../config/reduxConfig";
 
 const baseStyle = {
     flex: 1,
-    display: 'flex',
-    flexDirection: 'column',
     alignItems: 'center',
     padding: '100px',
     borderWidth: 2,
@@ -45,17 +41,11 @@ const rejectStyle = {
 
 
 
-export default function FilePreview(show) {
-    const mediaBlobUrl = useSelector((state) => state.mediaBlobUrl);
-    const [showDropzone, setShowDropzone] = useState(true);
-    const [fileObject, setFileObject] = useState(null);
+export default function FilePreview() {
+    const mediaBlobUrl: string = useSelector((state: RootState) => state.mediaBlobUrl);
+    const [showDropzone, setShowDropzone] = useState<boolean>(true);
+    const [fileObject, setFileObject] = useState<File>(null);
     const dispatch = useDispatch();
-
-    // useEffect(() => {
-    //     if (show) {
-    //         setShowDropzone(true)
-    //     }
-    // }, [show])
 
     useEffect(() => {
         if (mediaBlobUrl === "") {
@@ -84,7 +74,7 @@ export default function FilePreview(show) {
     const { getRootProps, getInputProps, isFocused, isDragActive, isDragAccept,
         isDragReject } = useDropzone({ onDrop })
 
-    const style = useMemo(() => ({
+    const style: CSSProperties = useMemo(() => ({
         ...baseStyle,
         ...(isFocused ? focusedStyle : {}),
         ...(isDragAccept ? acceptStyle : {}),
@@ -115,7 +105,7 @@ export default function FilePreview(show) {
                     variant="outlined"
                 >
                     <Grid container>
-                        <Grid item xs={11} justify="center" direction="row" align="center">
+                        <Grid item xs={11}>
                             <CardContent>
                                 <FilePresentIcon style={{ color: "#1F5980", fontSize: "35px" }} />
                                 {fileObject.name}

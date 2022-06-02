@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react';
-import { Button } from 'react-bootstrap';
+import { useEffect } from 'react';
+import Button from 'react-bootstrap/Button';
 import { useDispatch } from 'react-redux';
 import { setToken, setUser } from '../../ducks';
 import env from '../../config/envConfig';

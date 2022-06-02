@@ -1,4 +1,3 @@
-import React from "react";
 import PropTypes from 'prop-types';
 import VideoPreview from "./VideoPreview";
 import { MediaFeatures } from "../../utils/common/constants";
@@ -6,8 +5,11 @@ import SnipPreview from "./SnipPreview";
 import FilePreview from "./FilePreview";
 import AudioPreview from "./AudioPreview";
 
+export interface MediaPreviewProps {
+  type: MediaFeatures
+}
 
-export default function MediaPreview({ type, ...props }) {
+export default function MediaPreview({ type, ...props }: MediaPreviewProps) {
   const renderPreview = () => {
     switch (type) {
       case MediaFeatures.SCREEN_REC:
@@ -15,9 +17,7 @@ export default function MediaPreview({ type, ...props }) {
       case MediaFeatures.SCREEN_SNIP:
         return <SnipPreview />
       case MediaFeatures.UPLOAD_FILE:
-        return <FilePreview {...props} show={true} />
-
-        return <SnipPreview />;
+        return <FilePreview {...props} />
       case MediaFeatures.VOICE_REC:
         return <AudioPreview />;
 

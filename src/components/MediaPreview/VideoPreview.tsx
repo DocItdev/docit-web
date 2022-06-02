@@ -1,21 +1,19 @@
-import React from "react";
 import { useSelector, useDispatch } from "react-redux";
-import {
-  IconButton,
-  Card,
-  CardActions,
-  CardContent,
-  Grid,
-} from "@mui/material";
-import { Cancel } from "@mui/icons-material";
+import CardActions from '@mui/material/CardActions';
+import CardContent from '@mui/material/CardContent';
+import IconButton from '@mui/material/IconButton'
+import Card from '@mui/material/Card';
+import Grid from '@mui/material/Grid';
+import Cancel from "@mui/icons-material/Cancel";
 import { setMediaBlobUrl } from "../../ducks";
+import { RootState } from "../../config/reduxConfig";
 
 export default function VideoPreview() {
-  const mediaBlobUrl = useSelector((state) => state.mediaBlobUrl);
+  const mediaBlobUrl: string = useSelector((state: RootState) => state.mediaBlobUrl);
   const dispatch = useDispatch();
 
   const handleDelete = () => {
-    dispatch(setMediaBlobUrl(''))
+    dispatch(setMediaBlobUrl(''));
   }
 
   return mediaBlobUrl ? (
