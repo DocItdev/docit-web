@@ -1,9 +1,11 @@
-import { useState } from "react";
-import { TreeItem } from "@mui/lab";
-import { Grid, Typography } from "@mui/material";
+import { SyntheticEvent, useState } from "react";
+import TreeItem from "@mui/lab/TreeItem";
+import Grid from "@mui/material/Grid";
+import Typography from "@mui/material/Typography";
 import { useMutation, useQueryClient } from "react-query";
 import { useSelector, useDispatch } from "react-redux";
-import { Delete, ModeEdit } from "@mui/icons-material";
+import Delete from "@mui/icons-material/Delete";
+import ModeEdit from "@mui/icons-material/ModeEdit";
 
 import "./DocTreeItem.css";
 import deleteDocument from "../../utils/documents/deleteDocument";
@@ -11,9 +13,15 @@ import { setDocId } from "../../ducks";
 import DocumentForm from "../common/DocumentForm";
 import updateDocument from "../../utils/documents/updateDocument";
 import PopperMenu from "../common/PopperMenu";
+import { RootState } from "../../config/reduxConfig";
 
-export default function DocTreeItem({ docName, docId }) {
-  const { userToken } = useSelector((state) => state);
+export interface DocTreeItemProps {
+  docName: string;
+  docId: string;
+}
+
+export default function DocTreeItem({ docName, docId }: DocTreeItemProps) {
+  const { userToken } = useSelector((state: RootState) => state);
   const queryClient = useQueryClient();
   const { mutate } = useMutation(() => deleteDocument(docId, userToken), {
     onSuccess: () => {
@@ -37,12 +45,11 @@ export default function DocTreeItem({ docName, docId }) {
     dispatch(setDocId(docId));
   };
 
-  const toggleOpened = (event) => {
-    event.stopPropagation();
+  const toggleOpened = () => {
     setOpened(!opened);
   };
 
-  const handleDelete = (event) => {
+  const handleDelete = (event: SyntheticEvent) => {
     event.stopPropagation();
     mutate();
   };
@@ -100,7 +107,6 @@ export default function DocTreeItem({ docName, docId }) {
         open={opened}
         onClose={toggleOpened}
         onMutate={(docData) => updateDocument(userToken, docId, docData)}
-        onSuccess={toggleOpened}
         initialValues={{ title: docName }}
       />
     </>

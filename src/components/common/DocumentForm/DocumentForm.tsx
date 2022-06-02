@@ -18,8 +18,8 @@ export interface DocumentFormProps {
   initialValues?: {
     title?: string;
   };
-  onClose: () => void;
-  onMutate?: () => Promise<void>;
+  onClose: (event?: SyntheticEvent) => void;
+  onMutate?: (values: Document) => Promise<any>;
 }
 
 export default function DocumentForm({
@@ -33,7 +33,7 @@ export default function DocumentForm({
   const { register, handleSubmit, reset } = useForm();
   const queryClient = useQueryClient();
   const { isLoading, isError, error, mutate } = useMutation<
-    void,
+    any,
     AxiosError,
     Document,
     void

@@ -1,3 +1,5 @@
+import { AnyAction } from "redux";
+
 // Action Constants
 const SET_TOKEN = 'docIt/users/SET_TOKEN';
 const SET_USER = 'docIt/users/SET_USER';
@@ -7,21 +9,35 @@ const SET_MEDIA_BLOB_URL = 'docIt/posts/SET_MEDIA_BLOB_URL';
 const SET_MEDIA_TYPE = 'docIt/posts/SET_MEDIA_TYPE';
 const SET_FILE_NAME = 'docIt/posts/SET_FILE_NAME';
 
+export interface AppState {
+  userToken: string;
+  user: {
+    id: string;
+    email: string;
+    firstName: string;
+    lastName: string;
+  };
+  selectedDocId: string;
+  editable: boolean;
+  mediaBlobUrl: string;
+  mediaType: string;
+  fileName: string;
+
+}
+
 //state
-const initialState = {
+const initialState: AppState = {
   userToken: '',
   user: null,
   selectedDocId: '',
   editable: false,
-  videoBlobUrl: '',
-  snipDataUri: '',
   mediaBlobUrl: '',
   mediaType:'',
   fileName: undefined,
 };
 
 //reducers
-export default function reducer(state = initialState, action) {
+export default function reducer(state = initialState, action: AnyAction) {
   switch (action.type) {
     case SET_TOKEN:
       return { ...state, userToken: action.payload };
