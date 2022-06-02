@@ -1,25 +1,23 @@
-import React from "react";
 import useFile from "../../hooks/useFile";
-import { CardContent, Grid } from "@mui/material";
+import Grid from "@mui/material/Grid";
+import CardContent from "@mui/material/CardContent";
 import FilePresentIcon from "@mui/icons-material/FilePresent";
 import Loader from "../common/Loader";
 
-export default function FilePost({ filePath }) {
+export interface FilePostProps {
+  filePath: string;
+}
+
+export default function FilePost({ filePath }: FilePostProps) {
   const { mediaDownloadUrl, isLoading, Metadata } = useFile(filePath);
 
   if (isLoading) {
     return <Loader />;
   }
   return (
-    <Grid 
-      container 
-      alignItems="center"
-      justifyContent="center">
+    <Grid container alignItems="center" justifyContent="center">
       <a href={mediaDownloadUrl} target="_blank" download>
-        <Grid 
-          item  
-          direction="row" 
-          align="center">
+        <Grid item>
           <CardContent>
             <FilePresentIcon style={{ color: "#1F5980", fontSize: "35px" }} />
             {Metadata?.originalname}

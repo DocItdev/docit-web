@@ -30,7 +30,7 @@ export interface Post {
 
 export interface EditorProps {
   blocks?: ContentState;
-  onMutate?: () => Promise<void>;
+  onMutate?: (postData: Post) => Promise<void>;
   onSuccess?: () => Promise<void>;
   buttonText?: string;
   alwaysFocused?: boolean;

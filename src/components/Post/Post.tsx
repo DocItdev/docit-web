@@ -1,6 +1,6 @@
-import React, { useState } from "react";
-import PropTypes from "prop-types";
-import { ListItem, Grid } from "@mui/material";
+import { useState } from "react";
+import ListItem from "@mui/material/ListItem";
+import Grid from "@mui/material/Grid";
 import { useSelector } from "react-redux";
 import TextPost from "./TextPost";
 import PostMenuBar from "../PostMenuBar";
@@ -9,10 +9,22 @@ import ImagePost from "./ImagePost";
 import FilePost from "./FilePost";
 
 import AudioPost from './AudioPost';
+import { RootState } from "../../config/reduxConfig";
 
-export default function Post({ postData }) {
-  const [hover, setHover] = useState(false);
-  const { editable, selectedDocId, userToken } = useSelector((state) => state);
+export interface PostProps {
+  postData: {
+    id: string;
+    postType: string;
+    title: string;
+    description: string;
+    textContent: string;
+    mediaFilePath: string;
+  };
+}
+
+export default function Post({ postData }: PostProps) {
+  const [hover, setHover] = useState<boolean>(false);
+  const { editable, selectedDocId, userToken } = useSelector((state: RootState) => state);
   const { postType, textContent, id, mediaFilePath } = postData;
   
   const handleOnMouseEnter=()=>{
@@ -59,13 +71,6 @@ export default function Post({ postData }) {
     </Grid>
   );
 }
-
-Post.propTypes = {
-  postData: PropTypes.shape({
-    title: PropTypes.string,
-    textContent: PropTypes.string,
-  }),
-};
 
 Post.defaultProps = {
   postData: {

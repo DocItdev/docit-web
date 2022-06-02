@@ -1,9 +1,12 @@
-import React from "react";
-import { Box } from "@mui/material";
+import Box from "@mui/material/Box";
 import useFile from "../../hooks/useFile";
 import Loader from "../common/Loader";
 
-export default function VideoPost({ filePath }) {
+export interface VideoPostProps {
+  filePath: string;
+}
+
+export default function VideoPost({ filePath }: VideoPostProps) {
   const {mediaDownloadUrl, isLoading} = useFile(filePath);
   if (isLoading) {
     return <Loader />;

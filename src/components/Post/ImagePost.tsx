@@ -1,5 +1,4 @@
-import React from "react";
-import { Box, Container } from "@mui/material";
+import Box from "@mui/material/Box";
 import useFile from "../../hooks/useFile";
 import Loader from "../common/Loader";
 
