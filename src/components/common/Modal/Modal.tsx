@@ -1,5 +1,5 @@
 import { SyntheticEvent } from 'react';
-import Dialog, { DialogProps } from "@mui/material/Dialog";
+import MuiModal, { ModalProps as MuiModalProps } from "@mui/material/Modal";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import IconButton from "@mui/material/IconButton";
@@ -7,7 +7,7 @@ import Grid from "@mui/material/Grid";
 import { Navbar } from "react-bootstrap";
 import "./Modal.css";
 
-export interface ModalProps extends DialogProps {
+export interface ModalProps extends MuiModalProps {
   title: string;
   onClose: (event: SyntheticEvent) => void;
 }
@@ -19,7 +19,7 @@ export default function Modal({
   ...props
 }: ModalProps) {
   return (
-    <Dialog {...props} onClose={onClose}>
+    <MuiModal {...props} onClose={onClose}>
       <Box className="root">
         <Navbar bg="light" expand="lg">
           <Grid container spacing={2} className="header">
@@ -41,6 +41,6 @@ export default function Modal({
         </Navbar>
         <div className="container">{children}</div>
       </Box>
-    </Dialog>
+    </MuiModal>
   );
 }

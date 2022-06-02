@@ -1,5 +1,5 @@
 import axios from "axios";
-import getVar from "../../config/envConfig";
+import env from "../../config/envConfig";
 
 export default async function deleteProject(projectId, userToken) {
   if(projectId) {
@@ -8,7 +8,7 @@ export default async function deleteProject(projectId, userToken) {
         Authorization: `Bearer ${userToken}`
       }
     };
-    const response = await axios.delete(`${getVar('API_HOST')}/api/projects/${projectId}`, opts);
+    const response = await axios.delete(`${env.API_HOST}/api/projects/${projectId}`, opts);
     return response.data;
   }
   throw new Error('Missing project id');

@@ -1,5 +1,5 @@
 import axios from "axios";
-import getVar from "../../config/envConfig";
+import env from "../../config/envConfig";
 
 export default async function postProject(userToken, project) {
   if (userToken) {
@@ -8,7 +8,7 @@ export default async function postProject(userToken, project) {
         Authorization: `Bearer ${userToken}`
       }
     };
-    const response = await axios.post(`${getVar('API_HOST')}/api/projects`,project, opts);
+    const response = await axios.post(`${env.API_HOST}/api/projects`,project, opts);
     return response.data;
   }
 }

@@ -1,5 +1,5 @@
 import axios from "axios";
-import getVar from "../../config/envConfig";
+import env from "../../config/envConfig";
 
 export default async function updatePost(userToken, docId, postId, postData) {
   if (userToken && docId) {
@@ -9,7 +9,7 @@ export default async function updatePost(userToken, docId, postId, postData) {
       },
     };
     const response = await axios.put(
-      `${getVar("API_HOST")}/api/posts/${postId}?doc_id=${docId}`,
+      `${env("API_HOST")}/api/posts/${postId}?doc_id=${docId}`,
       postData,
       opts
     );

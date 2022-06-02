@@ -1,5 +1,5 @@
 import axios from "axios";
-import getVar from "../../config/envConfig";
+import env from "../../config/envConfig";
 
 export default async function updateProject(userToken, projectId, projectData) {
   if (userToken) {
@@ -9,7 +9,7 @@ export default async function updateProject(userToken, projectId, projectData) {
       },
     };
     const response = await axios.put(
-      `${getVar("API_HOST")}/api/projects/${projectId}`,
+      `${env("API_HOST")}/api/projects/${projectId}`,
       projectData,
       opts
     );

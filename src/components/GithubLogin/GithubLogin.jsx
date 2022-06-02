@@ -2,16 +2,16 @@ import React, { useEffect } from 'react';
 import { Button } from 'react-bootstrap';
 import { useDispatch } from 'react-redux';
 import { setToken, setUser } from '../../ducks';
-import getVar from '../../config/envConfig';
+import env from '../../config/envConfig';
 import axios from 'axios';
 
 
 
 export default function GithubLogin() {
   const dispatch = useDispatch();
-  const authUrl = getVar('GITHUB_AUTH_URL');
-  const clientId = getVar('GITHUB_CLIENT_ID');
-  const clientSecret = getVar('GITHUB_CLIENT_SECRET');
+  const authUrl = env.GITHUB_AUTH_URL;
+  const clientId = env.GITHUB_CLIENT_ID;
+  const clientSecret = env.GITHUB_CLIENT_SECRET;
   const urlParams = new URLSearchParams(window.location.search);
   const code = urlParams.get('code');
   
@@ -20,7 +20,7 @@ export default function GithubLogin() {
     const authenticateGitHubUser = async () => {
       try {
         if (code) {
-          const response = await axios.post(`${getVar('API_HOST')}/api/auth/github`, {code});
+          const response = await axios.post(`${env.API_HOST}/api/auth/github`, {code});
           const { data: { token, user } } = response;
           dispatch(setToken(token));
           dispatch(setUser(user));

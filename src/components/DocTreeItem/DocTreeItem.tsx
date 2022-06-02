@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { TreeItem } from "@mui/lab";
 import { Grid, Typography } from "@mui/material";
 import { useMutation, useQueryClient } from "react-query";
 import { useSelector, useDispatch } from "react-redux";
 import { Delete, ModeEdit } from "@mui/icons-material";
 
-import styles from "./DocTreeItem.module.css";
+import "./DocTreeItem.css";
 import deleteDocument from "../../utils/documents/deleteDocument";
 import { setDocId } from "../../ducks";
 import DocumentForm from "../common/DocumentForm";
@@ -68,15 +68,15 @@ export default function DocTreeItem({ docName, docId }) {
           <Grid
             container
             spacing={0}
-            className={styles.container}
+            className="container"
             sx={{ minHeight: 44, alignItems: 'center' }}
           >
-            <Grid item xs={10} spacing={0} className={styles.docTitle}>
+            <Grid item xs={10} spacing={0} className="docTitle">
               <i
                 className="bi bi-file-earmark-text"
                 style={{ marginRight: "5%" }}
               ></i>
-              <Typography className={styles.text} component="span">
+              <Typography className="text" component="span">
                 {docName}
               </Typography>
             </Grid>

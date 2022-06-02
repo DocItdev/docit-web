@@ -1,5 +1,5 @@
 import axios from "axios";
-import getVar from "../../config/envConfig";
+import env from "../../config/envConfig";
 
 export default async function getFile(userToken, filePath) {
   if (userToken) {
@@ -8,7 +8,7 @@ export default async function getFile(userToken, filePath) {
         Authorization: `Bearer ${userToken}`
       }
     };
-    let response = await axios.get(`${getVar("API_HOST")}/api/storage?filePath=${filePath}`, opts);
+    let response = await axios.get(`${env.API_HOST}/api/storage?filePath=${filePath}`, opts);
     return response.data;
   }
   throw new Error('Missing or incorrect user token.');

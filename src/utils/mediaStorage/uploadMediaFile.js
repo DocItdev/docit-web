@@ -1,5 +1,5 @@
 import axios from "axios";
-import getVar from "../../config/envConfig";
+import env from "../../config/envConfig";
 
 export default async function uploadMediaFile(userToken, mediaBlobUrl, fileName = 'blob') {
   if (userToken) {
@@ -13,7 +13,7 @@ export default async function uploadMediaFile(userToken, mediaBlobUrl, fileName 
         'Content-Type': 'multipart/form-data',
       },
     };
-    const response = await axios.post(`${getVar('API_HOST')}/api/storage`, formData, opts);
+    const response = await axios.post(`${env.API_HOST}/api/storage`, formData, opts);
     
     return response.data;
   }
