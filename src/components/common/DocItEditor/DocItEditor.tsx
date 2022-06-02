@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import { useState, useRef } from 'react';
 import {
   Editor,
   EditorState,
@@ -128,6 +128,7 @@ export default function DocItEditor({
           onChange={setEditorState}
           handleKeyCommand={handleKeyCommand}
           ref={textInput}
+          // @ts-ignore
           blockStyleFn={draft.getBlockStyle}
           spellCheck
           readOnly={readOnly}

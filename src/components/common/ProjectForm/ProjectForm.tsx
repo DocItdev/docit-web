@@ -1,11 +1,28 @@
-import React from "react";
-import { TextField } from "@mui/material";
+import TextField from "@mui/material/TextField";
 import { useForm } from "react-hook-form";
 import { useMutation, useQueryClient } from "react-query";
-import PropTypes from "prop-types";
 
 import Modal from "../Modal";
 import AsyncButton from "../AsyncButton";
+import { AxiosError } from "axios";
+
+export interface Project {
+  name: string;
+  description: string;
+}
+
+export interface ProjectFormProps {
+  open: boolean;
+  onClose: () => void;
+  title: string;
+  buttonText: string;
+  onMutate?: () => Promise<void>;
+  onSuccess?: () => Promise<void>;
+  initialValues?: {
+    projectName: string;
+    projectDescription: string;
+  }
+}
 
 export default function ProjectForm({
   open,
@@ -15,21 +32,26 @@ export default function ProjectForm({
   onMutate,
   onSuccess,
   initialValues,
-}) {
-  const { register, handleSubmit, reset } = useForm();
+}: ProjectFormProps) {
+  const { register, handleSubmit, reset } = useForm<Project>();
   const queryClient = useQueryClient();
-  const { isLoading, isError, error, mutate } = useMutation(onMutate, {
+  const { isLoading, isError, error, mutate } = useMutation<
+    void,
+    AxiosError,
+    Project,
+    void
+  >(onMutate, {
     onSuccess: () => {
       onSuccess();
       onClose();
-      reset("", {
+      reset(null, {
         keepValues: false,
       });
       queryClient.invalidateQueries("projects");
     },
   });
 
-  const onSubmit = (values) => {
+  const onSubmit = (values: Project) => {
     mutate(values);
   };
 
@@ -62,7 +84,7 @@ export default function ProjectForm({
           variant="contained"
           color="primary"
           loading={isLoading}
-          error={isError && error}
+          error={isError && error.message}
         >
           {buttonText}
         </AsyncButton>
@@ -70,19 +92,6 @@ export default function ProjectForm({
     </Modal>
   );
 }
-
-ProjectForm.propTypes = {
-  title: PropTypes.string.isRequired,
-  buttonText: PropTypes.string.isRequired,
-  onMutate: PropTypes.func.isRequired,
-  open: PropTypes.bool.isRequired,
-  onClose: PropTypes.func.isRequired,
-  onSuccess: PropTypes.func,
-  initialValues: PropTypes.shape({
-    projectName: PropTypes.string,
-    projectDescription: PropTypes.string
-  })
-};
 
 ProjectForm.defaultProps = {
   onSuccess: () => {},

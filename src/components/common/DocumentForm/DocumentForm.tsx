@@ -1,11 +1,26 @@
-import React from "react";
-import { TextField } from "@mui/material";
+import { SyntheticEvent } from "react";
+import TextField from "@mui/material/TextField";
 import { useMutation, useQueryClient } from "react-query";
 import { useForm } from "react-hook-form";
-import PropTypes from "prop-types";
+import { AxiosError } from "axios";
 
 import Modal from "../Modal";
 import AsyncButton from "../AsyncButton";
+
+export interface Document {
+  name: string;
+}
+
+export interface DocumentFormProps {
+  open: boolean;
+  buttonText: string;
+  title: string;
+  initialValues?: {
+    title?: string;
+  };
+  onClose: () => void;
+  onMutate?: () => Promise<void>;
+}
 
 export default function DocumentForm({
   open,
@@ -13,12 +28,16 @@ export default function DocumentForm({
   title,
   onClose,
   onMutate,
-  onSuccess,
   initialValues,
-}) {
+}: DocumentFormProps) {
   const { register, handleSubmit, reset } = useForm();
   const queryClient = useQueryClient();
-  const { isLoading, isError, error, mutate } = useMutation(onMutate, {
+  const { isLoading, isError, error, mutate } = useMutation<
+    void,
+    AxiosError,
+    Document,
+    void
+  >(onMutate, {
     onSuccess: () => {
       queryClient.invalidateQueries("projects");
       onClose();
@@ -29,12 +48,12 @@ export default function DocumentForm({
     },
   });
 
-  const onSubmit = (values) => {
+  const onSubmit = (values: Document) => {
     mutate(values);
   };
   return (
     <Modal
-      onClick={(event) => event.stopPropagation()}
+      onClick={(event: SyntheticEvent) => event.stopPropagation()}
       title={title}
       open={open}
       onClose={onClose}
@@ -57,7 +76,7 @@ export default function DocumentForm({
           variant="contained"
           color="primary"
           loading={isLoading}
-          error={isError && error}
+          error={isError ? error.message : ""}
         >
           {buttonText}
         </AsyncButton>
@@ -66,20 +85,7 @@ export default function DocumentForm({
   );
 }
 
-DocumentForm.propTypes = {
-  title: PropTypes.string.isRequired,
-  buttonText: PropTypes.string.isRequired,
-  onMutate: PropTypes.func.isRequired,
-  open: PropTypes.bool.isRequired,
-  onClose: PropTypes.func.isRequired,
-  onSuccess: PropTypes.func,
-  initialValues: PropTypes.shape({
-    title: PropTypes.string,
-  }),
-};
-
 DocumentForm.defaultProps = {
-  onSuccess: () => {},
   initialValues: {
     title: "",
   },

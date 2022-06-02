@@ -1,22 +1,37 @@
-import React, { useState, useRef, useEffect } from "react";
 import {
-  IconButton,
-  ClickAwayListener,
-  Grow,
-  Paper,
-  Popper,
-  MenuItem,
-  MenuList,
-  ListItemIcon,
-  Typography,
-} from "@mui/material";
-import MoreVertIcon from '@mui/icons-material/MoreVert';
+  useState,
+  useRef,
+  useEffect,
+  SyntheticEvent,
+  MouseEvent,
+  FC,
+} from "react";
+import IconButton from "@mui/material/IconButton";
+import ClickAwayListener from "@mui/material/ClickAwayListener";
+import Grow from "@mui/material/Grow";
+import Paper from "@mui/material/Paper";
+import Popper from "@mui/material/Popper";
+import MenuItem from "@mui/material/MenuItem";
+import MenuList from "@mui/material/MenuList";
+import ListItemIcon from "@mui/material/ListItemIcon";
+import Typography from "@mui/material/Typography";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
 
-export default function PopperMenu({ menuItems }) {
+export interface MenuItem {
+  title: string;
+  onClick: (event: MouseEvent<HTMLLIElement, globalThis.MouseEvent>) => void;
+  icon: FC;
+}
+
+export interface PopperMenuProps {
+  menuItems: MenuItem[];
+}
+
+export default function PopperMenu({ menuItems }: PopperMenuProps) {
   const [open, setOpen] = useState(false);
   const anchorRef = useRef(null);
 
-  const handleToggle = (event) => {
+  const handleToggle = (event: SyntheticEvent) => {
     event.stopPropagation();
     setOpen((prevOpen) => !prevOpen);
   };
@@ -58,12 +73,12 @@ export default function PopperMenu({ menuItems }) {
         aria-haspopup="true"
         onClick={handleToggle}
         sx={{
-          color: 'white',
-          borderRadius: '5px',
+          color: "white",
+          borderRadius: "5px",
           padding: 0,
-          '&:hover': {
-            backgroundColor: 'rgba(255, 255, 255, 0.3)',
-          }
+          "&:hover": {
+            backgroundColor: "rgba(255, 255, 255, 0.3)",
+          },
         }}
       >
         <MoreVertIcon />
@@ -75,7 +90,7 @@ export default function PopperMenu({ menuItems }) {
         transition
         disablePortal
         style={{ zIndex: 5 }}
-        onBlur={handleClose}
+        onBlur={(e) => handleClose(e)}
       >
         {({ TransitionProps, placement }) => (
           <Grow
@@ -91,22 +106,23 @@ export default function PopperMenu({ menuItems }) {
                   autoFocusItem={open}
                   id="composition-menu"
                   aria-labelledby="composition-button"
-                  onKeyDown={handleListKeyDown}
+                  onKeyDown={(e) => handleListKeyDown(e)}
                 >
-                  { menuItems?.map(({ title, onClick, icon: MuiIcon }) => (
-                    <MenuItem key={title} onClick={(e) => {
-                      e.stopPropagation();
-                      onClick(e);
-                      handleClose(e);
-                    }}>
-                        <ListItemIcon>
-                          <MuiIcon />
-                        </ListItemIcon>
-                      <Typography variant="inherit">
-                        {title}
-                      </Typography>
+                  {menuItems?.map(({ title, onClick, icon: MuiIcon }) => (
+                    <MenuItem
+                      key={title}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        onClick(e);
+                        handleClose(e);
+                      }}
+                    >
+                      <ListItemIcon>
+                        <MuiIcon />
+                      </ListItemIcon>
+                      <Typography variant="inherit">{title}</Typography>
                     </MenuItem>
-                  )) }
+                  ))}
                 </MenuList>
               </ClickAwayListener>
             </Paper>
