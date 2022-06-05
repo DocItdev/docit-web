@@ -1,11 +1,12 @@
-import React, { useEffect, useState, useMemo } from "react";
-import PropTypes from "prop-types";
-import { Box, IconButton } from "@mui/material";
+import { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import styles from "./Postbar.module.css";
 import { setMediaBlobUrl, setMediaType } from "../../ducks";
 import { MediaTypes } from "../../utils/common/constants";
 
+export interface SnipBarProps {
+    start: boolean;
+    resetTriggerFeature: () => void;
+  }
 /**
  * 
  * 1. initiate screenshot
@@ -14,7 +15,7 @@ import { MediaTypes } from "../../utils/common/constants";
  * 4. save to backend
  */
 
-export default function SnipBar({ start, resetTriggerFeature }) {
+export default function SnipBar({ start, resetTriggerFeature }: SnipBarProps) {
     const dispatch = useDispatch();
 
 
@@ -34,18 +35,9 @@ export default function SnipBar({ start, resetTriggerFeature }) {
     }, [start]);
 
 
-    function getDisplayMedia(options) {
-        if (navigator.mediaDevices && navigator.mediaDevices.getDisplayMedia) {
+    function getDisplayMedia(options: DisplayMediaStreamConstraints) {
+        if (navigator?.mediaDevices?.getDisplayMedia) {
             return navigator.mediaDevices.getDisplayMedia(options)
-        }
-        if (navigator.getDisplayMedia) {
-            return navigator.getDisplayMedia(options)
-        }
-        if (navigator.webkitGetDisplayMedia) {
-            return navigator.webkitGetDisplayMedia(options)
-        }
-        if (navigator.mozGetDisplayMedia) {
-            return navigator.mozGetDisplayMedia(options)
         }
         throw new Error('getDisplayMedia is not defined')
     }
@@ -84,7 +76,7 @@ export default function SnipBar({ start, resetTriggerFeature }) {
     async function takeScreenshotCanvas() {
         const stream = await takeScreenshotStream()
         const video = document.createElement('video')
-        const result = await new Promise((resolve, reject) => {
+        const result: HTMLCanvasElement = await new Promise((resolve, reject) => {
             video.onloadedmetadata = () => {
                 video.play()
                 video.pause()

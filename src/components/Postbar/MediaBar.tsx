@@ -1,9 +1,16 @@
-import React from "react";
-import { Grid, Popover, Card, Typography } from "@mui/material";
+import Grid from "@mui/material/Grid";
+import Popover from "@mui/material/Popover";
+import Card from "@mui/material/Card";
+import Typography from "@mui/material/Typography";
 import PropTypes from 'prop-types';
 import PopupState, { bindTrigger, bindPopover } from "material-ui-popup-state";
+import { Feature } from "../../@types/Feature";
 
-export default function MediaBar({ features }) {
+export interface MediaBarProps {
+  features: Feature[];
+}
+
+export default function MediaBar({ features }: MediaBarProps) {
   return (
     <>
       {features.map(({ featureDescription, featureName, icon, onClick }) => (
@@ -13,7 +20,6 @@ export default function MediaBar({ features }) {
               <div>
                 <button
                   className="btn-lg"
-                  variant="contained"
                   {...bindTrigger(popupState)}
                   onClick={onClick ? onClick: bindTrigger(popupState).onClick}
                   style={{

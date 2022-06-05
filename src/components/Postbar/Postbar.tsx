@@ -14,6 +14,7 @@ import { MediaFeatures } from "../../utils/common/constants";
 import AudioRecorderBar from "./AudioRecorderBar";
 import { RootState } from "../../config/reduxConfig";
 import { PostType } from "../../@types/Post";
+import { Feature } from "../../@types/Feature";
 
 export default function PostBar() {
 
@@ -33,7 +34,7 @@ export default function PostBar() {
     return createPost(userToken, selectedDocId, postData);
   };
 
-  const featureData = [
+  const featureData: Feature[] = [
     {
       featureName: "Screen Recording",
       featureDescription: "Record your screen",

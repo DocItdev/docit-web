@@ -1,22 +1,23 @@
-import React, { useEffect, useState, useMemo } from "react";
-import PropTypes from "prop-types";
-import { Box, IconButton } from "@mui/material";
-import {
-  Pause,
-  PlayArrow,
-  Stop,
-  MicOff,
-  FiberManualRecord,
-} from "@mui/icons-material";
+import { useState, useEffect } from "react";
+import Box from "@mui/material/Box";
+import IconButton from "@mui/material/IconButton";
+import Pause from '@mui/icons-material/Pause';
+import PlayArrow from '@mui/icons-material/PlayArrow';
+import Stop from '@mui/icons-material/Stop';
 import { useReactMediaRecorder } from "react-media-recorder";
 import { useStopwatch } from "react-timer-hook";
 import { useDispatch } from "react-redux";
 import Timer from "../common/Timer";
-import styles from "./Postbar.module.css";
 import { setMediaBlobUrl, setMediaType } from "../../ducks";
 import { MediaTypes } from "../../utils/common/constants";
 
-export default function VideoRecorderBar({ start, resetTriggerFeature }) {
+export interface AudioRecorderBarProps {
+  start: boolean;
+  resetTriggerFeature: () => void;
+}
+
+
+export default function AudioRecorderBar({ start, resetTriggerFeature }: AudioRecorderBarProps) {
   const {
     status,
     startRecording,
@@ -25,12 +26,9 @@ export default function VideoRecorderBar({ start, resetTriggerFeature }) {
     resumeRecording,
     mediaBlobUrl,
     clearBlobUrl,
-    muteAudio,
-    unMuteAudio,
-    isAudioMuted,
   } = useReactMediaRecorder({
-    screen: true,
-    blobPropertyBag: { type: "video/mp4" },
+    audio: true,
+    blobPropertyBag: { type: "audio/wav" },
   });
   const [show, setShow] = useState(false);
   const {
@@ -42,9 +40,8 @@ export default function VideoRecorderBar({ start, resetTriggerFeature }) {
     reset: resetTimer,
   } = useStopwatch({ autoStart: false });
   const dispatch = useDispatch();
-
   const visibleStates = ["recording", "paused"];
-
+  
   useEffect(() => {
     const handleStart = () => {
       clearBlobUrl();
@@ -73,7 +70,7 @@ export default function VideoRecorderBar({ start, resetTriggerFeature }) {
   useEffect(() => {
     if (mediaBlobUrl) {
       dispatch(setMediaBlobUrl(mediaBlobUrl));
-      dispatch(setMediaType(MediaTypes.VIDEO));
+      dispatch(setMediaType(MediaTypes.AUDIO));
     }
   }, [mediaBlobUrl]);
 
@@ -105,9 +102,6 @@ export default function VideoRecorderBar({ start, resetTriggerFeature }) {
       sx={{ backgroundColor: "#FBFBFB", display: "flex", flexDirection: "row" }}
     >
       <Box sx={buttonStyle}>
-        <FiberManualRecord className={styles.dot} />
-      </Box>
-      <Box sx={buttonStyle}>
         <Timer hours={hours} minutes={minutes} seconds={seconds} />
       </Box>
       <Box sx={buttonStyle}>
@@ -126,23 +120,6 @@ export default function VideoRecorderBar({ start, resetTriggerFeature }) {
           <Stop />
         </IconButton>
       </Box>
-      <Box sx={buttonStyle}>
-        <IconButton
-          onClick={isAudioMuted ? unMuteAudio : muteAudio}
-          sx={{ color: isAudioMuted ? "red" : "inherit" }}
-        >
-          <MicOff />
-        </IconButton>
-      </Box>
     </Box>
   );
 }
-
-VideoRecorderBar.propTypes = {
-  start: PropTypes.bool.isRequired,
-  setOpen: PropTypes.func,
-};
-
-VideoRecorderBar.defaultProps = {
-  setOpen: () => {},
-};
