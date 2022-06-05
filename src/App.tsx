@@ -9,6 +9,7 @@ const queryClient = new QueryClient();
 function App() {
   return (
     <Provider store={store}>
+      {/* @ts-ignore */}
       <QueryClientProvider client={queryClient}>
         <div className="App">
           <AppRouter />
