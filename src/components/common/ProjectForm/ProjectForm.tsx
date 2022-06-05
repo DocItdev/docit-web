@@ -5,11 +5,7 @@ import { useMutation, useQueryClient } from "react-query";
 import Modal from "../Modal";
 import AsyncButton from "../AsyncButton";
 import { AxiosError } from "axios";
-
-export interface Project {
-  name: string;
-  description: string;
-}
+import { ProjectType } from "../../../@types/Project";
 
 export interface ProjectFormProps {
   open: boolean;
@@ -33,12 +29,12 @@ export default function ProjectForm({
   onSuccess,
   initialValues,
 }: ProjectFormProps) {
-  const { register, handleSubmit, reset } = useForm<Project>();
+  const { register, handleSubmit, reset } = useForm<ProjectType>();
   const queryClient = useQueryClient();
   const { isLoading, isError, error, mutate } = useMutation<
     void,
     AxiosError,
-    Project,
+    ProjectType,
     void
   >(onMutate, {
     onSuccess: () => {
@@ -51,7 +47,7 @@ export default function ProjectForm({
     },
   });
 
-  const onSubmit = (values: Project) => {
+  const onSubmit = (values: ProjectType) => {
     mutate(values);
   };
 

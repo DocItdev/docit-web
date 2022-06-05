@@ -1,4 +1,5 @@
 import { AnyAction } from "redux";
+import { UserType } from "../@types/User";
 
 // Action Constants
 const SET_TOKEN = 'docIt/users/SET_TOKEN';
@@ -11,12 +12,7 @@ const SET_FILE_NAME = 'docIt/posts/SET_FILE_NAME';
 
 export interface AppState {
   userToken: string;
-  user: {
-    id: string;
-    email: string;
-    firstName: string;
-    lastName: string;
-  };
+  user: UserType
   selectedDocId: string;
   editable: boolean;
   mediaBlobUrl: string;

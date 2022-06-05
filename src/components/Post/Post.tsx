@@ -10,16 +10,9 @@ import FilePost from "./FilePost";
 
 import AudioPost from './AudioPost';
 import { RootState } from "../../config/reduxConfig";
-
+import { PostType } from "../../@types/Post";
 export interface PostProps {
-  postData: {
-    id: string;
-    postType: string;
-    title: string;
-    description: string;
-    textContent: string;
-    mediaFilePath: string;
-  };
+  postData: PostType;
 }
 
 export default function Post({ postData }: PostProps) {

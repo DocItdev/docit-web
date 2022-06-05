@@ -6,10 +6,7 @@ import { AxiosError } from "axios";
 
 import Modal from "../Modal";
 import AsyncButton from "../AsyncButton";
-
-export interface Document {
-  name: string;
-}
+import { DocumentType } from "../../../@types/Document";
 
 export interface DocumentFormProps {
   open: boolean;
@@ -19,7 +16,7 @@ export interface DocumentFormProps {
     title?: string;
   };
   onClose: (event?: SyntheticEvent) => void;
-  onMutate?: (values: Document) => Promise<any>;
+  onMutate?: (values: DocumentType) => Promise<any>;
 }
 
 export default function DocumentForm({
@@ -35,7 +32,7 @@ export default function DocumentForm({
   const { isLoading, isError, error, mutate } = useMutation<
     any,
     AxiosError,
-    Document,
+    DocumentType,
     void
   >(onMutate, {
     onSuccess: () => {
@@ -48,7 +45,7 @@ export default function DocumentForm({
     },
   });
 
-  const onSubmit = (values: Document) => {
+  const onSubmit = (values: DocumentType) => {
     mutate(values);
   };
   return (

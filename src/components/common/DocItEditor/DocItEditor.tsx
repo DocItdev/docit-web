@@ -19,18 +19,12 @@ import 'draft-js/dist/Draft.css';
 import './DocItEditor.css';
 import AllStyleControlsBar from '../../RichTextControlBar';
 import AsyncButton from '../AsyncButton';
+import { PostType } from '../../../@types/Post';
 
-export interface Post {
-  postType: string;
-  textContent: string;
-  title: string;
-  description: string;
-  index: number;
-}
 
 export interface EditorProps {
   blocks?: ContentState;
-  onMutate?: (postData: Post) => Promise<void>;
+  onMutate?: (postData: PostType) => Promise<void>;
   onSuccess?: () => Promise<void>;
   buttonText?: string;
   alwaysFocused?: boolean;
@@ -56,7 +50,7 @@ export default function DocItEditor({
   } = useMutation<
     void,
     AxiosError,
-    Post,
+    PostType,
     void
   >(onMutate, {
     onSuccess: () => {
@@ -90,13 +84,13 @@ export default function DocItEditor({
     const contentState = editorState.getCurrentContent();
     const rawContentState = convertToRaw(contentState);
     const jsonContent = JSON.stringify(rawContentState);
-    const postData = queryClient.getQueryData('posts') as any[];
+    const posts = queryClient.getQueryData('posts') as PostType[];
     mutate({
       postType: 'text',
       textContent: jsonContent,
       title: '',
       description: '',
-      index: postData?.length,
+      index: posts.length,
     });
   };
 

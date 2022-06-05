@@ -12,17 +12,19 @@ import { setMediaBlobUrl, setFileName, setMediaType } from "../../ducks";
 import SnipBar from "./SnipBar";
 import { MediaFeatures } from "../../utils/common/constants";
 import AudioRecorderBar from "./AudioRecorderBar";
+import { RootState } from "../../config/reduxConfig";
+import { PostType } from "../../@types/Post";
 
 export default function PostBar() {
 
   const { userToken, selectedDocId, mediaBlobUrl, mediaType, fileName } =
-    useSelector((state) => state);
+    useSelector((state: RootState) => state);
 
-  const [featureTrigger, setFeatureTrigger] = useState(MediaFeatures.NONE);
-  const [featurePreview, setFeaturePreview] = useState(MediaFeatures.NONE);
+  const [featureTrigger, setFeatureTrigger] = useState<MediaFeatures>(MediaFeatures.NONE);
+  const [featurePreview, setFeaturePreview] = useState<MediaFeatures>(MediaFeatures.NONE);
   const dispatch = useDispatch();
 
-  const handleMutation = async (postData) => {
+  const handleMutation = async (postData: PostType) => {
     if (mediaBlobUrl) {
       const { path } = await uploadMediaFile(userToken, mediaBlobUrl, fileName);
       postData.mediaFilePath = path;
@@ -77,7 +79,7 @@ export default function PostBar() {
     },
   ];
 
-  const clearMediaState = () => {
+  const clearMediaState = async () => {
     dispatch(setMediaBlobUrl(""))
     dispatch(setFileName(undefined));
     dispatch(setMediaType(''));
