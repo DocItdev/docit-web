@@ -1,20 +1,24 @@
-import React from "react";
-import { RichUtils } from "draft-js";
+import { EditorState, RichUtils } from "draft-js";
 import InlineStyleControls from "./InlineStyleControls";
 import draft from "../common/DocItEditor/Services";
 import BlockStyleControls from "./BlockStyleControls";
 
-const RichTextControlBar = (props) => {
+export interface RichTextControlBarProps {
+    editorState: EditorState;
+    onEditorStateChange: (newEditorState: EditorState) => void;
+}
+
+const RichTextControlBar = (props: RichTextControlBarProps) => {
     const { editorState, onEditorStateChange } = props;
 
-    const toggleInlineStyle = (inlineStyle) => {
+    const toggleInlineStyle = (inlineStyle: string) => {
         onEditorStateChange( RichUtils.toggleInlineStyle(editorState, inlineStyle) )
         
     };
-    const toggleBlockStyle = (blockStyle) => {
+    const toggleBlockStyle = (blockStyle: string) => {
         onEditorStateChange( RichUtils.toggleBlockType(editorState, blockStyle) )
-        
     };
+
     const INLINE_TYPES = draft.INLINE_TYPES || [];
     const BLOCK_TYPES = draft.BLOCK_TYPES || [];
     return (

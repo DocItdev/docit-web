@@ -12,7 +12,7 @@ export interface ProjectFormProps {
   onClose: () => void;
   title: string;
   buttonText: string;
-  onMutate?: () => Promise<void>;
+  onMutate?: (projectData: ProjectType) => Promise<void>;
   onSuccess?: () => Promise<void>;
   initialValues?: {
     projectName: string;

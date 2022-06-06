@@ -1,7 +1,14 @@
-import React from "react";
+import { EditorState } from "draft-js";
 import StyleButton from "./StyleButton";
+import draft from '../common/DocItEditor/Services';
 
-const BlockStyleControls = (props) => {
+export interface BlockStyleControlsProps {
+  editorState: EditorState;
+  inputType: typeof draft.BLOCK_TYPES;
+  onToggle: (blockType: string) => void;
+}
+
+const BlockStyleControls = (props: BlockStyleControlsProps) => {
   const { editorState, inputType, onToggle } = props;
   const selection = editorState.getSelection();
   const blockType = editorState

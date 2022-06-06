@@ -1,15 +1,13 @@
-import React, { useState } from "react";
-import {
-  Button,
-  Typography,
-  Switch,
-  FormControl,
-  FormControlLabel,
-  Drawer,
-  IconButton,
-  Divider,
-  Grid,
-} from "@mui/material";
+import { useState } from "react";
+import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
+import Switch from '@mui/material/Switch';
+import FormControl from '@mui/material/FormControl';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Drawer from '@mui/material/Drawer';
+import IconButton from '@mui/material/IconButton';
+import Divider from '@mui/material/Divider';
+import Grid from '@mui/material/Grid';
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import AddIcon from "@mui/icons-material/Add";
 import ProjectTreeView from "../ProjectTreeView";
@@ -22,14 +20,17 @@ import postProject from "../../utils/projects/postProject";
 import { setEditable } from "../../ducks";
 import { DrawerHeader } from "./styles";
 import { drawerWidth } from "../../utils/common/constants";
+import { RootState } from "../../config/reduxConfig";
+import { ProjectList } from "../../@types/Project";
+import { AxiosError } from "axios";
 
 export default function Sidebar({ drawerIsOpened, onClose }) {
-  const [opened, setOpened] = useState(false);
+  const [opened, setOpened] = useState<boolean>(false);
   const { userToken, editable, selectedDocId, user } = useSelector(
-    (state) => state
+    (state: RootState) => state
   );
   const dispatch = useDispatch();
-  const { isLoading, data } = useQuery(
+  const { isLoading, data } = useQuery<ProjectList, AxiosError>(
     "projects",
     () => fetchAllProjects(userToken),
     {

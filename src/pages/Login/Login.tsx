@@ -1,7 +1,7 @@
 import React from "react";
-import GithubLogin from "../components/GithubLogin";
-import GoogleLogin from "../components/GoogleLogin";
-import useAuthEffect from "../hooks/useAuthEffect";
+import GithubLogin from "../../components/GithubLogin";
+import GoogleLogin from "../../components/GoogleLogin";
+import useAuthEffect from "../../hooks/useAuthEffect";
 import Paper from "@mui/material/Paper";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
@@ -18,25 +18,31 @@ export default function Login() {
         backgroundColor: "#FFEDDA",
         marginTop: "0px",
         marginBottom: "-11%",
-        height: '100vh',
-        paddingRight: '5%',
+        height: "100vh",
+        paddingRight: "5%",
         backgroundImage: `url(${wave}), url(${yacht})`,
-        backgroundPosition: 'left bottom, 80% top',
-        backgroundRepeat: 'no-repeat, no-repeat',
-        backgroundSize: '100vw 70%, auto 50%'
+        backgroundPosition: "left bottom, 80% top",
+        backgroundRepeat: "no-repeat, no-repeat",
+        backgroundSize: "100vw 70%, auto 50%",
       }}
     >
-      <Grid justify="center" container spacing={0}>
-        <Grid align="center" item xs={12} sm={12} md={6}>
+      <Grid container spacing={0}>
+        <Grid
+          sx={{ display: "flex", justifyContent: 'center' }}
+          item
+          xs={12}
+          sm={12}
+          md={6}
+        >
           <Card
             component={Paper}
             elevation={3}
-            alignItems="center"
-            justify="center"
             sx={{
               backgroundColor: "#FFB830",
               width: "50%",
               marginTop: "15%",
+              alignItems: "center",
+              justifyItems: "center",
             }}
           >
             <CardContent>
@@ -70,12 +76,6 @@ export default function Login() {
             </CardContent>
           </Card>
         </Grid>
-        {/* <Grid item xs={6}>
-          <img src={yacht} />
-        </Grid>
-        <Grid item xs={12}>
-          <img src={wave} />
-        </Grid> */}
       </Grid>
     </div>
   );

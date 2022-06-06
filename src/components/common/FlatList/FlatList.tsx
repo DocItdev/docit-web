@@ -1,16 +1,16 @@
-import { ReactNode } from "react";
+import { ReactNode, ReactElement } from "react";
 
 export interface FlatListProps {
   list: any[];
   renderItem: (listItem: any, index: number, array: any[]) => ReactNode;
-  renderWhenEmpty: () => ReactNode;
+  renderWhenEmpty: () => ReactElement;
 }
 
 export default function FlatList({
   list,
   renderItem,
   renderWhenEmpty,
-}: FlatListProps) {
+}: FlatListProps): ReactElement  {
   if (!list || list.length === 0) {
     return renderWhenEmpty();
   }

@@ -1,14 +1,22 @@
-import React, { useState } from "react";
+import React, { SyntheticEvent, useState } from "react";
 import { Box, IconButton } from "@mui/material";
 import { Delete, DragIndicator } from "@mui/icons-material";
-import styles from "./PostMenuBar.module.css";
+import "./PostMenuBar.css";
 import { useMutation, useQueryClient } from "react-query";
 import deletePost from "../../utils/posts/deletePost";
 import updatePostIndex from "../../utils/posts/updatePostIndex";
 import createPostOrderObject from "../../utils/posts/createPostOrderObject";
 import Grid from '@mui/material/Grid';
+import { PostType, PostIndex } from "../../@types/Post";
+import { AxiosError } from "axios";
 
-export default function PostMenuBar({ userToken, docId, postData }) {
+export interface PostMenuBarProps {
+  userToken: string;
+  docId: string;
+  postData: PostType;
+}
+
+export default function PostMenuBar({ userToken, docId, postData }: PostMenuBarProps) {
   const [hover, setHover] = useState(false);
 
   const queryClient = useQueryClient();
@@ -20,7 +28,12 @@ export default function PostMenuBar({ userToken, docId, postData }) {
       },
     }
   );
-  const { mutate: triggerPostIndexUpdate } = useMutation(
+  const { mutate: triggerPostIndexUpdate } = useMutation<
+    any,
+    AxiosError,
+    PostIndex[],
+    void
+  >(
     (postIndexes) => updatePostIndex(userToken, docId, postIndexes),
     {
       onSuccess: () => {
@@ -30,10 +43,10 @@ export default function PostMenuBar({ userToken, docId, postData }) {
   );
   const { id: postId } = postData;
 
-  const handleDeleteClick = (event) => {
+  const handleDeleteClick = (event: SyntheticEvent) => {
     event.stopPropagation();
-    const postData = queryClient.getQueryData("posts");
-    const newPostData = postData.filter((post) => post.id !== postId);
+    const posts: PostType[] = queryClient.getQueryData("posts");
+    const newPostData = posts.filter((post) => post.id !== postId);
     const postIndexes = createPostOrderObject(
       newPostData,
       0,
@@ -51,14 +64,15 @@ export default function PostMenuBar({ userToken, docId, postData }) {
   }
 
   return (
-    <Box
-
-      className={styles.container}
+    <Grid 
+      container
+      className="container"
     >
-      <Grid xs={12} style={{ marginTop: "5%" }} item >
-        <IconButton
-          className={styles.iconButton}
-          style={{ background: "none" }}
+      <Grid xs={12} item>
+        <IconButton 
+          onClick={handleDeleteClick} 
+          style={{background:"none"}} 
+          className="iconButton"
         >
           <DragIndicator
             sx={{ border: 0, boxShadow: 0, }}
@@ -67,11 +81,10 @@ export default function PostMenuBar({ userToken, docId, postData }) {
           />
         </IconButton>
       </Grid>
-      <Grid xs={12} item>
-        <IconButton
-          onClick={handleDeleteClick}
-          style={{ background: "none" }}
-          className={styles.iconButton}
+      <Grid xs={12} style={{marginTop:"5%"}} item >
+        <IconButton 
+          className="iconButton"
+          style={{background:"none"}}
         >
           <Delete
             onMouseEnter={handleOnMouseEnter}
@@ -80,7 +93,6 @@ export default function PostMenuBar({ userToken, docId, postData }) {
             fontSize="small" />
         </IconButton>
       </Grid>
-
-    </Box>
+    </Grid>
   );
 }

@@ -1,17 +1,18 @@
-import React, { useState } from "react";
+import { SyntheticEvent, useState } from "react";
 import { TreeItem } from "@mui/lab";
-import { Box, Typography, Button, Grid } from "@mui/material";
+import { Box, Typography, Grid } from "@mui/material";
 import { useSelector } from "react-redux";
 import { useMutation, useQueryClient } from "react-query";
 import { Delete, Add, ModeEdit, AddBoxOutlined } from "@mui/icons-material";
 
-import styles from "./ProjectTreeItem.module.css";
+import "./ProjectTreeItem.css";
 import postDocument from "../../utils/documents/postDocument";
 import deleteProject from "../../utils/projects/deleteProject";
 import updateProject from "../../utils/projects/updateProject";
 import DocumentForm from "../common/DocumentForm";
 import PopperMenu from "../common/PopperMenu";
 import ProjectForm from "../common/ProjectForm";
+import { RootState } from "../../config/reduxConfig";
 
 export default function ProjectTreeItem({
   projectName,
@@ -19,9 +20,9 @@ export default function ProjectTreeItem({
   projectDescription,
   children,
 }) {
-  const [opened, setOpened] = useState(false);
-  const [projOpened, setProjOpened] = useState(false);
-  const userToken = useSelector((state) => state.userToken);
+  const [opened, setOpened] = useState<boolean>(false);
+  const [projOpened, setProjOpened] = useState<boolean>(false);
+  const userToken: string = useSelector((state: RootState) => state.userToken);
   const queryClient = useQueryClient();
   const deleteMutation = useMutation(
     () => deleteProject(projectId, userToken),
@@ -41,17 +42,16 @@ export default function ProjectTreeItem({
     setHover(false);
   };
 
-  const toggleOpened = (event) => {
+  const toggleOpened = (event: SyntheticEvent) => {
     event?.stopPropagation();
     setOpened(!opened);
   };
 
-  const toggleProjOpened = (event) => {
-    event?.stopPropagation();
+  const toggleProjOpened = () => {
     setProjOpened(!projOpened);
   };
 
-  const handleDelete = (event) => {
+  const handleDelete = (event: SyntheticEvent) => {
     event?.stopPropagation();
     deleteMutation.mutate();
   };
@@ -75,7 +75,7 @@ export default function ProjectTreeItem({
             spacing={1}
             sx={{ minHeight: 44, alignItems: "center" }}
           >
-            <Grid item xs={9} className={styles.projectTitle}>
+            <Grid item xs={9} className="projectTitle">
               <Typography component="span">{projectName}</Typography>
             </Grid>
             <Grid
@@ -116,7 +116,7 @@ export default function ProjectTreeItem({
         label={
           <Box>
             <Grid container sx={{ minHeight: 44, alignItems: "center" }}>
-              <Grid item className={styles.projectTitle}>
+              <Grid item className="projectTitle">
                 <AddBoxOutlined sx={{ marginRight: 1 }} />
                 <Typography component="span">New Document</Typography>
               </Grid>

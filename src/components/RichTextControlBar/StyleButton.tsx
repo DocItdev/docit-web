@@ -1,8 +1,16 @@
-import React from "react";
+import { SyntheticEvent } from "react";
 
-const StyleButton = (props) => {
-    const { onToggle, style, label, icon, active } = props;
-    const onButtonToggle = (e)=>{
+export interface StyleButtonProps {
+    onToggle: (blockType: string) => void;
+    active: boolean;
+    label?: string;
+    icon: string;
+    style: string;
+}
+
+const StyleButton = (props: StyleButtonProps) => {
+    const { onToggle, style, icon, active } = props;
+    const onButtonToggle = (e: SyntheticEvent)=>{
         e.preventDefault();
         onToggle(style);
     }

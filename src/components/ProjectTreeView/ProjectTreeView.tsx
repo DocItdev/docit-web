@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { useDispatch } from 'react-redux';
 import TreeView from "@mui/lab/TreeView";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
@@ -6,8 +6,13 @@ import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import ProjectTreeItem from "../ProjectTreeItem";
 import DocTreeItem from "../DocTreeItem";
 import { setDocId } from "../../ducks";
+import { ProjectType } from "../../@types/Project";
 
-export default function ProjectTreeView({ projects }) {
+export interface ProjectTreeViewProps {
+  projects: ProjectType[];
+}
+
+export default function ProjectTreeView({ projects }: ProjectTreeViewProps) {
   const dispatch = useDispatch();
   useEffect(() => {
     if (projects[0]?.Documents?.length > 0) {

@@ -1,7 +1,14 @@
-import React from "react";
 import StyleButton from "./StyleButton";
+import draft from '../common/DocItEditor/Services';
+import { EditorState } from "draft-js";
 
-const InlineStyleControls = (props) => {
+export interface InlineStyleControlsProps {
+  editorState: EditorState;
+  inputType: typeof draft.INLINE_TYPES;
+  onToggle: (blockType: string) => void;
+}
+
+const InlineStyleControls = (props: InlineStyleControlsProps) => {
   const { editorState, inputType, onToggle } = props;
   const currentStyle = editorState.getCurrentInlineStyle();
 

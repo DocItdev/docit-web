@@ -7,3 +7,8 @@ export interface PostType {
   mediaFilePath?: string;
   index?: number;
 }
+
+export interface PostIndex {
+  id: string;
+  index: number;
+}
