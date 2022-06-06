@@ -74,11 +74,10 @@ export default function DocTreeItem({ docName, docId }: DocTreeItemProps) {
         label={
           <Grid
             container
-            spacing={0}
-            className="container"
-            sx={{ minHeight: 44, alignItems: 'center' }}
+            spacing={1}
+            sx={{ minHeight: 44, alignItems: 'center',}}
           >
-            <Grid item xs={10} spacing={0} className="docTitle">
+            <Grid item xs={10} className="docTitle">
               <i
                 className="bi bi-file-earmark-text"
                 style={{ marginRight: "5%" }}

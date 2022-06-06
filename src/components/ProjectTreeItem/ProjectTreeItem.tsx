@@ -75,12 +75,12 @@ export default function ProjectTreeItem({
             spacing={1}
             sx={{ minHeight: 44, alignItems: "center" }}
           >
-            <Grid item xs={9} className="projectTitle">
+            <Grid item xs={10} className="projectTitle">
               <Typography component="span">{projectName}</Typography>
             </Grid>
             <Grid
               item
-              xs={3}
+              xs={2}
               sx={{
                 display: "none",
                 ...(hover && { display: "flex" }),

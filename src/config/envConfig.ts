@@ -1,5 +1,3 @@
-
-
 export default {
   API_HOST: String(process.env.REACT_APP_API_HOST),
   GITHUB_CLIENT_ID: String(process.env.REACT_APP_GITHUB_CLIENT_ID),

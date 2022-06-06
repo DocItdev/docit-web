@@ -13,17 +13,25 @@ import { RootState } from "../../config/reduxConfig";
 
 export default function VideoPreview() {
   const mediaBlobUrl = useSelector((state: RootState) => state.mediaBlobUrl);
-  const [crop, setCrop] = useState<Crop>({ width: 0, height: 0, x: 0, y: 0, unit: 'px' });
+  const [crop, setCrop] = useState<Crop>({
+    width: 0,
+    height: 0,
+    x: 0,
+    y: 0,
+    unit: "px",
+  });
   const [completedCrop, setCompletedCrop] = useState<PixelCrop>();
   const [snip, setSnip] = useState<string>("");
   const [displayCrop, setDisplayCrop] = useState<boolean>(true);
   const [finalSnip, setFinalSnip] = useState<string>("");
   const [hover, setHover] = useState<boolean>(false);
+  const [imageDynamicWidth, setImageDynamicWidth] = useState<number>(200);
+
   const dispatch = useDispatch();
 
   useEffect(() => {
     if (mediaBlobUrl === "") {
-      setCrop({ width: 0, height: 0, x: 0, y: 0, unit: 'px' });
+      setCrop({ width: 0, height: 0, x: 0, y: 0, unit: "px" });
       setCompletedCrop(null);
       setSnip("");
       setDisplayCrop(true);
@@ -48,7 +56,7 @@ export default function VideoPreview() {
 
   const handleDelete = () => {
     setFinalSnip("");
-    setCrop({ width: 0, height: 0, x: 0, y: 0, unit: 'px' });
+    setCrop({ width: 0, height: 0, x: 0, y: 0, unit: "px" });
     setDisplayCrop(true);
     dispatch(setMediaBlobUrl(""));
   };
@@ -56,7 +64,7 @@ export default function VideoPreview() {
   const handleUndo = () => {
     dispatch(setMediaBlobUrl(snip));
     setFinalSnip("");
-    setCrop({ width: 0, height: 0, x: 0, y: 0, unit: 'px' });
+    setCrop({ width: 0, height: 0, x: 0, y: 0, unit: "px" });
     setDisplayCrop(true);
   };
 
@@ -69,7 +77,7 @@ export default function VideoPreview() {
     const screenshotPreview = document.getElementById(
       "screenshot-preview"
     ) as HTMLCanvasElement;
-
+    setImageDynamicWidth(screenshotPreview.width);
     // create a canvas element which will be used to draw and scale the image to get a crop
     const canvas = document.createElement("canvas");
     const ctx = canvas.getContext("2d");
@@ -162,13 +170,19 @@ export default function VideoPreview() {
             <img
               id="screenshot-preview"
               src={mediaBlobUrl}
-              style={{ objectFit: 'contain' }}
+              style={{ objectFit: "contain" }}
               alt="test"
             />
           </ReactCrop>
         )}
-
-        {finalSnip && <img id="cropedImg" src={finalSnip} alt="test" />}
+        {finalSnip && (
+          <img
+            id="cropedImg"
+            src={finalSnip}
+            alt="test"
+            style={{ maxWidth: imageDynamicWidth }}
+          />
+        )}
       </Grid>
     </Grid>
   ) : (

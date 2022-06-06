@@ -39,7 +39,7 @@ export default function Modal({
             </Grid>
           </Grid>
         </Navbar>
-        <div className="container">{children}</div>
+        <div className="modal-container">{children}</div>
       </Box>
     </MuiModal>
   );
