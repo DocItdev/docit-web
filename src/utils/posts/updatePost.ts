@@ -1,7 +1,13 @@
 import axios from "axios";
 import env from "../../config/envConfig";
+import { PostType } from "../../@types/Post";
 
-export default async function updatePost(userToken, docId, postId, postData) {
+export default async function updatePost(
+  userToken: string,
+  docId: string,
+  postId: string,
+  postData: PostType
+) {
   if (userToken && docId) {
     const opts = {
       headers: {
@@ -9,7 +15,7 @@ export default async function updatePost(userToken, docId, postId, postData) {
       },
     };
     const response = await axios.put(
-      `${env("API_HOST")}/api/posts/${postId}?doc_id=${docId}`,
+      `${env.API_HOST}/api/posts/${postId}?doc_id=${docId}`,
       postData,
       opts
     );

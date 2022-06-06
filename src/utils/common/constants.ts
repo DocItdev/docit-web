@@ -1,17 +1,22 @@
 export class AsyncStatus {
+  name: string;
+  
+  constructor(name: string) {
+    this.name = name;
+  }
 
   static IDLE = new AsyncStatus('idle');
   static LOADING = new AsyncStatus('loading');
   static SUCCESS = new AsyncStatus('success');
   static FAILURE = new AsyncStatus('failure');
-
-
-  constructor(name) {
-    this.name = name;
-  }
 }
 
 export class MediaFeatures {
+  name: string;
+
+  constructor(name: string) {
+    this.name = name;
+  }
 
   static NONE = new MediaFeatures('');
   static SCREEN_REC = new MediaFeatures('screen-recording');
@@ -19,10 +24,6 @@ export class MediaFeatures {
   static VOICE_REC = new MediaFeatures('voice-recording');
   static DIAGRAM = new MediaFeatures('diagram');
   static UPLOAD_FILE = new MediaFeatures('upload-file');
-  
-  constructor(name) {
-    this.name = name;
-  }
 }
 
 export const MediaTypes = {

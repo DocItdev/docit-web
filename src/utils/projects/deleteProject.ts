@@ -1,7 +1,7 @@
 import axios from "axios";
 import env from "../../config/envConfig";
 
-export default async function deleteProject(projectId, userToken) {
+export default async function deleteProject(projectId: string, userToken: string) {
   if(projectId) {
     const opts = {
       headers: {

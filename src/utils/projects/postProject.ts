@@ -1,7 +1,8 @@
 import axios from "axios";
+import { ProjectType } from "../../@types/Project";
 import env from "../../config/envConfig";
 
-export default async function postProject(userToken, project) {
+export default async function postProject(userToken: string, project: ProjectType) {
   if (userToken) {
     const opts = {
       headers: {

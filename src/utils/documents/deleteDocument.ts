@@ -1,7 +1,7 @@
 import axios from "axios";
 import env from "../../config/envConfig";
 
-export default async function deleteDocument(docId, userToken) {
+export default async function deleteDocument(docId: string, userToken: string) {
   if(docId) {
     const opts = {
       headers: {

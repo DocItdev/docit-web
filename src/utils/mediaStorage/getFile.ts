@@ -1,7 +1,7 @@
 import axios from "axios";
 import env from "../../config/envConfig";
 
-export default async function getFile(userToken, filePath) {
+export default async function getFile(userToken: string, filePath: string) {
   if (userToken) {
     const opts = {
       headers: {

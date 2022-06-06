@@ -1,7 +1,12 @@
 import axios from "axios";
 import env from "../../config/envConfig";
+import { PostIndex } from "../../@types/Post";
 
-export default async function updatePostIndex(userToken, docId, postIndexes) {
+export default async function updatePostIndex(
+  userToken: string,
+  docId: string,
+  postIndexes: PostIndex[]
+) {
   if (userToken && docId) {
     const opts = {
       headers: {
@@ -9,11 +14,11 @@ export default async function updatePostIndex(userToken, docId, postIndexes) {
       },
     };
     const postData = {
-        docId,
-        postIndexes
-    }
+      docId,
+      postIndexes,
+    };
     const response = await axios.put(
-      `${env("API_HOST")}/api/posts/index`,
+      `${env.API_HOST}/api/posts/index`,
       postData,
       opts
     );
