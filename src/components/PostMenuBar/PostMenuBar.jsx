@@ -51,35 +51,36 @@ export default function PostMenuBar({ userToken, docId, postData }) {
   }
 
   return (
-    <Box 
-       
+    <Box
+
       className={styles.container}
     >
-      <Grid xs={12} item>
-        <IconButton 
-          onClick={handleDeleteClick} 
-          style={{background:"none"}} 
+      <Grid xs={12} style={{ marginTop: "5%" }} item >
+        <IconButton
           className={styles.iconButton}
+          style={{ background: "none" }}
         >
-          <Delete 
-            onMouseEnter={handleOnMouseEnter} 
-            onMouseLeave={handleOnMouseLeave}
-            color={hover ? "error" : "disabled"} 
-            fontSize="small" />
-        </IconButton>
-      </Grid>
-      <Grid xs={12} style={{marginTop:"5%"}} item >
-        <IconButton 
-          className={styles.iconButton} 
-          style={{background:"none"}}
-        >
-          <DragIndicator 
-            sx={{ border: 0, boxShadow: 0, }} 
-            color="info" 
-            fontSize="large" 
+          <DragIndicator
+            sx={{ border: 0, boxShadow: 0, }}
+            color="info"
+            fontSize="large"
           />
         </IconButton>
       </Grid>
+      <Grid xs={12} item>
+        <IconButton
+          onClick={handleDeleteClick}
+          style={{ background: "none" }}
+          className={styles.iconButton}
+        >
+          <Delete
+            onMouseEnter={handleOnMouseEnter}
+            onMouseLeave={handleOnMouseLeave}
+            color={hover ? "error" : "disabled"}
+            fontSize="small" />
+        </IconButton>
+      </Grid>
+
     </Box>
   );
 }

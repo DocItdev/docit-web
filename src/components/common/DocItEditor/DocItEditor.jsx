@@ -108,7 +108,7 @@ export default function DocItEditor({
       
       {!readOnly && focused && (
         <Grid container onClick={focus} className="RichTextControlBar">
-          <Grid item xs={blocks && focused ? 9 : 7}>
+          <Grid item xs={blocks && focused ? 9 : 8}>
             <div className="RichTextControlBar-Buttons">
               <AllStyleControlsBar
                 editorState={editorState}
@@ -127,7 +127,7 @@ export default function DocItEditor({
                 loading={isLoading}
                 error={isError ? error.message : ""}
                 onClick={handlePost}
-                startIcon={<SendIcon size="large"/>}
+                startIcon={blocks && focused? "": <SendIcon size="large"/>}
                 color="primary"
                 variant="contained"
               >

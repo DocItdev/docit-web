@@ -169,7 +169,6 @@ export default function VideoPreview() {
                         onMouseLeave={handleOnMouseLeave}
                     >
                         <Cancel 
-                            color="error" 
                             fontSize="small"
                             color={hover ? "error" : "disabled"}  
                         />
@@ -199,8 +198,8 @@ export default function VideoPreview() {
                         id="cropedImg" 
                         src={finalSnip} 
                         alt="test" 
-                        //style={{ maxWidth: imageW }} 
-                        //width={imageDynamicWidth} height={imageDynamicHeight}
+                        style={{ maxWidth: imageDynamicWidth }} 
+                        
                     />
                 }
 
