@@ -169,7 +169,6 @@ export default function VideoPreview() {
                         onMouseLeave={handleOnMouseLeave}
                     >
                         <Cancel 
-                            color="error" 
                             fontSize="small"
                             color={hover ? "error" : "disabled"}  
                         />
