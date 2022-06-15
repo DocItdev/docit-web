@@ -1,0 +1,13 @@
+.postmenubar-container {
+  max-width: 5rem;
+  margin-left: auto;
+  z-index: 1;
+}
+
+.postmenubar-actions {
+  padding: 0;
+}
+
+.postmenubar-iconButton {
+  border-radius: 15% !important;
+}

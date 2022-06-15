@@ -1,0 +1,22 @@
+.root {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  /* width: 400; */
+  background-color: white;
+  min-width: 25rem;
+}
+
+.modal-container {
+  padding: 5%;
+}
+
+.header {
+  padding-left: 2rem;
+  padding-right: 2rem;
+}
+
+.iconButton {
+  padding: 0;
+}
