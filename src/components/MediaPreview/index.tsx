@@ -4,6 +4,7 @@ import { MediaFeatures } from "../../utils/common/constants";
 import SnipPreview from "./SnipPreview";
 import FilePreview from "./FilePreview";
 import AudioPreview from "./AudioPreview";
+import React from 'react';
 
 export interface MediaPreviewProps {
   type: MediaFeatures

@@ -7,6 +7,7 @@ import Grid from '@mui/material/Grid';
 import Cancel from "@mui/icons-material/Cancel";
 import { setMediaBlobUrl } from "../../ducks";
 import { RootState } from "../../config/reduxConfig";
+import React from "react";
 
 export default function VideoPreview() {
   const mediaBlobUrl: string = useSelector((state: RootState) => state.mediaBlobUrl);

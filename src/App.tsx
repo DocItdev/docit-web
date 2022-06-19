@@ -3,6 +3,7 @@ import { QueryClient, QueryClientProvider } from "react-query";
 import "./App.css";
 import AppRouter from "./routes/AppRouter";
 import { store } from "./config/reduxConfig";
+import React from "react";
 
 const queryClient = new QueryClient();
 

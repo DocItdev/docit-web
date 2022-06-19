@@ -2,6 +2,7 @@ import { EditorState, RichUtils } from "draft-js";
 import InlineStyleControls from "./InlineStyleControls";
 import draft from "../common/DocItEditor/Services";
 import BlockStyleControls from "./BlockStyleControls";
+import React from "react";
 
 export interface RichTextControlBarProps {
     editorState: EditorState;

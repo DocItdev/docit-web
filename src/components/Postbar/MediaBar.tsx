@@ -5,6 +5,7 @@ import Typography from "@mui/material/Typography";
 import PropTypes from 'prop-types';
 import PopupState, { bindTrigger, bindPopover } from "material-ui-popup-state";
 import { Feature } from "../../@types/Feature";
+import React from "react";
 
 export interface MediaBarProps {
   features: Feature[];

@@ -3,6 +3,7 @@ import GoogleLoggingButton, { GoogleLoginResponse } from 'react-google-login';
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { setToken, setUser } from '../../ducks';
+import React from 'react';
 
 export default function GoogleLogin() {
   const dispatch = useDispatch();

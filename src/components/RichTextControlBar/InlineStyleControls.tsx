@@ -1,6 +1,7 @@
 import StyleButton from "./StyleButton";
 import draft from '../common/DocItEditor/Services';
 import { EditorState } from "draft-js";
+import React from "react";
 
 export interface InlineStyleControlsProps {
   editorState: EditorState;
