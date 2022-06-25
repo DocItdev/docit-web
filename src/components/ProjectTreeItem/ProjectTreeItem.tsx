@@ -4,6 +4,7 @@ import { Box, Typography, Grid } from "@mui/material";
 import { useSelector } from "react-redux";
 import { useMutation, useQueryClient } from "react-query";
 import { Delete, Add, ModeEdit, AddBoxOutlined } from "@mui/icons-material";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
 
 import "./ProjectTreeItem.css";
 import postDocument from "../../utils/documents/postDocument";
@@ -88,7 +89,9 @@ export default function ProjectTreeItem({
                 ...(hover && { display: "flex" }),
               }}
             >
-              <PopperMenu menuItems={actionButtons} />
+              <PopperMenu menuItems={actionButtons}>
+                <MoreVertIcon />
+              </PopperMenu>
             </Grid>
           </Grid>
           <DocumentForm

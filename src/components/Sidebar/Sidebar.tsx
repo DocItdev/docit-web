@@ -23,6 +23,7 @@ import { drawerWidth } from "../../utils/common/constants";
 import { RootState } from "../../config/reduxConfig";
 import { ProjectList } from "../../@types/Project";
 import { AxiosError } from "axios";
+import SidebarSwitcher from "./SidebarSwitcher";
 
 export default function Sidebar({ drawerIsOpened, onClose }) {
   const [opened, setOpened] = useState<boolean>(false);
@@ -69,7 +70,7 @@ export default function Sidebar({ drawerIsOpened, onClose }) {
       <DrawerHeader>
         <Grid container sx={{ display: "flex", alignItems: "center" }}>
           <Grid item xs={10} sx={{ justifyItems: "flex-start" }}>
-            <Typography>{`${user.firstName} ${user.lastName}`}</Typography>
+            <SidebarSwitcher />
           </Grid>
           <Grid item xs={2} sx={{ justifyItems: "flex-end" }}>
             <IconButton onClick={onClose}>
