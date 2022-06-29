@@ -22,6 +22,7 @@ export default function GithubLogin() {
         if (code) {
           const response = await axios.post(`${env.API_HOST}/api/auth/github`, {code});
           const { data: { token, user } } = response;
+          console.log(token);
           dispatch(setToken(token));
           dispatch(setUser(user));
         }

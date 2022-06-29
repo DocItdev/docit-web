@@ -4,3 +4,7 @@ export interface UserType {
   firstName: string;
   lastName: string;
 }
+
+export interface RefreshTokenResponse {
+  token: string;
+}
