@@ -27,16 +27,15 @@ import SidebarSwitcher from "./SidebarSwitcher";
 
 export default function Sidebar({ drawerIsOpened, onClose }) {
   const [opened, setOpened] = useState<boolean>(false);
-  const { userToken, editable, selectedDocId, user, workspace } = useSelector(
+  const { userToken, editable, selectedDocId, workspace } = useSelector(
     (state: RootState) => state
   );
   const dispatch = useDispatch();
   const { isLoading, data } = useQuery<ProjectList, AxiosError>(
-    "projects",
+    ["projects", workspace],
     () => fetchAllProjects(userToken, workspace.id),
     {
-      enabled:
-        userToken !== undefined || userToken !== "" || userToken !== null,
+      enabled: workspace !== undefined || workspace !== null,
     }
   );
 
@@ -113,7 +112,9 @@ export default function Sidebar({ drawerIsOpened, onClose }) {
       <ProjectForm
         open={opened}
         onClose={toggleOpened}
-        onMutate={(newProject) => postProject(userToken, workspace.id, newProject)}
+        onMutate={(newProject) =>
+          postProject(userToken, workspace.id, newProject)
+        }
         title="CreateProject"
         buttonText="Create"
       />

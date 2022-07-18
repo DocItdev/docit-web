@@ -26,7 +26,6 @@ export default function GithubLogin() {
           } = response;
           dispatch(setToken(token));
           dispatch(setUser(user));
-          console.log("user", user);
           dispatch(
             setWorkspace(
               user?.Workspaces?.find(

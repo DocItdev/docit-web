@@ -16,3 +16,8 @@ export interface WorkspaceType {
     email: string;
   }[];
 }
+
+export interface WorkspaceUsers {
+  WorkspaceId: string;
+  emails: string[];
+}

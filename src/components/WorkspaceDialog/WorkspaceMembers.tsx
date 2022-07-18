@@ -1,28 +1,63 @@
-import React, { SyntheticEvent, useEffect } from "react";
+import { SyntheticEvent, useEffect } from "react";
 import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
-import Button from "@mui/material/Button";
+import LoadingButton from "@mui/lab/LoadingButton";
 import Link from "@mui/material/Link";
 import AddCircleOutlineRoundedIcon from "@mui/icons-material/AddCircleOutlineRounded";
-import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
-import { UseFormReturn, useFieldArray } from "react-hook-form";
-import { WorkspaceType } from "../../@types/Workspace.";
+import { UseFormReturn, useFieldArray, useForm } from "react-hook-form";
+import {
+  UserWorkspaceAttributes,
+  WorkspaceType,
+  WorkspaceUsers,
+} from "../../@types/Workspace.";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../../config/reduxConfig";
+import { useMutation } from "react-query";
+import { AxiosError } from "axios";
+import postWorkspaceMembers from "../../utils/workspaces/postWorkspaceMembers";
+import { setWorkspace } from "../../ducks";
 
 export interface WorkspaceMembersProps {
-  reactForm: UseFormReturn<WorkspaceType>;
   next?: (event: SyntheticEvent) => void;
+  onClose?: (event?: {}, reason?: "backdropClick" | "escapeKeyDown") => void;
+  workspaceData?: WorkspaceType
 }
 
-export default function WorkspaceMembers({ reactForm }: WorkspaceMembersProps) {
-  const { control, register } = reactForm;
+export default function WorkspaceMembers({ onClose, workspaceData }: WorkspaceMembersProps) {
+  const { control, register, handleSubmit } = useForm<WorkspaceType>();
   const { fields, append } = useFieldArray({ control, name: "Users" });
+  const workspace: WorkspaceType = useSelector(
+    (state: RootState) => state.workspace
+  );
+  const userToken: string = useSelector((state: RootState) => state.userToken);
+  const { mutate, isLoading } = useMutation<
+    UserWorkspaceAttributes,
+    AxiosError,
+    WorkspaceUsers,
+    void
+  >((workspacesMembers) => postWorkspaceMembers(userToken, workspacesMembers));
+    const dispatch = useDispatch();
+
   useEffect(() => {
-    if(fields.length === 0) {
-      append({ email: '' });
+    if (fields.length === 0) {
+      append({ email: "" });
     }
-  }, [fields])
+  }, [fields]);
+
+  const onSubmit = (values: WorkspaceType) => {
+    const workspacesMembers: WorkspaceUsers = {
+      WorkspaceId: workspaceData ? workspaceData.id : workspace.id,
+      emails: values.Users.map((user) => user.email),
+    };
+    mutate(workspacesMembers, {
+      onSuccess: () => {
+        dispatch(setWorkspace(workspaceData ? workspaceData : workspace));
+        onClose();
+      },
+    });
+  };
   return (
     <Container sx={{ height: "100vh" }}>
       <Typography variant="h2">
@@ -45,15 +80,27 @@ export default function WorkspaceMembers({ reactForm }: WorkspaceMembersProps) {
       ))}
       <Link
         underline="hover"
-        onClick={() => append({ email: '' })}
+        onClick={() => append({ email: "" })}
         sx={{ display: "flex", flexDirection: "row", paddingY: "1rem" }}
       >
         <AddCircleOutlineRoundedIcon />
         <Typography>Add Teammates</Typography>
       </Link>
       <Box>
-        <Button variant="contained">Add Members</Button>
+        <LoadingButton
+          loading={isLoading}
+          onClick={handleSubmit(onSubmit)}
+          variant="contained"
+        >
+          Add Members
+        </LoadingButton>
       </Box>
     </Container>
   );
 }
+
+WorkspaceMembers.defaultProps = {
+  next: () => {},
+  OnClose: () => {},
+  workspaceData: null,
+};

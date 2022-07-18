@@ -1,18 +1,38 @@
-import React, { SyntheticEvent } from 'react';
-import Container from '@mui/material/Container';
-import Typography from '@mui/material/Typography';
-import TextField from '@mui/material/TextField';
-import Button from '@mui/material/Button';
-import { UseFormReturn } from 'react-hook-form';
-import { WorkspaceType } from '../../@types/Workspace.';
+import React, { SyntheticEvent } from "react";
+import Container from "@mui/material/Container";
+import Typography from "@mui/material/Typography";
+import TextField from "@mui/material/TextField";
+import LoadingButton from "@mui/lab/LoadingButton";
+import { WorkspaceType } from "../../@types/Workspace.";
+import { useMutation } from "react-query";
+import { AxiosError } from "axios";
+import { useForm } from "react-hook-form";
+import postWorkspace from "../../utils/workspaces/postWorkspace";
+import { useSelector } from "react-redux";
+import { RootState } from "../../config/reduxConfig";
 
 export interface TeamIdentifyProps {
-  reactForm: UseFormReturn<WorkspaceType>
-  next: (event: SyntheticEvent) => void,
+  next: (event?: SyntheticEvent, data?: any) => void;
 }
 
-export default function TeamIdentify({ reactForm, next }: TeamIdentifyProps) {
-  const { register, watch } = reactForm;
+export default function TeamIdentify({ next }: TeamIdentifyProps) {
+  const reactForm = useForm<WorkspaceType>();
+  const { register, watch, handleSubmit } = reactForm;
+  const userToken: string = useSelector((state: RootState) => state.userToken);
+  const { mutate, isLoading } = useMutation<
+    WorkspaceType,
+    AxiosError,
+    WorkspaceType,
+    void
+  >((workspaceData) => postWorkspace(userToken, workspaceData));
+
+  const onSubmit = async (values: WorkspaceType) => {
+    mutate(values, {
+      onSuccess: (data) => {
+        next(null, data);
+      },
+    });
+  };
   return (
     <Container>
       <Typography variant="h2">
@@ -22,19 +42,24 @@ export default function TeamIdentify({ reactForm, next }: TeamIdentifyProps) {
         This will be the display name of your workspace.
       </Typography>
       <TextField
-          variant="outlined"
-          margin="normal"
-          required
-          fullWidth
-          id="workspaceTitle"
-          placeholder='Ex: DocIt Team'
-          label="Title"
-          autoFocus
-          {...register("title")}
-        />
-      <Button onClick={next} variant='contained' disabled={!watch().title}>
+        variant="outlined"
+        margin="normal"
+        required
+        fullWidth
+        id="workspaceTitle"
+        placeholder="Ex: DocIt Team"
+        label="Title"
+        autoFocus
+        {...register("title")}
+      />
+      <LoadingButton
+        onClick={handleSubmit(onSubmit)}
+        variant="contained"
+        disabled={!watch().title}
+        loading={isLoading}
+      >
         Next
-      </Button>
+      </LoadingButton>
     </Container>
-  )
+  );
 }

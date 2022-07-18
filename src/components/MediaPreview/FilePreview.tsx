@@ -67,7 +67,6 @@ export default function FilePreview() {
         dispatch(setMediaBlobUrl(url));
         dispatch(setMediaType(MediaTypes.FILE))
         dispatch(setFileName(acceptedFile[0].name));
-        console.log(url);
         setShowDropzone(false);
     }, [])
 
