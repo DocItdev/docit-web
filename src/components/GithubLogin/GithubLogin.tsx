@@ -20,7 +20,8 @@ export default function GithubLogin() {
     const authenticateGitHubUser = async () => {
       try {
         if (code) {
-          const response = await axios.post(`${env.API_HOST}/api/auth/github`, {code});
+         // console.log(code)
+          const response = await axios.post(`${env.API_HOST}/api/auth/github`, {code}, { withCredentials: true });
           const { data: { token, user } } = response;
           console.log(token);
           dispatch(setToken(token));

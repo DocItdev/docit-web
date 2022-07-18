@@ -40,6 +40,7 @@
     "react-image-crop": "^10.0.0",
     "react-media-recorder": "^1.6.3",
     "react-query": "^3.34.16",
+    "react-query-devtools": "^2.6.3",
     "react-redux": "^7.2.6",
     "react-router-dom": "^6.2.1",
     "react-scripts": "^5.0.1",

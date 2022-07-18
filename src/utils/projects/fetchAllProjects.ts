@@ -2,6 +2,7 @@ import axios from "axios";
 import env from "../../config/envConfig";
 
 export default async function fetchAllProjects(userToken: string) {
+  console.log(userToken);
   if (userToken) {
     const opts = {
       headers: {
