@@ -80,7 +80,7 @@ export default function Sidebar({ drawerIsOpened, onClose }) {
         </Grid>
       </DrawerHeader>
       {selectedDocId && (
-        <FormControl>
+        <FormControl style={{marginRight:"25%"}}>
           <FormControlLabel
             control={
               <Switch
