@@ -1,5 +1,5 @@
 import axios from "axios";
-import { WorkspaceType } from "../../@types/Workspace.";
+import { WorkspaceType } from "../../@types/Workspace";
 import env from "../../config/envConfig";
 
 export default async function postWorkspace(

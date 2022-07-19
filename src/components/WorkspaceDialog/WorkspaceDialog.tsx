@@ -3,7 +3,7 @@ import Dialog, { DialogProps } from "@mui/material/Dialog";
 import Journey, { Step } from "../common/Journey";
 import TeamIdentify from "./TeamIdentify";
 import WorkspaceMembers from "./WorkspaceMembers";
-import { WorkspaceType } from "../../@types/Workspace.";
+import { WorkspaceType } from "../../@types/Workspace";
 
 export default function WorkspaceDialog({ open, onClose }: DialogProps) {
   return (

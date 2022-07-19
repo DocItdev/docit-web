@@ -11,7 +11,7 @@ import {
   UserWorkspaceAttributes,
   WorkspaceType,
   WorkspaceUsers,
-} from "../../@types/Workspace.";
+} from "../../@types/Workspace";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../config/reduxConfig";
 import { useMutation } from "react-query";

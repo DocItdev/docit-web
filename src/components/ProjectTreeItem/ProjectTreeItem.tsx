@@ -14,7 +14,7 @@ import DocumentForm from "../common/DocumentForm";
 import PopperMenu from "../common/PopperMenu";
 import ProjectForm from "../common/ProjectForm";
 import { RootState } from "../../config/reduxConfig";
-import { WorkspaceType } from "../../@types/Workspace.";
+import { WorkspaceType } from "../../@types/Workspace";
 
 export default function ProjectTreeItem({
   projectName,
