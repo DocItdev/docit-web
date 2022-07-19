@@ -24,6 +24,7 @@ import { RootState } from "../../config/reduxConfig";
 import { ProjectList } from "../../@types/Project";
 import { AxiosError } from "axios";
 import SidebarSwitcher from "./SidebarSwitcher";
+import FeedbackModal from "./FeedbackModal";
 
 export default function Sidebar({ drawerIsOpened, onClose }) {
   const [opened, setOpened] = useState<boolean>(false);
@@ -90,10 +91,11 @@ export default function Sidebar({ drawerIsOpened, onClose }) {
               />
             }
             label="Edit Document"
+            labelPlacement = 'start'
           />
         </FormControl>
       )}
-      <Divider sx={{ marginTop: "5%", marginBottom: "5%" }} />
+      <Divider sx={{ marginTop: "10%", marginBottom: "5%" }} />
       <ProjectTreeView projects={data.projects} />
       <Divider sx={{ marginTop: "5%", marginBottom: "5%" }} />
       <Button
@@ -109,6 +111,12 @@ export default function Sidebar({ drawerIsOpened, onClose }) {
         <AddIcon sx={{ marginRight: "5%" }} />
         <Typography component="span">New Project</Typography>
       </Button>
+      <div style={{position:"fixed", bottom:"0"}}>
+      <Divider sx={{ marginTop: "5%", marginBottom: "5%" }} />
+      <FeedbackModal/>
+      </div>
+     
+      
       <ProjectForm
         open={opened}
         onClose={toggleOpened}
@@ -118,6 +126,7 @@ export default function Sidebar({ drawerIsOpened, onClose }) {
         title="CreateProject"
         buttonText="Create"
       />
+      
     </Drawer>
   );
 }
