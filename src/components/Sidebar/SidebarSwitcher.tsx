@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import PopperMenu from "../common/PopperMenu";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../config/reduxConfig";
-import { WorkspaceType } from "../../@types/Workspace.";
+import { WorkspaceType } from "../../@types/Workspace";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import { UserType } from "../../@types/User";

@@ -1,10 +1,10 @@
 import React, { useEffect } from "react";
 import Button from "react-bootstrap/Button";
 import { useDispatch } from "react-redux";
-import { setToken, setUser, setWorkspace } from "../../ducks";
+import { setToken, setTokenExpire, setUser, setWorkspace } from "../../ducks";
 import env from "../../config/envConfig";
 import axios from "axios";
-import { WorkspaceType } from "../../@types/Workspace.";
+import { WorkspaceType } from "../../@types/Workspace";
 
 export default function GithubLogin() {
   const dispatch = useDispatch();
@@ -18,13 +18,17 @@ export default function GithubLogin() {
     (async () => {
       try {
         if (code) {
-          const response = await axios.post(`${env.API_HOST}/api/auth/github`, {
-            code,
-          });
+          const response = await axios.post(
+            `${env.API_HOST}/api/auth/github`,
+            { code },
+            { withCredentials: true }
+          );
           const {
-            data: { token, user },
+            data: { token, user, expiresIn },
           } = response;
+
           dispatch(setToken(token));
+          dispatch(setTokenExpire(expiresIn));
           dispatch(setUser(user));
           dispatch(
             setWorkspace(

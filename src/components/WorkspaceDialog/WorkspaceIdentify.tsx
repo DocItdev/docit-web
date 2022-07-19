@@ -4,7 +4,7 @@ import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import { UseFormReturn } from 'react-hook-form';
-import { WorkspaceType } from '../../@types/Workspace.';
+import { WorkspaceType } from '../../@types/Workspace';
 
 export interface WorkspaceIdentifyProps {
   reactForm: UseFormReturn<WorkspaceType>

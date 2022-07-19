@@ -1,5 +1,5 @@
 import axios from "axios";
-import { WorkspaceUsers } from "../../@types/Workspace.";
+import { WorkspaceUsers } from "../../@types/Workspace";
 import env from "../../config/envConfig";
 
 export default async function postWorkspaceMembers(

@@ -3,7 +3,7 @@ import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
 import LoadingButton from "@mui/lab/LoadingButton";
-import { WorkspaceType } from "../../@types/Workspace.";
+import { WorkspaceType } from "../../@types/Workspace";
 import { useMutation } from "react-query";
 import { AxiosError } from "axios";
 import { useForm } from "react-hook-form";

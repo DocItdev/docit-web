@@ -1,4 +1,4 @@
-import { WorkspaceType } from "./Workspace.";
+import { WorkspaceType } from "./Workspace";
 
 export interface UserType {
   id: string;
@@ -6,4 +6,9 @@ export interface UserType {
   firstName: string;
   lastName: string;
   Workspaces: WorkspaceType[];
+}
+
+export interface RefreshTokenResponse {
+  token: string;
+  user: UserType;
 }
