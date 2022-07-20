@@ -1,4 +1,5 @@
 import Box from "@mui/material/Box";
+import React from "react";
 import useFile from "../../hooks/useFile";
 import Loader from "../common/Loader";
 

@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback, useMemo, CSSProperties } from "react";
+import React, { useEffect, useState, useCallback, useMemo, CSSProperties } from "react";
 import { useDropzone } from 'react-dropzone'
 import { useSelector, useDispatch } from "react-redux";
 import IconButton from '@mui/material/IconButton'
@@ -67,7 +67,6 @@ export default function FilePreview() {
         dispatch(setMediaBlobUrl(url));
         dispatch(setMediaType(MediaTypes.FILE))
         dispatch(setFileName(acceptedFile[0].name));
-        console.log(url);
         setShowDropzone(false);
     }, [])
 

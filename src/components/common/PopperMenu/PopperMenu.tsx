@@ -1,33 +1,39 @@
-import {
+import React, {
   useState,
   useRef,
   useEffect,
   SyntheticEvent,
   MouseEvent,
   FC,
+  ReactNode,
 } from "react";
 import IconButton from "@mui/material/IconButton";
 import ClickAwayListener from "@mui/material/ClickAwayListener";
-import Grow from "@mui/material/Grow";
 import Paper from "@mui/material/Paper";
-import Popper from "@mui/material/Popper";
 import MenuItem from "@mui/material/MenuItem";
 import MenuList from "@mui/material/MenuList";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import Typography from "@mui/material/Typography";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
+import Divider from "@mui/material/Divider";
+import Popover from "@mui/material/Popover";
 
 export interface MenuItem {
   title: string;
   onClick: (event: MouseEvent<HTMLLIElement, globalThis.MouseEvent>) => void;
-  icon: FC;
+  icon?: FC;
 }
 
 export interface PopperMenuProps {
   menuItems: MenuItem[];
+  children: ReactNode;
+  menuActions?: MenuItem[];
 }
 
-export default function PopperMenu({ menuItems }: PopperMenuProps) {
+export default function PopperMenu({
+  menuItems,
+  children,
+  menuActions,
+}: PopperMenuProps) {
   const [open, setOpen] = useState(false);
   const anchorRef = useRef(null);
 
@@ -36,11 +42,16 @@ export default function PopperMenu({ menuItems }: PopperMenuProps) {
     setOpen((prevOpen) => !prevOpen);
   };
 
-  const handleClose = (event) => {
+  const handleClose = (
+    event:
+      | globalThis.MouseEvent
+      | TouchEvent
+      | React.MouseEvent<HTMLLIElement, globalThis.MouseEvent>
+  ) => {
+    event.stopPropagation();
     if (anchorRef.current && anchorRef.current.contains(event.target)) {
       return;
     }
-
     setOpen(false);
   };
 
@@ -81,54 +92,65 @@ export default function PopperMenu({ menuItems }: PopperMenuProps) {
           },
         }}
       >
-        <MoreVertIcon />
+        {children}
       </IconButton>
-      <Popper
+      <Popover
         open={open}
         anchorEl={anchorRef.current}
-        placement="bottom-start"
-        transition
-        disablePortal
-        style={{ zIndex: 5 }}
-        onBlur={(e) => handleClose(e)}
+        onClose={handleClose}
       >
-        {({ TransitionProps, placement }) => (
-          <Grow
-            {...TransitionProps}
-            style={{
-              transformOrigin:
-                placement === "bottom-start" ? "left top" : "left bottom",
-            }}
-          >
-            <Paper>
-              <ClickAwayListener onClickAway={handleClose}>
-                <MenuList
-                  autoFocusItem={open}
-                  id="composition-menu"
-                  aria-labelledby="composition-button"
-                  onKeyDown={(e) => handleListKeyDown(e)}
+        <Paper elevation={1}>
+          <ClickAwayListener onClickAway={handleClose}>
+            <MenuList
+              autoFocusItem={open}
+              id="composition-menu"
+              aria-labelledby="composition-button"
+              onKeyDown={(e) => handleListKeyDown(e)}
+            >
+              {menuItems?.map(({ title, onClick, icon: MuiIcon }) => (
+                <MenuItem
+                  key={title}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onClick(e);
+                    handleClose(e);
+                  }}
                 >
-                  {menuItems?.map(({ title, onClick, icon: MuiIcon }) => (
-                    <MenuItem
-                      key={title}
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        onClick(e);
-                        handleClose(e);
-                      }}
-                    >
-                      <ListItemIcon>
-                        <MuiIcon />
-                      </ListItemIcon>
-                      <Typography variant="inherit">{title}</Typography>
-                    </MenuItem>
-                  ))}
-                </MenuList>
-              </ClickAwayListener>
-            </Paper>
-          </Grow>
-        )}
-      </Popper>
+                  {MuiIcon && (
+                    <ListItemIcon>
+                      <MuiIcon />
+                    </ListItemIcon>
+                  )}
+                  <Typography variant="inherit">{title}</Typography>
+                </MenuItem>
+              ))}
+              {menuActions?.length && (
+                <Divider style={{ marginTop: 0, marginBottom: 0 }} />
+              )}
+              {menuActions?.map(({ title, onClick, icon: MuiIcon }) => (
+                <MenuItem
+                  key={title}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onClick(e);
+                    handleClose(e);
+                  }}
+                  sx={{
+                    backgroundColor: "#f9f9f9",
+                  }}
+                >
+                  {MuiIcon && (
+                    <ListItemIcon>
+                      <MuiIcon />
+                    </ListItemIcon>
+                  )}
+                  <Typography variant="inherit">{title}</Typography>
+                </MenuItem>
+              ))}
+            </MenuList>
+          </ClickAwayListener>
+        </Paper>
+      </Popover>
     </>
   );
 }

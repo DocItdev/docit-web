@@ -1,13 +1,13 @@
-import { useState } from "react";
-import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
-import Switch from '@mui/material/Switch';
-import FormControl from '@mui/material/FormControl';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Drawer from '@mui/material/Drawer';
-import IconButton from '@mui/material/IconButton';
-import Divider from '@mui/material/Divider';
-import Grid from '@mui/material/Grid';
+import React, { useState } from "react";
+import Button from "@mui/material/Button";
+import Typography from "@mui/material/Typography";
+import Switch from "@mui/material/Switch";
+import FormControl from "@mui/material/FormControl";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import Drawer from "@mui/material/Drawer";
+import IconButton from "@mui/material/IconButton";
+import Divider from "@mui/material/Divider";
+import Grid from "@mui/material/Grid";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import AddIcon from "@mui/icons-material/Add";
 import ProjectTreeView from "../ProjectTreeView";
@@ -23,19 +23,20 @@ import { drawerWidth } from "../../utils/common/constants";
 import { RootState } from "../../config/reduxConfig";
 import { ProjectList } from "../../@types/Project";
 import { AxiosError } from "axios";
+import SidebarSwitcher from "./SidebarSwitcher";
+import FeedbackModal from "./FeedbackModal";
 
 export default function Sidebar({ drawerIsOpened, onClose }) {
   const [opened, setOpened] = useState<boolean>(false);
-  const { userToken, editable, selectedDocId, user } = useSelector(
+  const { userToken, editable, selectedDocId, workspace } = useSelector(
     (state: RootState) => state
   );
   const dispatch = useDispatch();
   const { isLoading, data } = useQuery<ProjectList, AxiosError>(
-    "projects",
-    () => fetchAllProjects(userToken),
+    ["projects", workspace],
+    () => fetchAllProjects(userToken, workspace.id),
     {
-      enabled:
-        userToken !== undefined || userToken !== "" || userToken !== null,
+      enabled: workspace !== undefined || workspace !== null,
     }
   );
 
@@ -67,11 +68,11 @@ export default function Sidebar({ drawerIsOpened, onClose }) {
       open={drawerIsOpened}
     >
       <DrawerHeader>
-        <Grid container sx={{ display: 'flex', alignItems: 'center' }}>
-          <Grid item xs={10} sx={{ justifyItems: 'flex-start' }}>
-            <Typography>{`${user.firstName} ${user.lastName}`}</Typography>
+        <Grid container sx={{ display: "flex", alignItems: "center" }}>
+          <Grid item xs={10} sx={{ justifyItems: "flex-start" }}>
+            <SidebarSwitcher />
           </Grid>
-          <Grid item xs={2} sx={{ justifyItems: 'flex-end' }}>
+          <Grid item xs={2} sx={{ justifyItems: "flex-end" }}>
             <IconButton onClick={onClose}>
               <ChevronLeftIcon sx={{ color: "#fff" }} />
             </IconButton>
@@ -79,7 +80,7 @@ export default function Sidebar({ drawerIsOpened, onClose }) {
         </Grid>
       </DrawerHeader>
       {selectedDocId && (
-        <FormControl>
+        <FormControl style={{marginRight:"25%"}}>
           <FormControlLabel
             control={
               <Switch
@@ -90,10 +91,11 @@ export default function Sidebar({ drawerIsOpened, onClose }) {
               />
             }
             label="Edit Document"
+            labelPlacement = 'start'
           />
         </FormControl>
       )}
-      <Divider sx={{ marginTop: "5%", marginBottom: "5%" }} />
+      <Divider sx={{ marginTop: "10%", marginBottom: "5%" }} />
       <ProjectTreeView projects={data.projects} />
       <Divider sx={{ marginTop: "5%", marginBottom: "5%" }} />
       <Button
@@ -109,13 +111,22 @@ export default function Sidebar({ drawerIsOpened, onClose }) {
         <AddIcon sx={{ marginRight: "5%" }} />
         <Typography component="span">New Project</Typography>
       </Button>
+      <div style={{position:"fixed", bottom:"0"}}>
+      <Divider sx={{ marginTop: "5%", marginBottom: "5%" }} />
+      <FeedbackModal/>
+      </div>
+     
+      
       <ProjectForm
         open={opened}
         onClose={toggleOpened}
-        onMutate={(newProject) => postProject(userToken, newProject)}
+        onMutate={(newProject) =>
+          postProject(userToken, workspace.id, newProject)
+        }
         title="CreateProject"
         buttonText="Create"
       />
+      
     </Drawer>
   );
 }

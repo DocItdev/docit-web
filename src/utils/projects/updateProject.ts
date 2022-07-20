@@ -4,7 +4,7 @@ import env from "../../config/envConfig";
 
 export default async function updateProject(
   userToken: string,
-  projectId: string,
+  workspaceId: string,
   projectData: ProjectType
 ) {
   if (userToken) {
@@ -14,7 +14,7 @@ export default async function updateProject(
       },
     };
     const response = await axios.put(
-      `${env.API_HOST}/api/projects/${projectId}`,
+      `${env.API_HOST}/api/projects/${projectData.id}?workspaceId=${workspaceId}`,
       projectData,
       opts
     );

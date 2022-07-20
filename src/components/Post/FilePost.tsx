@@ -3,6 +3,7 @@ import Grid from "@mui/material/Grid";
 import CardContent from "@mui/material/CardContent";
 import FilePresentIcon from "@mui/icons-material/FilePresent";
 import Loader from "../common/Loader";
+import React from "react";
 
 export interface FilePostProps {
   filePath: string;

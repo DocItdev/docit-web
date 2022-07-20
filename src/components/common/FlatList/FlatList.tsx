@@ -1,4 +1,4 @@
-import { ReactNode, ReactElement } from "react";
+import React, { ReactNode, ReactElement } from "react";
 
 export interface FlatListProps {
   list: any[];

@@ -1,4 +1,4 @@
-import { SyntheticEvent, useState } from "react";
+import React, { SyntheticEvent, useState } from "react";
 import TreeItem from "@mui/lab/TreeItem";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
@@ -6,6 +6,7 @@ import { useMutation, useQueryClient } from "react-query";
 import { useSelector, useDispatch } from "react-redux";
 import Delete from "@mui/icons-material/Delete";
 import ModeEdit from "@mui/icons-material/ModeEdit";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
 
 import "./DocTreeItem.css";
 import deleteDocument from "../../utils/documents/deleteDocument";
@@ -95,7 +96,9 @@ export default function DocTreeItem({ docName, docId }: DocTreeItemProps) {
                 ...(hover && { display: "flex" }),
               }}
             >
-              <PopperMenu menuItems={actionButtons} />
+              <PopperMenu menuItems={actionButtons}>
+                <MoreVertIcon />
+              </PopperMenu>
             </Grid>
           </Grid>
         }

@@ -1,4 +1,4 @@
-import { SyntheticEvent } from "react";
+import React, { SyntheticEvent } from "react";
 
 export interface StyleButtonProps {
     onToggle: (blockType: string) => void;

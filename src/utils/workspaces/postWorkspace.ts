@@ -1,11 +1,10 @@
 import axios from "axios";
-import { ProjectType } from "../../@types/Project";
+import { WorkspaceType } from "../../@types/Workspace";
 import env from "../../config/envConfig";
 
-export default async function postProject(
+export default async function postWorkspace(
   userToken: string,
-  workspaceId: string,
-  project: ProjectType
+  workspaceData: WorkspaceType
 ) {
   if (userToken) {
     const opts = {
@@ -14,8 +13,8 @@ export default async function postProject(
       },
     };
     const response = await axios.post(
-      `${env.API_HOST}/api/projects`,
-      {...project, workspaceId},
+      `${env.API_HOST}/api/workspaces`,
+      workspaceData,
       opts
     );
     return response.data;

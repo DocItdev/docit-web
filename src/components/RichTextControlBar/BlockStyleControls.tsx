@@ -1,4 +1,4 @@
-import { EditorState } from "draft-js";
+import React, { EditorState } from "draft-js";
 import StyleButton from "./StyleButton";
 import draft from '../common/DocItEditor/Services';
 

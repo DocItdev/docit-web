@@ -1,4 +1,5 @@
 import Grid from "@mui/material/Grid";
+import React from "react";
 import useFile from "../../hooks/useFile";
 import Loader from "../common/Loader";
 
