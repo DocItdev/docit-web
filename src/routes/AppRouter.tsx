@@ -8,15 +8,20 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../config/reduxConfig";
 import { WorkspaceType } from "../@types/Workspace";
 import { useQuery } from "react-query";
+import { AxiosError } from "axios";
 
 export default function AppRouter() {
   const tokenExpire: number = useSelector(
     (state: RootState) => state.tokenExpiresIn
   );
   const dispatch = useDispatch();
-  const { data } = useQuery("refreshToken", () => getRefreshToken(), {
-    staleTime: tokenExpire,
-  });
+  const { data } = useQuery<RefreshTokenResponse, AxiosError>(
+    "refreshToken",
+    () => getRefreshToken(),
+    {
+      staleTime: tokenExpire,
+    }
+  );
   useEffect(() => {
     if (data) {
       dispatch(setToken(data.token));
