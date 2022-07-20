@@ -56,6 +56,7 @@ export default function reducer(state = initialState, action: AnyAction) {
     case SET_USER:
       return { ...state, user: action.payload };
     case SET_WORKSPACE:
+      localStorage.setItem('workspace', JSON.stringify(action.payload));
       return { ...state, workspace: action.payload };
     case TOKEN_EXPIRE:
       return { ...state, tokenExpiresIn: action.payload };

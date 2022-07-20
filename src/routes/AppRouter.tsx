@@ -10,7 +10,6 @@ import { WorkspaceType } from "../@types/Workspace";
 import { useQuery } from "react-query";
 
 export default function AppRouter() {
-  const userToken: string = useSelector((state: RootState) => state.userToken);
   const tokenExpire: number = useSelector(
     (state: RootState) => state.tokenExpiresIn
   );
@@ -18,20 +17,15 @@ export default function AppRouter() {
   const { data } = useQuery("refreshToken", () => getRefreshToken(), {
     staleTime: tokenExpire,
   });
-
   useEffect(() => {
     if (data) {
-      console.log(data);
       dispatch(setToken(data.token));
-      dispatch(setTokenExpire(data.expiresIn))
+      dispatch(setTokenExpire(data.expiresIn));
       dispatch(setUser(data.user));
-      dispatch(
-        setWorkspace(
-          data.user?.Workspaces?.find(
-            (workspace: WorkspaceType) => workspace.personal === true
-          )
-        )
+      const workspace: WorkspaceType = JSON.parse(
+        localStorage.getItem("workspace")
       );
+      dispatch(setWorkspace(workspace));
     }
   }, [data]);
 
