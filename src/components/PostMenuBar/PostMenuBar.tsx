@@ -70,7 +70,6 @@ export default function PostMenuBar({ userToken, docId, postData }: PostMenuBarP
     >
       <Grid xs={12} item>
         <IconButton 
-          onClick={handleDeleteClick} 
           style={{background:"none"}} 
           className="postmenubar-iconButton"
         >
@@ -82,7 +81,8 @@ export default function PostMenuBar({ userToken, docId, postData }: PostMenuBarP
         </IconButton>
       </Grid>
       <Grid xs={12} style={{marginTop:"5%"}} item >
-        <IconButton 
+        <IconButton
+          onClick={handleDeleteClick} 
           className="postmenubar-iconButton"
           style={{background:"none"}}
         >

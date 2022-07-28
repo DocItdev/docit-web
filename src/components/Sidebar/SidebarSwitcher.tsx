@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { SyntheticEvent, useState } from "react";
 import PopperMenu from "../common/PopperMenu";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../config/reduxConfig";
@@ -22,35 +22,40 @@ export default function SidebarSwitcher() {
   const [openUsersModal, setOpenUsersModal] = useState<boolean>();
   const dispatch = useDispatch();
   return (
-    <PopperMenu
-      menuItems={Workspaces.map((workspace: WorkspaceType) => ({
-        title: workspace.title,
-        onClick: () => {
-          dispatch(setWorkspace(workspace));
-        },
-        icon: null,
-      }))}
-      menuActions={[
-        { title: "Create workspace", onClick: () => setOpen(true) },
-        {
-          title: "Add someone to workspace",
-          onClick: () => setOpenUsersModal(true),
-        },
-      ]}
-    >
-      <Grid container>
-        <Grid item>
-          <Typography>{workspace.title}</Typography>
+    <>
+      <PopperMenu
+        menuItems={Workspaces.map((workspace: WorkspaceType) => ({
+          title: workspace.title,
+          onClick: () => {
+            dispatch(setWorkspace(workspace));
+          },
+          icon: null,
+        }))}
+        menuActions={[
+          { title: "Create workspace", onClick: () => setOpen(true) },
+          {
+            title: "Add someone to workspace",
+            onClick: () => setOpenUsersModal(true),
+          },
+        ]}
+      >
+        <Grid container>
+          <Grid item>
+            <Typography>{workspace.title}</Typography>
+          </Grid>
         </Grid>
-      </Grid>
+      </PopperMenu>
       <WorkspaceDialog open={open} onClose={() => setOpen(false)} />
       <Dialog
         fullScreen
         open={openUsersModal}
-        onClose={() => setOpenUsersModal(false)}
+        onClose={(e: SyntheticEvent) => {
+          e.stopPropagation();
+          setOpenUsersModal(false);
+        }}
       >
         <WorkspaceMembers />
       </Dialog>
-    </PopperMenu>
+    </>
   );
 }
