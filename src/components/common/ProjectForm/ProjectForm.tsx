@@ -6,11 +6,11 @@ import Modal from "../Modal";
 import AsyncButton from "../AsyncButton";
 import { AxiosError } from "axios";
 import { ProjectType } from "../../../@types/Project";
-import React from "react";
+import React, { SyntheticEvent } from "react";
 
 export interface ProjectFormProps {
   open: boolean;
-  onClose: () => void;
+  onClose: (event?: SyntheticEvent) => void;
   title: string;
   buttonText: string;
   onMutate?: (projectData: ProjectType) => Promise<void>;

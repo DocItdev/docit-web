@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { SyntheticEvent, useState } from "react";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Switch from "@mui/material/Switch";
@@ -40,7 +40,8 @@ export default function Sidebar({ drawerIsOpened, onClose }) {
     }
   );
 
-  const toggleOpened = () => {
+  const toggleOpened = (event: SyntheticEvent) => {
+    event.stopPropagation();
     setOpened(!opened);
   };
 
