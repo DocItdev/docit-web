@@ -41,7 +41,7 @@ export default function Sidebar({ drawerIsOpened, onClose }) {
   );
 
   const toggleOpened = (event: SyntheticEvent) => {
-    event.stopPropagation();
+    event?.stopPropagation();
     setOpened(!opened);
   };
 
