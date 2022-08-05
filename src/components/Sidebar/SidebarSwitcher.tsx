@@ -33,7 +33,7 @@ export default function SidebarSwitcher() {
         }))}
         menuActions={[
           { title: "Create workspace", onClick: () => setOpen(true) },
-          {
+          !workspace.personal && {
             title: "Add someone to workspace",
             onClick: () => setOpenUsersModal(true),
           },
