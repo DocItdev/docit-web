@@ -1,7 +1,6 @@
-import React from "react";
+import React, { useEffect } from "react";
 import GithubLogin from "../../components/GithubLogin";
 import GoogleLogin from "../../components/GoogleLogin";
-import useAuthEffect from "../../hooks/useAuthEffect";
 import Paper from "@mui/material/Paper";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
@@ -9,9 +8,23 @@ import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
 import wave from "./waveSvgComponent.svg";
 import yacht from "./yatch.png";
+import { useLocation, Location, useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { RootState } from "../../config/reduxConfig";
 
 export default function Login() {
-  useAuthEffect();
+  const location = useLocation();
+  const navigate = useNavigate();
+  const userToken: string = useSelector((state: RootState) => state.userToken);
+
+  useEffect(() => {
+    if (userToken) {
+      const locState = location.state as { from: Location };
+      const fromUrl = locState?.from.pathname || '/';
+      navigate(fromUrl, { replace: true });
+    }
+  }, [userToken])
+
   return (
     <div
       style={{
@@ -71,7 +84,6 @@ export default function Login() {
               <div style={{ margin: "10px" }}>
                 <GithubLogin />
               </div>
-
               <GoogleLogin />
             </CardContent>
           </Card>

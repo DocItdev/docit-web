@@ -10,7 +10,6 @@ import useAuthEffect from "../../hooks/useAuthEffect";
 import { AppBar, Main } from "./styles";
 
 export default function DocIt() {
-  useAuthEffect();
   const [drawerIsOpened, setDrawerIsOpened] = useState<boolean>(true);
   return (
     <Box sx={{ display: "flex" }}>
