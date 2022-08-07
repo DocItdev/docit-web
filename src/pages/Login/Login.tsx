@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import GithubLogin from "../../components/GithubLogin";
 import GoogleLogin from "../../components/GoogleLogin";
 import Paper from "@mui/material/Paper";
@@ -11,19 +11,21 @@ import yacht from "./yatch.png";
 import { useLocation, Location, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { RootState } from "../../config/reduxConfig";
+import { WorkspaceType } from "../../@types/Workspace";
 
 export default function Login() {
   const location = useLocation();
   const navigate = useNavigate();
   const userToken: string = useSelector((state: RootState) => state.userToken);
+  const [workspace, setWorkspace] = useState<WorkspaceType>();
 
   useEffect(() => {
-    if (userToken) {
+    if (userToken && workspace) {
       const locState = location.state as { from: Location };
-      const fromUrl = locState?.from.pathname || '/';
+      const fromUrl = locState?.from.pathname || `/${workspace.id}`;
       navigate(fromUrl, { replace: true });
     }
-  }, [userToken])
+  }, [userToken, workspace])
 
   return (
     <div
@@ -82,9 +84,9 @@ export default function Login() {
                 </span>
               </Typography>
               <div style={{ margin: "10px" }}>
-                <GithubLogin />
+                <GithubLogin setWorkspace={setWorkspace} />
               </div>
-              <GoogleLogin />
+              <GoogleLogin setWorkspace={setWorkspace} />
             </CardContent>
           </Card>
         </Grid>

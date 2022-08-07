@@ -12,12 +12,12 @@ import {
   WorkspaceType,
   WorkspaceUsers,
 } from "../../@types/Workspace";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { RootState } from "../../config/reduxConfig";
-import { useMutation } from "react-query";
+import { useMutation, useQuery, useQueryClient } from "react-query";
 import { AxiosError } from "axios";
 import postWorkspaceMembers from "../../utils/workspaces/postWorkspaceMembers";
-import { setWorkspace } from "../../ducks";
+import { useNavigate, useParams } from "react-router-dom";
 
 export interface WorkspaceMembersProps {
   next?: (event: SyntheticEvent) => void;
@@ -28,17 +28,16 @@ export interface WorkspaceMembersProps {
 export default function WorkspaceMembers({ onClose, workspaceData }: WorkspaceMembersProps) {
   const { control, register, handleSubmit } = useForm<WorkspaceType>();
   const { fields, append } = useFieldArray({ control, name: "Users" });
-  const workspace: WorkspaceType = useSelector(
-    (state: RootState) => state.workspace
-  );
   const userToken: string = useSelector((state: RootState) => state.userToken);
+  const { workspaceId } = useParams();
   const { mutate, isLoading } = useMutation<
     UserWorkspaceAttributes,
     AxiosError,
     WorkspaceUsers,
     void
   >((workspacesMembers) => postWorkspaceMembers(userToken, workspacesMembers));
-    const dispatch = useDispatch();
+    const queryClient = useQueryClient();
+    const navigate = useNavigate();
 
   useEffect(() => {
     if (fields.length === 0) {
@@ -47,13 +46,15 @@ export default function WorkspaceMembers({ onClose, workspaceData }: WorkspaceMe
   }, [fields]);
 
   const onSubmit = (values: WorkspaceType) => {
+    const selectedWorkspaceId = workspaceData ? workspaceData.id : workspaceId;
     const workspacesMembers: WorkspaceUsers = {
-      WorkspaceId: workspaceData ? workspaceData.id : workspace.id,
+      WorkspaceId: selectedWorkspaceId,
       emails: values.Users.map((user) => user.email),
     };
     mutate(workspacesMembers, {
       onSuccess: () => {
-        dispatch(setWorkspace(workspaceData ? workspaceData : workspace));
+        queryClient.invalidateQueries('refreshToken');
+        navigate(`../${selectedWorkspaceId}`, { replace: true })
         onClose();
       },
     });

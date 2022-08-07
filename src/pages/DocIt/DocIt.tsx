@@ -6,7 +6,6 @@ import CssBaseline from "@mui/material/CssBaseline";
 import MenuIcon from "@mui/icons-material/Menu";
 import DocumentContainer from "../../components/DocumentContainer";
 import Sidebar from "../../components/Sidebar";
-import useAuthEffect from "../../hooks/useAuthEffect";
 import { AppBar, Main } from "./styles";
 
 export default function DocIt() {

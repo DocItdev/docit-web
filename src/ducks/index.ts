@@ -5,7 +5,6 @@ import { WorkspaceType } from "../@types/Workspace";
 // Action Constants
 const SET_TOKEN = 'docIt/users/SET_TOKEN';
 const SET_USER = 'docIt/users/SET_USER';
-const SET_WORKSPACE = 'docIt/workspaces/SET_WORKSPACE';
 const SET_DOC_ID = 'docIt/documents/SET_DOC_ID';
 const SET_EDITABLE = 'docIt/posts/SET_EDITABLE';
 const SET_MEDIA_BLOB_URL = 'docIt/posts/SET_MEDIA_BLOB_URL';
@@ -16,7 +15,6 @@ const TOKEN_EXPIRE = 'docIt/users/SET_TOKEN_EXPIRE';
 export interface AppState {
   userToken: string;
   user: UserType
-  workspace: WorkspaceType,
   selectedDocId: string;
   editable: boolean;
   mediaBlobUrl: string;
@@ -29,7 +27,6 @@ export interface AppState {
 const initialState: AppState = {
   userToken: '',
   user: null,
-  workspace: null,
   selectedDocId: '',
   editable: false,
   mediaBlobUrl: '',
@@ -55,9 +52,6 @@ export default function reducer(state = initialState, action: AnyAction) {
         return { ...state, fileName: action.payload };
     case SET_USER:
       return { ...state, user: action.payload };
-    case SET_WORKSPACE:
-      localStorage.setItem('workspace', JSON.stringify(action.payload));
-      return { ...state, workspace: action.payload };
     case TOKEN_EXPIRE:
       return { ...state, tokenExpiresIn: action.payload };
     default:
@@ -92,10 +86,6 @@ export function setFileName(fileName: string) {
 
 export function setUser(user: UserType) {
   return { type: SET_USER, payload: user };
-}
-
-export function setWorkspace(workspace: WorkspaceType) {
-  return { type: SET_WORKSPACE, payload: workspace };
 }
 
 export function setTokenExpire(milliseconds: number) {
