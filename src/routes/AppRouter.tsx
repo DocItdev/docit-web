@@ -26,7 +26,16 @@ export default function AppRouter() {
                   <DocIt />
                 </RequireAuth>
               }
-            />
+            >
+              <Route
+                path=":docId"
+                element={
+                  <RequireAuth>
+                    <DocIt />
+                  </RequireAuth>
+                }
+              />
+            </Route>
           </Route>
         </Routes>
       </BrowserRouter>

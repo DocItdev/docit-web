@@ -10,11 +10,11 @@ import MoreVertIcon from "@mui/icons-material/MoreVert";
 
 import "./DocTreeItem.css";
 import deleteDocument from "../../utils/documents/deleteDocument";
-import { setDocId } from "../../ducks";
 import DocumentForm from "../common/DocumentForm";
 import updateDocument from "../../utils/documents/updateDocument";
 import PopperMenu from "../common/PopperMenu";
 import { RootState } from "../../config/reduxConfig";
+import { useNavigate, useParams } from "react-router-dom";
 
 export interface DocTreeItemProps {
   docName: string;
@@ -23,6 +23,8 @@ export interface DocTreeItemProps {
 
 export default function DocTreeItem({ docName, docId }: DocTreeItemProps) {
   const { userToken } = useSelector((state: RootState) => state);
+  const navigate = useNavigate();
+  const { workspaceId, projectId } = useParams();
   const queryClient = useQueryClient();
   const { mutate } = useMutation(() => deleteDocument(docId, userToken), {
     onSuccess: () => {
@@ -43,7 +45,7 @@ export default function DocTreeItem({ docName, docId }: DocTreeItemProps) {
 
   const handleClick = (event) => {
     event.stopPropagation();
-    dispatch(setDocId(docId));
+    navigate(`../${workspaceId}/${projectId}/${docId}`);
   };
 
   const toggleOpened = () => {

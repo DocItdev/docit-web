@@ -15,15 +15,17 @@ import AudioRecorderBar from "./AudioRecorderBar";
 import { RootState } from "../../config/reduxConfig";
 import { PostType } from "../../@types/Post";
 import { Feature } from "../../@types/Feature";
+import { useParams } from "react-router-dom";
 
 export default function PostBar() {
 
-  const { userToken, selectedDocId, mediaBlobUrl, mediaType, fileName } =
+  const { userToken, mediaBlobUrl, mediaType, fileName } =
     useSelector((state: RootState) => state);
 
   const [featureTrigger, setFeatureTrigger] = useState<MediaFeatures>(MediaFeatures.NONE);
   const [featurePreview, setFeaturePreview] = useState<MediaFeatures>(MediaFeatures.NONE);
   const dispatch = useDispatch();
+  const { docId: selectedDocId } = useParams()
 
   const handleMutation = async (postData: PostType) => {
     if (mediaBlobUrl) {

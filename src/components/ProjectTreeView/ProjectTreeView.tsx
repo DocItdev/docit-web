@@ -5,7 +5,6 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import ProjectTreeItem from "../ProjectTreeItem";
 import DocTreeItem from "../DocTreeItem";
-import { setDocId } from "../../ducks";
 import { ProjectType } from "../../@types/Project";
 import { useParams } from "react-router-dom";
 
@@ -15,19 +14,14 @@ export interface ProjectTreeViewProps {
 
 export default function ProjectTreeView({ projects }: ProjectTreeViewProps) {
   const dispatch = useDispatch();
-  const { projectId } = useParams();
-  useEffect(() => {
-    if (projects[0]?.Documents?.length > 0) {
-      dispatch(setDocId(projects[0].Documents[0].id));
-    }
-  }, [projects])
+  const { projectId, docId } = useParams();
   return (
     <TreeView
       aria-label="file system navigator"
       defaultCollapseIcon={<ExpandMoreIcon />}
       defaultExpandIcon={<ChevronRightIcon />}
       defaultExpanded={projects.map((project) => project.id)}
-      defaultSelected={projectId}
+      defaultSelected={docId ? docId : projectId}
     >
       {projects.length &&
         projects.map(({ name, id, description, Documents }) => (

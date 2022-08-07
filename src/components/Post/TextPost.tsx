@@ -4,6 +4,7 @@ import { convertFromRaw } from "draft-js";
 import DocItEditor from "../common/DocItEditor/DocItEditor";
 import updatePost from "../../utils/posts/updatePost";
 import { RootState } from "../../config/reduxConfig";
+import { useParams } from "react-router-dom";
 
 export interface TextPostProps {
   postText: string;
@@ -15,14 +16,15 @@ export default function TextPost({ postText, postId }: TextPostProps) {
     () => convertFromRaw(JSON.parse(postText)),
     [postText]
   );
-  const { editable, userToken, selectedDocId } = useSelector((state: RootState) => state);
+  const { editable, userToken } = useSelector((state: RootState) => state);
+  const {docId} = useParams();
   return (
     <DocItEditor
       blocks={blocks}
       readOnly={!editable}
       buttonText="SAVE"
       onMutate={(postData) =>
-        updatePost(userToken, selectedDocId, postId, postData)
+        updatePost(userToken, docId, postId, postData)
       }
     />
   );

@@ -29,10 +29,10 @@ import { useParams } from "react-router-dom";
 
 export default function Sidebar({ drawerIsOpened, onClose }) {
   const [opened, setOpened] = useState<boolean>(false);
-  const { userToken, editable, selectedDocId } = useSelector(
+  const { userToken, editable } = useSelector(
     (state: RootState) => state
   );
-  const { workspaceId } = useParams()
+  const { workspaceId, docId } = useParams()
   const dispatch = useDispatch();
   const { isLoading, data } = useQuery<ProjectList, AxiosError>(
     ["projects", workspaceId],
@@ -82,7 +82,7 @@ export default function Sidebar({ drawerIsOpened, onClose }) {
           </Grid>
         </Grid>
       </DrawerHeader>
-      {selectedDocId && (
+      {docId && (
         <FormControl style={{marginRight:"25%"}}>
           <FormControlLabel
             control={
