@@ -14,7 +14,7 @@ import DocumentForm from "../common/DocumentForm";
 import PopperMenu from "../common/PopperMenu";
 import ProjectForm from "../common/ProjectForm";
 import { RootState } from "../../config/reduxConfig";
-import { WorkspaceType } from "../../@types/Workspace";
+import { useNavigate, useParams } from "react-router-dom";
 
 export default function ProjectTreeItem({
   projectName,
@@ -25,10 +25,10 @@ export default function ProjectTreeItem({
   const [opened, setOpened] = useState<boolean>(false);
   const [projOpened, setProjOpened] = useState<boolean>(false);
   const userToken: string = useSelector((state: RootState) => state.userToken);
-  const workspace: WorkspaceType = useSelector((state: RootState) => state.workspace);
+  const { workspaceId } = useParams();
   const queryClient = useQueryClient();
   const deleteMutation = useMutation(
-    () => deleteProject(projectId, userToken, workspace.id),
+    () => deleteProject(projectId, userToken, workspaceId),
     {
       onSuccess: () => {
         queryClient.invalidateQueries("projects");
@@ -36,6 +36,7 @@ export default function ProjectTreeItem({
     }
   );
   const [hover, setHover] = useState(false);
+  const navigate = useNavigate();
 
   const handleOnMouseEnter = () => {
     setHover(true);
@@ -68,6 +69,10 @@ export default function ProjectTreeItem({
   return (
     <TreeItem
       nodeId={projectId}
+      onClick={(e) => {
+        e.stopPropagation();
+        navigate(`../${workspaceId}/${projectId}`);
+      }}
       label={
         <Box
           onMouseEnter={handleOnMouseEnter}
@@ -107,7 +112,7 @@ export default function ProjectTreeItem({
             open={projOpened}
             onClose={toggleProjOpened}
             onMutate={(projectData) =>
-              updateProject(userToken, workspace.id, { ...projectData, id: projectId, })
+              updateProject(userToken, workspaceId, { ...projectData, id: projectId, })
             }
             initialValues={{ projectName, projectDescription }}
           />

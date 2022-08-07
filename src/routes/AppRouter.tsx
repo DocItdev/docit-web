@@ -11,11 +11,23 @@ export default function AppRouter() {
       <BrowserRouter>
         <Routes>
           <Route path="/login" element={<Login />} />
-          <Route path=":workspaceId" element={
-            <RequireAuth>
-              <DocIt />
-            </RequireAuth>
-          } />
+          <Route
+            path=":workspaceId"
+            element={
+              <RequireAuth>
+                <DocIt />
+              </RequireAuth>
+            }
+          >
+            <Route
+              path=":projectId"
+              element={
+                <RequireAuth>
+                  <DocIt />
+                </RequireAuth>
+              }
+            />
+          </Route>
         </Routes>
       </BrowserRouter>
     </>

@@ -7,6 +7,7 @@ import ProjectTreeItem from "../ProjectTreeItem";
 import DocTreeItem from "../DocTreeItem";
 import { setDocId } from "../../ducks";
 import { ProjectType } from "../../@types/Project";
+import { useParams } from "react-router-dom";
 
 export interface ProjectTreeViewProps {
   projects: ProjectType[];
@@ -14,6 +15,7 @@ export interface ProjectTreeViewProps {
 
 export default function ProjectTreeView({ projects }: ProjectTreeViewProps) {
   const dispatch = useDispatch();
+  const { projectId } = useParams();
   useEffect(() => {
     if (projects[0]?.Documents?.length > 0) {
       dispatch(setDocId(projects[0].Documents[0].id));
@@ -25,7 +27,7 @@ export default function ProjectTreeView({ projects }: ProjectTreeViewProps) {
       defaultCollapseIcon={<ExpandMoreIcon />}
       defaultExpandIcon={<ChevronRightIcon />}
       defaultExpanded={projects.map((project) => project.id)}
-      defaultSelected={projects[0]?.Documents[0]?.id}
+      defaultSelected={projectId}
     >
       {projects.length &&
         projects.map(({ name, id, description, Documents }) => (
