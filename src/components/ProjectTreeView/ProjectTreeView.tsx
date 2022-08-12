@@ -37,6 +37,7 @@ export default function ProjectTreeView({ projects }: ProjectTreeViewProps) {
                     key={document.id}
                     docId={document.id}
                     docName={document.name}
+                    projectId={id}
                   />
                 ))
               : null}

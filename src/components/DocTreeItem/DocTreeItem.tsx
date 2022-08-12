@@ -19,12 +19,13 @@ import { useNavigate, useParams } from "react-router-dom";
 export interface DocTreeItemProps {
   docName: string;
   docId: string;
+  projectId: string;
 }
 
-export default function DocTreeItem({ docName, docId }: DocTreeItemProps) {
+export default function DocTreeItem({ docName, docId, projectId }: DocTreeItemProps) {
   const { userToken } = useSelector((state: RootState) => state);
   const navigate = useNavigate();
-  const { workspaceId, projectId } = useParams();
+  const { workspaceId } = useParams();
   const queryClient = useQueryClient();
   const { mutate } = useMutation(() => deleteDocument(docId, userToken), {
     onSuccess: () => {

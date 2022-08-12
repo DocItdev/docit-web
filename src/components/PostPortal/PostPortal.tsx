@@ -22,7 +22,7 @@ export default function PostPortal() {
   const { docId: selectedDocId } = useParams();
   const queryClient = useQueryClient();
   const { isLoading, data, refetch } = useQuery(
-    ["posts", selectedDocId],
+    "posts",
     () => fetchAllPost(userToken, selectedDocId),
     {
       refetchOnWindowFocus: false,
