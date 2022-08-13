@@ -1,5 +1,4 @@
-import React, { useEffect } from "react";
-import { useDispatch } from 'react-redux';
+import React from "react";
 import TreeView from "@mui/lab/TreeView";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
@@ -13,15 +12,14 @@ export interface ProjectTreeViewProps {
 }
 
 export default function ProjectTreeView({ projects }: ProjectTreeViewProps) {
-  const dispatch = useDispatch();
-  const { projectId, docId } = useParams();
+  const { docId } = useParams();
   return (
     <TreeView
       aria-label="file system navigator"
       defaultCollapseIcon={<ExpandMoreIcon />}
       defaultExpandIcon={<ChevronRightIcon />}
       defaultExpanded={projects.map((project) => project.id)}
-      defaultSelected={docId ? docId : projectId}
+      defaultSelected={docId}
     >
       {projects.length &&
         projects.map(({ name, id, description, Documents }) => (
@@ -37,7 +35,6 @@ export default function ProjectTreeView({ projects }: ProjectTreeViewProps) {
                     key={document.id}
                     docId={document.id}
                     docName={document.name}
-                    projectId={id}
                   />
                 ))
               : null}

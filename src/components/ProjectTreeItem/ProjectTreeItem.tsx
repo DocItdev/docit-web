@@ -14,7 +14,7 @@ import DocumentForm from "../common/DocumentForm";
 import PopperMenu from "../common/PopperMenu";
 import ProjectForm from "../common/ProjectForm";
 import { RootState } from "../../config/reduxConfig";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 export default function ProjectTreeItem({
   projectName,
@@ -36,7 +36,6 @@ export default function ProjectTreeItem({
     }
   );
   const [hover, setHover] = useState(false);
-  const navigate = useNavigate();
 
   const handleOnMouseEnter = () => {
     setHover(true);
@@ -69,10 +68,6 @@ export default function ProjectTreeItem({
   return (
     <TreeItem
       nodeId={projectId}
-      onClick={(e) => {
-        e.stopPropagation();
-        navigate(`../${workspaceId}/${projectId}`);
-      }}
       label={
         <Box
           onMouseEnter={handleOnMouseEnter}

@@ -4,11 +4,12 @@ import IconButton from "@mui/material/IconButton";
 import Box from "@mui/material/Box";
 import CssBaseline from "@mui/material/CssBaseline";
 import MenuIcon from "@mui/icons-material/Menu";
-import DocumentContainer from "../../components/DocumentContainer";
+import { Outlet } from "react-router-dom";
 import Sidebar from "../../components/Sidebar";
 import { AppBar, Main } from "./styles";
 
-export default function DocIt() {
+
+export default function DocItLayout() {
   const [drawerIsOpened, setDrawerIsOpened] = useState<boolean>(true);
   return (
     <Box sx={{ display: "flex" }}>
@@ -39,7 +40,7 @@ export default function DocIt() {
         onClose={() => setDrawerIsOpened(false)}
       />
       <Main open={drawerIsOpened}>
-        <DocumentContainer />
+        <Outlet />
       </Main>
     </Box>
   );

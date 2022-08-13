@@ -1,9 +1,8 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { Login, DocIt } from "../pages";
+import { Login, DocItLayout, Document, Empty } from "../pages";
 
 import RequireAuth from "../components/common/RequireAuth";
-import Loader from "../components/common/Loader";
 
 export default function AppRouter() {
   return (
@@ -15,27 +14,26 @@ export default function AppRouter() {
             path=":workspaceId"
             element={
               <RequireAuth>
-                <DocIt />
+                <DocItLayout />
               </RequireAuth>
             }
           >
             <Route
-              path=":projectId"
+              path=":docId"
               element={
                 <RequireAuth>
-                  <DocIt />
+                  <Document />
                 </RequireAuth>
               }
-            >
-              <Route
-                path=":docId"
-                element={
-                  <RequireAuth>
-                    <DocIt />
-                  </RequireAuth>
-                }
-              />
-            </Route>
+            />
+            <Route
+            path="*"
+            element={
+              <RequireAuth>
+                <Empty />
+              </RequireAuth>
+            }
+            />
           </Route>
         </Routes>
       </BrowserRouter>
