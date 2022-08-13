@@ -1,18 +1,25 @@
-import React from "react";
+import React, { useEffect } from "react";
 import TreeView from "@mui/lab/TreeView";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import ProjectTreeItem from "../ProjectTreeItem";
 import DocTreeItem from "../DocTreeItem";
 import { ProjectType } from "../../@types/Project";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 
 export interface ProjectTreeViewProps {
   projects: ProjectType[];
 }
 
 export default function ProjectTreeView({ projects }: ProjectTreeViewProps) {
-  const { docId } = useParams();
+  const { docId, workspaceId } = useParams();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if(!docId) {
+      navigate(`../${workspaceId}/${projects[0]?.Documents[0]?.id}`);
+    }
+  }, [docId])
   return (
     <TreeView
       aria-label="file system navigator"
