@@ -11,13 +11,15 @@ import FilePost from "./FilePost";
 import AudioPost from './AudioPost';
 import { RootState } from "../../config/reduxConfig";
 import { PostType } from "../../@types/Post";
+import { useParams } from "react-router-dom";
 export interface PostProps {
   postData: PostType;
 }
 
 export default function Post({ postData }: PostProps) {
   const [hover, setHover] = useState<boolean>(false);
-  const { editable, selectedDocId, userToken } = useSelector((state: RootState) => state);
+  const { editable, userToken } = useSelector((state: RootState) => state);
+  const { docId } = useParams();
   const { postType, textContent, id, mediaFilePath } = postData;
   
   const handleOnMouseEnter=()=>{
@@ -56,7 +58,7 @@ export default function Post({ postData }: PostProps) {
         <Grid item xs={1}>
           <PostMenuBar
             postData={postData}
-            docId={selectedDocId}
+            docId={docId}
             userToken={userToken}
           />
         </Grid>

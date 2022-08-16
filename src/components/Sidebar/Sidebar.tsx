@@ -25,18 +25,20 @@ import { ProjectList } from "../../@types/Project";
 import { AxiosError } from "axios";
 import SidebarSwitcher from "./SidebarSwitcher";
 import FeedbackModal from "./FeedbackModal";
+import { useParams } from "react-router-dom";
 
 export default function Sidebar({ drawerIsOpened, onClose }) {
   const [opened, setOpened] = useState<boolean>(false);
-  const { userToken, editable, selectedDocId, workspace } = useSelector(
+  const { userToken, editable } = useSelector(
     (state: RootState) => state
   );
+  const { workspaceId, docId } = useParams()
   const dispatch = useDispatch();
   const { isLoading, data } = useQuery<ProjectList, AxiosError>(
-    ["projects", workspace],
-    () => fetchAllProjects(userToken, workspace.id),
+    ["projects", workspaceId],
+    () => fetchAllProjects(userToken, workspaceId),
     {
-      enabled: workspace !== undefined || workspace !== null,
+      enabled: workspaceId !== undefined || workspaceId !== null,
     }
   );
 
@@ -80,7 +82,7 @@ export default function Sidebar({ drawerIsOpened, onClose }) {
           </Grid>
         </Grid>
       </DrawerHeader>
-      {selectedDocId && (
+      {docId && (
         <FormControl style={{marginRight:"25%"}}>
           <FormControlLabel
             control={
@@ -122,7 +124,7 @@ export default function Sidebar({ drawerIsOpened, onClose }) {
         open={opened}
         onClose={toggleOpened}
         onMutate={(newProject) =>
-          postProject(userToken, workspace.id, newProject)
+          postProject(userToken, workspaceId, newProject)
         }
         title="CreateProject"
         buttonText="Create"

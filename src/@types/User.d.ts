@@ -11,4 +11,5 @@ export interface UserType {
 export interface RefreshTokenResponse {
   token: string;
   user: UserType;
+  expiresIn: number;
 }
