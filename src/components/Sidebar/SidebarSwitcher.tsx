@@ -7,33 +7,33 @@ import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import { UserType } from "../../@types/User";
 import WorkspaceDialog from "../WorkspaceDialog";
-import { setWorkspace } from "../../ducks";
 import Dialog from "@mui/material/Dialog";
 import WorkspaceMembers from "../WorkspaceDialog/WorkspaceMembers";
+import { useNavigate, useParams } from "react-router-dom";
 
 export default function SidebarSwitcher() {
-  const workspace: WorkspaceType = useSelector(
-    (state: RootState) => state.workspace
-  );
+  const { workspaceId } = useParams();
   const { Workspaces }: UserType = useSelector(
     (state: RootState) => state.user
   );
+  const workspace = Workspaces.find((workspace: WorkspaceType) => workspace.id === workspaceId);
   const [open, setOpen] = useState<boolean>();
   const [openUsersModal, setOpenUsersModal] = useState<boolean>();
-  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   return (
     <>
       <PopperMenu
         menuItems={Workspaces.map((workspace: WorkspaceType) => ({
           title: workspace.title,
           onClick: () => {
-            dispatch(setWorkspace(workspace));
+            navigate(`../${workspace.id}`, { replace: true });
           },
           icon: null,
         }))}
         menuActions={[
           { title: "Create workspace", onClick: () => setOpen(true) },
-          {
+          !workspace.personal && {
             title: "Add someone to workspace",
             onClick: () => setOpenUsersModal(true),
           },

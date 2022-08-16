@@ -1,12 +1,16 @@
 import React, { useEffect } from "react";
 import Button from "react-bootstrap/Button";
 import { useDispatch } from "react-redux";
-import { setToken, setTokenExpire, setUser, setWorkspace } from "../../ducks";
+import { setToken, setTokenExpire, setUser } from "../../ducks";
 import env from "../../config/envConfig";
 import axios from "axios";
 import { WorkspaceType } from "../../@types/Workspace";
 
-export default function GithubLogin() {
+export interface GithubLoginProps {
+  setWorkspace: (workspace: WorkspaceType) => void;
+}
+
+export default function GithubLogin({ setWorkspace }: GithubLoginProps) {
   const dispatch = useDispatch();
   const authUrl = env.GITHUB_AUTH_URL;
   const clientId = env.GITHUB_CLIENT_ID;
@@ -30,11 +34,9 @@ export default function GithubLogin() {
           dispatch(setToken(token));
           dispatch(setTokenExpire(expiresIn));
           dispatch(setUser(user));
-          dispatch(
-            setWorkspace(
-              user?.Workspaces?.find(
-                (workspace: WorkspaceType) => workspace.personal === true
-              )
+          setWorkspace(
+            user?.Workspaces?.find(
+              (workspace: WorkspaceType) => workspace.personal === true
             )
           );
         }

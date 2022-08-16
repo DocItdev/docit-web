@@ -1,31 +1,32 @@
 import React, { useEffect } from "react";
-import { useDispatch } from 'react-redux';
 import TreeView from "@mui/lab/TreeView";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import ProjectTreeItem from "../ProjectTreeItem";
 import DocTreeItem from "../DocTreeItem";
-import { setDocId } from "../../ducks";
 import { ProjectType } from "../../@types/Project";
+import { useParams, useNavigate } from "react-router-dom";
 
 export interface ProjectTreeViewProps {
   projects: ProjectType[];
 }
 
 export default function ProjectTreeView({ projects }: ProjectTreeViewProps) {
-  const dispatch = useDispatch();
+  const { docId, workspaceId } = useParams();
+  const navigate = useNavigate();
+
   useEffect(() => {
-    if (projects[0]?.Documents?.length > 0) {
-      dispatch(setDocId(projects[0].Documents[0].id));
+    if(!docId) {
+      navigate(`../${workspaceId}/${projects[0]?.Documents[0]?.id}`);
     }
-  }, [projects])
+  }, [docId])
   return (
     <TreeView
       aria-label="file system navigator"
       defaultCollapseIcon={<ExpandMoreIcon />}
       defaultExpandIcon={<ChevronRightIcon />}
       defaultExpanded={projects.map((project) => project.id)}
-      defaultSelected={projects[0]?.Documents[0]?.id}
+      defaultSelected={docId}
     >
       {projects.length &&
         projects.map(({ name, id, description, Documents }) => (

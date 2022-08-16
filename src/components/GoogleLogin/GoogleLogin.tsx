@@ -2,11 +2,15 @@ import env from "../../config/envConfig";
 import GoogleLoggingButton, { GoogleLoginResponse } from "react-google-login";
 import axios from "axios";
 import { useDispatch } from "react-redux";
-import { setToken, setTokenExpire, setUser, setWorkspace } from "../../ducks";
+import { setToken, setTokenExpire, setUser } from "../../ducks";
 import React from "react";
 import { WorkspaceType } from "../../@types/Workspace";
 
-export default function GoogleLogin() {
+export interface GoogleLoginProps {
+  setWorkspace: (workspace: WorkspaceType) => void;
+}
+
+export default function GoogleLogin({ setWorkspace }: GoogleLoginProps) {
   const dispatch = useDispatch();
   const clientId = env.GOOGLE_CLIENT_ID;
 
@@ -27,11 +31,9 @@ export default function GoogleLogin() {
       dispatch(setToken(token));
       dispatch(setTokenExpire(expiresIn));
       dispatch(setUser(user));
-      dispatch(
-        setWorkspace(
-          user?.Workspaces?.find(
-            (workspace: WorkspaceType) => workspace.personal === true
-          )
+      setWorkspace(
+        user?.Workspaces?.find(
+          (workspace: WorkspaceType) => workspace.personal === true
         )
       );
     }

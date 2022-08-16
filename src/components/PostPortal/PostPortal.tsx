@@ -12,19 +12,21 @@ import { setEditable } from "../../ducks";
 import { RootState } from "../../config/reduxConfig";
 import { AxiosError } from "axios";
 import { PostIndex } from "../../@types/Post";
+import { useParams } from "react-router-dom";
 
 export default function PostPortal() {
-  const { userToken, selectedDocId, editable } = useSelector(
+  const { userToken, editable } = useSelector(
     (state: RootState) => state
   );
   const dispatch = useDispatch();
+  const { docId: selectedDocId } = useParams();
   const queryClient = useQueryClient();
   const { isLoading, data, refetch } = useQuery(
     "posts",
     () => fetchAllPost(userToken, selectedDocId),
     {
       refetchOnWindowFocus: false,
-      enabled: selectedDocId !== "",
+      enabled: selectedDocId !== undefined || selectedDocId !== "",
     }
   );
   const { mutate } = useMutation<
