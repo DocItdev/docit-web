@@ -10,26 +10,25 @@ import { useForm } from "react-hook-form";
 import postWorkspace from "../../utils/workspaces/postWorkspace";
 import { useSelector } from "react-redux";
 import { RootState } from "../../config/reduxConfig";
+import { useNavigate } from "react-router-dom";
 
-export interface TeamIdentifyProps {
-  next: (event?: SyntheticEvent, data?: any) => void;
-}
 
-export default function TeamIdentify({ next }: TeamIdentifyProps) {
+export default function CreateWorkspace() {
   const reactForm = useForm<WorkspaceType>();
   const { register, watch, handleSubmit } = reactForm;
   const userToken: string = useSelector((state: RootState) => state.userToken);
-  const { mutate, isLoading } = useMutation<
+  const { mutate, isLoading, isError, error } = useMutation<
     WorkspaceType,
     AxiosError,
     WorkspaceType,
     void
   >((workspaceData) => postWorkspace(userToken, workspaceData));
+  const navigate = useNavigate();
 
   const onSubmit = async (values: WorkspaceType) => {
     mutate(values, {
       onSuccess: (data) => {
-        next(null, data);
+       navigate('../members', { state: { workspaceData: data } });
       },
     });
   };
@@ -50,6 +49,8 @@ export default function TeamIdentify({ next }: TeamIdentifyProps) {
         placeholder="Ex: DocIt Team"
         label="Title"
         autoFocus
+        error={isError}
+        helperText={isError && error?.response?.data?.message}
         {...register("title")}
       />
       <LoadingButton
