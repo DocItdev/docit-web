@@ -122,7 +122,6 @@ export default function DocItEditor({
           onChange={setEditorState}
           handleKeyCommand={handleKeyCommand}
           ref={textInput}
-          // @ts-ignore
           blockStyleFn={draft.getBlockStyle}
           spellCheck
           readOnly={readOnly}
@@ -166,8 +165,8 @@ export default function DocItEditor({
 
 DocItEditor.defaultProps = {
   blocks: null,
-  onMutate: () => {},
-  onSuccess: () => {},
+  onMutate: () => null,
+  onSuccess: () => null,
   readOnly: false,
   alwaysFocused: false,
   buttonText: 'POST',

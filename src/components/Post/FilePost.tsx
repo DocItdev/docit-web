@@ -17,7 +17,7 @@ export default function FilePost({ filePath }: FilePostProps) {
   }
   return (
     <Grid container alignItems="center" justifyContent="center">
-      <a href={mediaDownloadUrl} target="_blank" download>
+      <a href={mediaDownloadUrl} target="_blank" rel="noreferrer" download>
         <Grid item>
           <CardContent>
             <FilePresentIcon style={{ color: "#1F5980", fontSize: "35px" }} />

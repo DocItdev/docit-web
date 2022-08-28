@@ -4,7 +4,7 @@ import env from "../../config/envConfig";
 export default async function uploadMediaFile(
   userToken: string,
   mediaBlobUrl: string,
-  fileName: string = "blob"
+  fileName = "blob"
 ) {
   if (userToken) {
     const localRes = await fetch(mediaBlobUrl);

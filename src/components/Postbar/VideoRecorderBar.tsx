@@ -148,5 +148,5 @@ VideoRecorderBar.propTypes = {
 };
 
 VideoRecorderBar.defaultProps = {
-  setOpen: () => {},
+  setOpen: () => null,
 };

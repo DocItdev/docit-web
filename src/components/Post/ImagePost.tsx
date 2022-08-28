@@ -3,7 +3,11 @@ import React from "react";
 import useFile from "../../hooks/useFile";
 import Loader from "../common/Loader";
 
-export default function ImagePost({ filePath }) {
+export interface ImagePostProps {
+  filePath: string;
+}
+
+export default function ImagePost({ filePath }: ImagePostProps) {
   const { mediaDownloadUrl, isLoading } = useFile(filePath);
   if (isLoading) {
     return <Loader />;

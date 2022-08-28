@@ -1,4 +1,4 @@
-import React, { useState, ReactNode, useEffect, ReactChildren, ReactChild } from "react";
+import React, { useState, ReactNode, } from "react";
 import { JourneyContext } from "./context";
 
 export interface JourneyProps {
@@ -6,16 +6,9 @@ export interface JourneyProps {
   startStepId?: string;
 }
 
-export default function Journey({ children, startStepId }: JourneyProps) {
+export default function Journey({ children }: JourneyProps) {
   const [activeStep, setActiveStep] = useState<number>(0);
   const [data, setData] = useState(null);
-
-  useEffect(() => {
-    if(startStepId) {
-      const nodes = children as ReactChildren;
-     
-    }
-  }, [startStepId])
   return (
     <JourneyContext.Provider
       value={{

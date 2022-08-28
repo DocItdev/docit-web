@@ -16,12 +16,19 @@ import ProjectForm from "../common/ProjectForm";
 import { RootState } from "../../config/reduxConfig";
 import { useParams } from "react-router-dom";
 
+export interface ProjectTreeItemProps {
+  projectName: string;
+  projectId: string;
+  projectDescription: string;
+  children: JSX.Element;
+}
+
 export default function ProjectTreeItem({
   projectName,
   projectId,
   projectDescription,
   children,
-}) {
+}: ProjectTreeItemProps) {
   const [opened, setOpened] = useState<boolean>(false);
   const [projOpened, setProjOpened] = useState<boolean>(false);
   const userToken: string = useSelector((state: RootState) => state.userToken);

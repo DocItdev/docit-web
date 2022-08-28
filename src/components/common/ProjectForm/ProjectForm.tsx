@@ -91,7 +91,7 @@ export default function ProjectForm({
 }
 
 ProjectForm.defaultProps = {
-  onSuccess: () => {},
+  onSuccess: () => null,
   initialValues: {
     projectName: '',
     projectDescription: '',

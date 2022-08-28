@@ -1,4 +1,4 @@
-import { SyntheticEvent, useEffect } from "react";
+import React, { SyntheticEvent, useEffect } from "react";
 import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
@@ -6,7 +6,7 @@ import LoadingButton from "@mui/lab/LoadingButton";
 import Link from "@mui/material/Link";
 import AddCircleOutlineRoundedIcon from "@mui/icons-material/AddCircleOutlineRounded";
 import Box from "@mui/material/Box";
-import { UseFormReturn, useFieldArray, useForm } from "react-hook-form";
+import { useFieldArray, useForm } from "react-hook-form";
 import {
   UserWorkspaceAttributes,
   WorkspaceType,
@@ -14,14 +14,14 @@ import {
 } from "../../@types/Workspace";
 import { useSelector } from "react-redux";
 import { RootState } from "../../config/reduxConfig";
-import { useMutation, useQuery, useQueryClient } from "react-query";
+import { useMutation, useQueryClient } from "react-query";
 import { AxiosError } from "axios";
 import postWorkspaceMembers from "../../utils/workspaces/postWorkspaceMembers";
 import { useNavigate, useParams } from "react-router-dom";
 
 export interface WorkspaceMembersProps {
   next?: (event: SyntheticEvent) => void;
-  onClose?: (event?: {}, reason?: "backdropClick" | "escapeKeyDown") => void;
+  onClose?: (event?: Record<string, unknown>, reason?: "backdropClick" | "escapeKeyDown") => void;
   workspaceData?: WorkspaceType
 }
 
@@ -101,7 +101,7 @@ export default function WorkspaceMembers({ onClose, workspaceData }: WorkspaceMe
 }
 
 WorkspaceMembers.defaultProps = {
-  next: () => {},
-  OnClose: () => {},
+  next: () => null,
+  OnClose: () => null,
   workspaceData: null,
 };

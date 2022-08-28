@@ -3,9 +3,9 @@ import Typography from "@mui/material/Typography";
 import React from "react";
 
 export interface TimerProps {
-  hours: Number;
-  minutes: Number;
-  seconds: Number;
+  hours: number;
+  minutes: number;
+  seconds: number;
 }
 
 const Timer = ({ hours, minutes, seconds }: TimerProps) => (

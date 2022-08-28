@@ -3,7 +3,7 @@ import TreeItem from "@mui/lab/TreeItem";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import { useMutation, useQueryClient } from "react-query";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import Delete from "@mui/icons-material/Delete";
 import ModeEdit from "@mui/icons-material/ModeEdit";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
@@ -31,7 +31,6 @@ export default function DocTreeItem({ docName, docId }: DocTreeItemProps) {
       queryClient.invalidateQueries("projects");
     },
   });
-  const dispatch = useDispatch();
   const [opened, setOpened] = useState(false);
   const [hover, setHover] = useState(false);
 

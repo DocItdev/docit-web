@@ -27,7 +27,12 @@ import SidebarSwitcher from "./SidebarSwitcher";
 import FeedbackModal from "./FeedbackModal";
 import { useParams } from "react-router-dom";
 
-export default function Sidebar({ drawerIsOpened, onClose }) {
+export interface SidebarProps {
+  drawerIsOpened: boolean;
+  onClose: (event?: SyntheticEvent) => void;
+}
+
+export default function Sidebar({ drawerIsOpened, onClose }: SidebarProps) {
   const [opened, setOpened] = useState<boolean>(false);
   const { userToken, editable } = useSelector(
     (state: RootState) => state

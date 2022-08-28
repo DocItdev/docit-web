@@ -36,7 +36,7 @@ export default function TeamIdentify({ next }: TeamIdentifyProps) {
   return (
     <Container>
       <Typography variant="h2">
-        What's the name of your team or company?
+        What is the name of your team or company?
       </Typography>
       <Typography variant="subtitle1">
         This will be the display name of your workspace.

@@ -48,9 +48,7 @@ export default function FilePreview() {
     const dispatch = useDispatch();
 
     useEffect(() => {
-        if (mediaBlobUrl === "") {
-            
-        } else {
+        if (mediaBlobUrl !== "") {
             setShowDropzone(false)
         }
     }, [mediaBlobUrl])
@@ -90,7 +88,7 @@ export default function FilePreview() {
                 Upload File
                 < div {...getRootProps({ style })}>
                     <input {...getInputProps()} />
-                    <p>Drag 'n' drop a file here, or click to select a file</p>
+                    <p>{"Drag 'n' drop a file here, or click to select a file"}</p>
                 </div >
             </div >}
 
