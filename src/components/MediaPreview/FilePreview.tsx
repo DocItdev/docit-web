@@ -68,7 +68,7 @@ export default function FilePreview() {
         setShowDropzone(false);
     }, [])
 
-    const { getRootProps, getInputProps, isFocused, isDragActive, isDragAccept,
+    const { getRootProps, getInputProps, isFocused, isDragAccept,
         isDragReject } = useDropzone({ onDrop })
 
     const style: CSSProperties = useMemo(() => ({

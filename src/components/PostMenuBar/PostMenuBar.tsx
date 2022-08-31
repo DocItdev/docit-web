@@ -1,5 +1,5 @@
 import React, { SyntheticEvent, useState } from "react";
-import { Box, IconButton } from "@mui/material";
+import { IconButton } from "@mui/material";
 import { Delete, DragIndicator } from "@mui/icons-material";
 import "./PostMenuBar.css";
 import { useMutation, useQueryClient } from "react-query";

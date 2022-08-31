@@ -82,7 +82,7 @@ export default function PostPortal() {
   ) : (
     <DragDropContext onDragEnd={onDragEnd}>
       <Droppable droppableId="onlyColumn">
-        {(providedDrop, snapshot) => (
+        {(providedDrop) => (
           <div {...providedDrop.droppableProps} ref={providedDrop.innerRef}>
             <FlatList
               list={data}
@@ -93,7 +93,7 @@ export default function PostPortal() {
                     index={index}
                     isDragDisabled={!editable}
                   >
-                    {(provided, snapshot) => (
+                    {(provided) => (
                       <div
                         {...provided.draggableProps}
                         {...provided.dragHandleProps}

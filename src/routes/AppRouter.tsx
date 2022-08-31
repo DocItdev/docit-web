@@ -1,6 +1,11 @@
 import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { Login, DocItLayout, Document, Empty } from "../pages";
+import Login from "../pages/Login";
+import DocItLayout from "../pages/DocItLayout";
+import Document from "../pages/DocumentContainer";
+import Empty from "../pages/Empty";
+import CreateWorkspace from "../pages/CreateWorkspace";
+import WorkspaceMembers from "../pages/WorkspaceMembers";
 
 import RequireAuth from "../components/common/RequireAuth";
 
@@ -23,6 +28,22 @@ export default function AppRouter() {
               element={
                 <RequireAuth>
                   <Document />
+                </RequireAuth>
+              }
+            />
+            <Route
+              path="workspaces"
+              element={
+                <RequireAuth>
+                  <CreateWorkspace />
+                </RequireAuth>
+              }
+            />
+            <Route
+              path="members"
+              element={
+                <RequireAuth>
+                  <WorkspaceMembers />
                 </RequireAuth>
               }
             />

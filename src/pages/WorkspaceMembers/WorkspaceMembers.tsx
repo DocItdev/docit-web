@@ -1,4 +1,4 @@
-import React, { SyntheticEvent, useEffect } from "react";
+import React, { useEffect } from "react";
 import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
@@ -17,15 +17,9 @@ import { RootState } from "../../config/reduxConfig";
 import { useMutation, useQueryClient } from "react-query";
 import { AxiosError } from "axios";
 import postWorkspaceMembers from "../../utils/workspaces/postWorkspaceMembers";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, useLocation } from "react-router-dom";
 
-export interface WorkspaceMembersProps {
-  next?: (event: SyntheticEvent) => void;
-  onClose?: (event?: Record<string, unknown>, reason?: "backdropClick" | "escapeKeyDown") => void;
-  workspaceData?: WorkspaceType
-}
-
-export default function WorkspaceMembers({ onClose, workspaceData }: WorkspaceMembersProps) {
+export default function WorkspaceMembers() {
   const { control, register, handleSubmit } = useForm<WorkspaceType>();
   const { fields, append } = useFieldArray({ control, name: "Users" });
   const userToken: string = useSelector((state: RootState) => state.userToken);
@@ -38,7 +32,9 @@ export default function WorkspaceMembers({ onClose, workspaceData }: WorkspaceMe
   >((workspacesMembers) => postWorkspaceMembers(userToken, workspacesMembers));
     const queryClient = useQueryClient();
     const navigate = useNavigate();
-
+    const location = useLocation();
+    const workspaceData = (location.state as { workspaceData: WorkspaceType })?.workspaceData
+    console.log('loc state', location.state);
   useEffect(() => {
     if (fields.length === 0) {
       append({ email: "" });
@@ -47,15 +43,17 @@ export default function WorkspaceMembers({ onClose, workspaceData }: WorkspaceMe
 
   const onSubmit = (values: WorkspaceType) => {
     const selectedWorkspaceId = workspaceData ? workspaceData.id : workspaceId;
+    console.log('selected workspace', selectedWorkspaceId);
     const workspacesMembers: WorkspaceUsers = {
       WorkspaceId: selectedWorkspaceId,
       emails: values.Users.map((user) => user.email),
     };
     mutate(workspacesMembers, {
       onSuccess: () => {
-        queryClient.invalidateQueries('refreshToken');
-        navigate(`../${selectedWorkspaceId}`, { replace: true })
-        onClose();
+        if (selectedWorkspaceId === workspaceData?.id) {
+          queryClient.invalidateQueries('refreshToken');
+        }
+        navigate(`/${selectedWorkspaceId}`);
       },
     });
   };
