@@ -1,4 +1,4 @@
-import React, { SyntheticEvent, useState } from "react";
+import React, { SyntheticEvent, useState, ReactNode } from "react";
 import { TreeItem } from "@mui/lab";
 import { Box, Typography, Grid } from "@mui/material";
 import { useSelector } from "react-redux";
@@ -20,7 +20,7 @@ export interface ProjectTreeItemProps {
   projectName: string;
   projectId: string;
   projectDescription: string;
-  children: JSX.Element;
+  children: ReactNode;
 }
 
 export default function ProjectTreeItem({

@@ -76,7 +76,7 @@ export default function SnipBar({ start, resetTriggerFeature }: SnipBarProps) {
     async function takeScreenshotCanvas() {
         const stream = await takeScreenshotStream()
         const video = document.createElement('video')
-        const result: HTMLCanvasElement = await new Promise((resolve, reject) => {
+        const result: HTMLCanvasElement = await new Promise((resolve) => {
             video.onloadedmetadata = () => {
                 video.play()
                 video.pause()
