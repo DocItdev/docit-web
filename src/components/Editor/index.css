@@ -1593,3 +1593,7 @@ hr.selected {
   word-break: break-word;
   z-index: 3;
 }
+
+.TableNode__contentEditable:focus {
+  text-align: left;
+}

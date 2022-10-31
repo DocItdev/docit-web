@@ -79,6 +79,7 @@ import DropDown, { DropDownItem } from "../../../common/Dropdown";
 import TextInput from "@mui/material/TextField";
 import { getSelectedNode } from "../../../../utils/common/getSelectedNode";
 import { EmbedConfigs } from "../AutoEmbedPlugin";
+import generateUrlFromEditor from '../../../../utils/common/generateUrlFromEditor';
 
 const blockTypeToBlockName = {
   bullet: "Bulleted List",
@@ -570,11 +571,14 @@ export default function ToolbarPlugin(): JSX.Element {
   );
 
   const insertLink = useCallback(() => {
-    if (!isLink) {
-      editor.dispatchCommand(TOGGLE_LINK_COMMAND, "https://");
-    } else {
-      editor.dispatchCommand(TOGGLE_LINK_COMMAND, null);
-    }
+    editor.update(() => {
+      if (!isLink) {
+        const selection = $getSelection();
+        generateUrlFromEditor(editor, selection);
+      } else {
+        editor.dispatchCommand(TOGGLE_LINK_COMMAND, null);
+      }
+    });
   }, [editor, isLink]);
 
   const onCodeLanguageSelect = useCallback(
