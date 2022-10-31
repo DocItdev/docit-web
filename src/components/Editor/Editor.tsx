@@ -31,9 +31,15 @@ export default function Editor() {
     editor.setEditable(editable);
   }, [editable, editor])
 
+  useEffect(() => {
+    if(editable) {
+      editor.focus();
+    }
+  }, [editor, editable])
+
   return (
     <>
-      <ToolbarPlugin />
+      {editable && <ToolbarPlugin />}
       <div ref={scrollRef}>
         <AutoFocusPlugin />
         <ClearEditorPlugin />
