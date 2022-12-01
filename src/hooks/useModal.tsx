@@ -6,10 +6,10 @@
  *
  */
 
-import {useCallback, useMemo, useState} from 'react';
-import * as React from 'react';
+import { useCallback, useMemo, useState } from "react";
+import * as React from "react";
 
-import Dialog from '@mui/material/Dialog';
+import Dialog from "@mui/material/Dialog";
 
 export interface ModalContent {
   open: boolean;
@@ -19,7 +19,7 @@ export interface ModalContent {
 
 export default function useModal(): [
   JSX.Element | null,
-  (title: string, showModal: (onClose: () => void) => JSX.Element) => void,
+  (title: string, showModal: (onClose: () => void) => JSX.Element) => void
 ] {
   const [modalContent, setModalContent] = useState<null | ModalContent>(null);
 
@@ -31,13 +31,9 @@ export default function useModal(): [
     if (modalContent === null) {
       return null;
     }
-    const {title, content, open } = modalContent;
+    const { title, content, open } = modalContent;
     return (
-      <Dialog
-      open={open}
-        onClose={onClose}
-        title={title}
-        >
+      <Dialog open={open} onClose={onClose} title={title}>
         {content}
       </Dialog>
     );
@@ -48,7 +44,7 @@ export default function useModal(): [
       title: string,
       // eslint-disable-next-line no-shadow
       getContent: (onClose: () => void) => JSX.Element,
-      open = true,
+      open = true
     ) => {
       setModalContent({
         open,
@@ -56,7 +52,7 @@ export default function useModal(): [
         title,
       });
     },
-    [onClose],
+    [onClose]
   );
 
   return [modal, showModal];

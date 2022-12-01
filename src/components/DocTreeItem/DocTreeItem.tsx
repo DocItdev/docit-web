@@ -91,7 +91,6 @@ export default function DocTreeItem({ docName, docId }: DocTreeItemProps) {
             <Grid
               item
               xs={2}
-              spacing={0}
               sx={{
                 display: "none",
                 ...(hover && { display: "flex" }),

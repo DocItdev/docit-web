@@ -16,9 +16,13 @@ import { RichTextPlugin } from "@lexical/react/LexicalRichTextPlugin";
 import { TablePlugin } from "@lexical/react/LexicalTablePlugin";
 import {ContentEditable} from '@lexical/react/LexicalContentEditable';
 import ToolbarPlugin from "./plugins/ToolbarPlugin";
+import YouTubePlugin from './plugins/YouTubePlugin';
+import AutoEmbedPlugin from './plugins/AutoEmbedPlugin';
+import FigmaPlugin from './plugins/FigmaPlugin';
 import Box from '@mui/material/Box';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../config/reduxConfig';
+
 
 
 export default function Editor() {
@@ -50,6 +54,9 @@ export default function Editor() {
         <CheckListPlugin />
         <LinkPlugin />
         <TablePlugin />
+        <AutoEmbedPlugin />
+        <YouTubePlugin />
+        <FigmaPlugin />
         <RichTextPlugin
               contentEditable={
                 <Box>

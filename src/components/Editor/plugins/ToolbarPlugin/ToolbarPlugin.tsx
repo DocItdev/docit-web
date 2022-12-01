@@ -149,12 +149,13 @@ export function InsertTableDialog({
   };
 
   return (
-    <>
+    <div style={{ margin: '1rem', display: 'flex', flexDirection: 'column'}}>
       <TextInput
         label="No of rows"
         onChange={(e) => setRows(e.target.value)}
         value={rows}
       />
+      <br />
       <TextInput
         label="No of columns"
         onChange={(e) => setColumns(e.target.value)}
@@ -166,7 +167,7 @@ export function InsertTableDialog({
       >
         <Button onClick={onClick}>Confirm</Button>
       </div>
-    </>
+    </div>
   );
 }
 
@@ -861,22 +862,9 @@ export default function ToolbarPlugin(): JSX.Element {
               ));
             }}
             className="item">
-            <i className="icon table" />
+            <i className="icon" />
             <span className="text">Table</span>
           </DropDownItem>
-          {/* <DropDownItem
-            onClick={() => {
-              showModal('Insert Table', (onClose) => (
-                <InsertNewTableDialog
-                  activeEditor={activeEditor}
-                  onClose={onClose}
-                />
-              ));
-            }}
-            className="item">
-            <i className="icon table" />
-            <span className="text">Table (Experimental)</span>
-          </DropDownItem> */}
           {/* <DropDownItem
             onClick={() => {
               showModal('Insert Poll', (onClose) => (
@@ -928,6 +916,7 @@ export default function ToolbarPlugin(): JSX.Element {
             <DropDownItem
               key={embedConfig.type}
               onClick={() => {
+                console.log(embedConfig);
                 activeEditor.dispatchCommand(
                   INSERT_EMBED_COMMAND,
                   embedConfig.type,
