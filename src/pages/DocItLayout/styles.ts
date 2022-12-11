@@ -18,6 +18,7 @@ export const Main = styled("main", {
   }),
   marginLeft: `-${drawerWidth}px`,
   overflow: "hidden",
+  overflowY: "scroll",
   height: "100vh",
   paddingRight: 0,
   paddingLeft: 0,
