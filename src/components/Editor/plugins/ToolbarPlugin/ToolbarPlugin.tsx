@@ -80,6 +80,10 @@ import TextInput from "@mui/material/TextField";
 import { getSelectedNode } from "../../../../utils/common/getSelectedNode";
 import { EmbedConfigs } from "../AutoEmbedPlugin";
 import generateUrlFromEditor from '../../../../utils/common/generateUrlFromEditor';
+import {
+  InsertImageDialog,
+} from '../ImagesPlugin';
+
 
 const blockTypeToBlockName = {
   bullet: "Bulleted List",
@@ -817,7 +821,7 @@ export default function ToolbarPlugin(): JSX.Element {
             <i className="icon horizontal-rule" />
             <span className="text">Horizontal Rule</span>
           </DropDownItem>
-          {/* <DropDownItem
+          <DropDownItem
             onClick={() => {
               showModal('Insert Image', (onClose) => (
                 <InsertImageDialog
@@ -829,18 +833,7 @@ export default function ToolbarPlugin(): JSX.Element {
             className="item">
             <i className="icon image" />
             <span className="text">Image</span>
-          </DropDownItem> */}
-          {/* <DropDownItem
-            onClick={() =>
-              insertGifOnClick({
-                altText: 'Cat typing on a laptop',
-                src: catTypingGif,
-              })
-            }
-            className="item">
-            <i className="icon gif" />
-            <span className="text">GIF</span>
-          </DropDownItem> */}
+          </DropDownItem>
           {/* <DropDownItem
             onClick={() => {
               activeEditor.dispatchCommand(
@@ -862,7 +855,7 @@ export default function ToolbarPlugin(): JSX.Element {
               ));
             }}
             className="item">
-            <i className="icon" />
+            <i className="icon table" />
             <span className="text">Table</span>
           </DropDownItem>
           {/* <DropDownItem

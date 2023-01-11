@@ -11,6 +11,7 @@ import { HeadingNode, QuoteNode } from "@lexical/rich-text";
 import { TableCellNode, TableNode, TableRowNode } from "@lexical/table";
 import { YouTubeNode } from "./nodes/YouTubeNode";
 import { FigmaNode } from "./nodes/FigmaNode";
+import { ImageNode } from "./nodes/ImageNode";
 
 const DocItNodes: Array<Klass<LexicalNode>> = [
   CodeHighlightNode,
@@ -30,6 +31,7 @@ const DocItNodes: Array<Klass<LexicalNode>> = [
   TableRowNode,
   YouTubeNode,
   FigmaNode,
+  ImageNode,
 ];
 
 export default DocItNodes;
