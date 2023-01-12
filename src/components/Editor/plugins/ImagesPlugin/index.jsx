@@ -14,7 +14,7 @@ import FileInput from "../../../common/FileInput";
 
 import { $createImageNode, ImageNode } from "../../nodes/ImageNode";
 import { DialogActions, DialogButtonsList } from "../../../common/Dialog";
-import { Button } from "@mui/material";
+import { Button, Box } from "@mui/material";
 
 export const INSERT_IMAGE_COMMAND= createCommand(
   "INSERT_IMAGE_COMMAND"
@@ -65,20 +65,13 @@ export function InsertImageUploadedDialogBody({
   const isDisabled = src === '';
 
   const loadImage = (files) => {
-    const reader = new FileReader();
-    reader.onload = function () {
-      if (typeof reader.result === 'string') {
-        setSrc(reader.result);
-      }
-      return '';
-    };
-    if (files !== null) {
-      reader.readAsDataURL(files[0]);
-    }
+    const imageUrl = URL.createObjectURL(files[0]);
+    console.log(imageUrl)
+    setSrc(imageUrl);
   };
 
   return (
-    <>
+    <Box>
       <FileInput
         label="Image Upload"
         onChange={loadImage}
@@ -100,7 +93,7 @@ export function InsertImageUploadedDialogBody({
           Confirm
         </Button>
       </DialogActions>
-    </>
+    </Box>
   );
 }
 
@@ -108,7 +101,7 @@ export function InsertImageDialog({
   activeEditor,
   onClose,
 }) {
-  const [mode, setMode] = useState<null | 'url' | 'file'>(null);
+  const [mode, setMode] = useState(null);
   const hasModifier = useRef(false);
 
   useEffect(() => {
