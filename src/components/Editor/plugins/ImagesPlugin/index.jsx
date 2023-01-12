@@ -142,9 +142,7 @@ export function InsertImageDialog({
   );
 }
 
-export default function ImagesPlugin({
-  captionsEnabled
-}){
+export default function ImagesPlugin() {
   const [editor] = useLexicalComposerContext();
 
   useEffect(() => {
@@ -167,7 +165,7 @@ export default function ImagesPlugin({
         COMMAND_PRIORITY_EDITOR
       )
     );
-  }, [captionsEnabled, editor]);
+  }, [editor]);
 
   return null;
 }

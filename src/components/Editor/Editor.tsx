@@ -18,6 +18,7 @@ import ToolbarPlugin from "./plugins/ToolbarPlugin";
 import YouTubePlugin from "./plugins/YouTubePlugin";
 import AutoEmbedPlugin from "./plugins/AutoEmbedPlugin";
 import FigmaPlugin from "./plugins/FigmaPlugin";
+import HorizontalRulePlugin from "./plugins/HorizontalRulePlugin";
 import ImagesPlugin from "./plugins/ImagesPlugin";
 import { useSelector } from "react-redux";
 import { RootState } from "../../config/reduxConfig";
@@ -46,7 +47,6 @@ export default function Editor() {
         <ClearEditorPlugin />
         <HashtagPlugin />
         <HistoryPlugin externalHistoryState={historyState} />
-        {/* <AutoScrollPlugin scrollRef={scrollRef} /> */}
         <ListPlugin />
         <CheckListPlugin />
         <LinkPlugin />
@@ -55,12 +55,12 @@ export default function Editor() {
         <YouTubePlugin />
         <FigmaPlugin />
         <ImagesPlugin />
+        <HorizontalRulePlugin />
         <RichTextPlugin
           contentEditable={
             <ContentEditable className="TableNode__contentEditable" />
           }
           placeholder={null}
-          ErrorBoundary={null}
         />
       </div>
     </>
