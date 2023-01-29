@@ -1,6 +1,6 @@
 import "./index.css";
 
-import React, { useRef, useMemo, useEffect } from "react";
+import React, { useRef, useMemo, useEffect, useState } from "react";
 import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
 import { AutoFocusPlugin } from "@lexical/react/LexicalAutoFocusPlugin";
 // import { AutoScrollPlugin } from "@lexical/react/LexicalAutoScrollPlugin";
@@ -22,12 +22,15 @@ import HorizontalRulePlugin from "./plugins/HorizontalRulePlugin";
 import ImagesPlugin from "./plugins/ImagesPlugin";
 import { useSelector } from "react-redux";
 import { RootState } from "../../config/reduxConfig";
+import DraggableBlockPlugin from "./plugins/DraggableBlockPlugin";
 
 export default function Editor() {
   const scrollRef = useRef();
   const historyState = useMemo(() => createEmptyHistoryState(), []);
   const [editor] = useLexicalComposerContext();
   const editable: boolean = useSelector((state: RootState) => state.editable);
+  const [floatingAnchorElem, setFloatingAnchorElem] =
+    useState<HTMLDivElement | null>(null);
 
   useEffect(() => {
     editor.setEditable(editable);
@@ -38,6 +41,12 @@ export default function Editor() {
       editor.focus();
     }
   }, [editor, editable]);
+
+  const onRef = (_floatingAnchorElem: HTMLDivElement) => {
+    if (_floatingAnchorElem !== null) {
+      setFloatingAnchorElem(_floatingAnchorElem);
+    }
+  };
 
   return (
     <>
@@ -62,6 +71,9 @@ export default function Editor() {
           }
           placeholder={null}
         />
+        {/* {floatingAnchorElem && (
+            <DraggableBlockPlugin anchorElem={floatingAnchorElem} />
+        )} */}
       </div>
     </>
   );
