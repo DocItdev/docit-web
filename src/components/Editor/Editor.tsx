@@ -22,6 +22,7 @@ import HorizontalRulePlugin from "./plugins/HorizontalRulePlugin";
 import ImagesPlugin from "./plugins/ImagesPlugin";
 import { useSelector } from "react-redux";
 import { RootState } from "../../config/reduxConfig";
+import LeftToolbarPlugin from "./plugins/LeftToolbar";
 import DraggableBlockPlugin from "./plugins/DraggableBlockPlugin";
 
 export default function Editor() {
@@ -50,7 +51,8 @@ export default function Editor() {
 
   return (
     <>
-      {editable && <ToolbarPlugin />}
+    <LeftToolbarPlugin/> 
+      {editable &&<ToolbarPlugin /> }
       <div ref={scrollRef}>
         <AutoFocusPlugin />
         <ClearEditorPlugin />
