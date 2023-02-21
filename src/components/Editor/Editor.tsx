@@ -1,9 +1,8 @@
 import "./index.css";
 
-import React, { useRef, useMemo, useEffect, useState } from "react";
+import React, { useRef, useMemo, useEffect } from "react";
 import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
 import { AutoFocusPlugin } from "@lexical/react/LexicalAutoFocusPlugin";
-// import { AutoScrollPlugin } from "@lexical/react/LexicalAutoScrollPlugin";
 import { CheckListPlugin } from "@lexical/react/LexicalCheckListPlugin";
 import { ClearEditorPlugin } from "@lexical/react/LexicalClearEditorPlugin";
 import { HashtagPlugin } from "@lexical/react/LexicalHashtagPlugin";
@@ -30,9 +29,7 @@ export default function Editor() {
   const historyState = useMemo(() => createEmptyHistoryState(), []);
   const [editor] = useLexicalComposerContext();
   const editable: boolean = useSelector((state: RootState) => state.editable);
-  const [floatingAnchorElem, setFloatingAnchorElem] =
-    useState<HTMLDivElement | null>(null);
-
+  
   useEffect(() => {
     editor.setEditable(editable);
   }, [editable, editor]);
@@ -43,11 +40,9 @@ export default function Editor() {
     }
   }, [editor, editable]);
 
-  const onRef = (_floatingAnchorElem: HTMLDivElement) => {
-    if (_floatingAnchorElem !== null) {
-      setFloatingAnchorElem(_floatingAnchorElem);
-    }
-  };
+  editor.registerUpdateListener(({ editorState }) => {
+    console.log(editorState);
+  });
 
   return (
     <>
@@ -73,9 +68,6 @@ export default function Editor() {
           }
           placeholder={null}
         />
-        {/* {floatingAnchorElem && (
-            <DraggableBlockPlugin anchorElem={floatingAnchorElem} />
-        )} */}
       </div>
     </>
   );

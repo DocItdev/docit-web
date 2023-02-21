@@ -14,7 +14,7 @@ export default async function updateDocument(
       },
     };
     const response = await axios.put(
-      `${env.API_HOST}/api/documents/${docId}`,
+      `${env.API_HOST}/api/documents`,
       docData,
       opts
     );
