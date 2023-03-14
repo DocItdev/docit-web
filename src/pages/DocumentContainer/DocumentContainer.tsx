@@ -1,13 +1,25 @@
-import React from "react";
+import React, {useEffect} from "react";
 import { useSelector } from "react-redux";
 import "./DocumentContainer.css";
 import { Container } from "@mui/material";
 import { RootState } from "../../config/reduxConfig";
 import Editor from "../../components/Editor";
+import { useParams } from "react-router-dom";
+import { useQuery } from 'react-query';
+import getDocument from "../../utils/documents/getDocument";
+import Loader from "../../components/common/Loader/Loader";
 
 export default function DocumentContainer() {
-  const editable: boolean = useSelector((state: RootState) => state.editable);
-  return (
+  const { docId, projectId } = useParams();
+  const userToken: string = useSelector((state:RootState) => state.userToken);
+  const { isLoading, data, refetch } = useQuery('document', () => getDocument(userToken, projectId, docId), {
+    enabled: false,
+    refetchOnWindowFocus: false,
+  })
+  useEffect(() => {
+    refetch();
+  }, [docId]);
+  return isLoading ?  <Loader /> : (
     <Container
       style={{
         marginTop: "10px",
@@ -17,7 +29,7 @@ export default function DocumentContainer() {
         zIndex: "1",
       }}
     >
-      <Editor />
+      <Editor docData={data} />
     </Container>
   );
 }

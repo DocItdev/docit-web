@@ -21,16 +21,36 @@ import HorizontalRulePlugin from "./plugins/HorizontalRulePlugin";
 import ImagesPlugin from "./plugins/ImagesPlugin";
 import { useSelector } from "react-redux";
 import { RootState } from "../../config/reduxConfig";
+import updateDocument from "../../utils/documents/updateDocument";
+import { useParams } from "react-router-dom";
 import LeftToolbarPlugin from "./plugins/LeftToolbar";
 import DraggableBlockPlugin from "./plugins/DraggableBlockPlugin";
 import ScreenshotPlugin from "./plugins/ScreenshotPlugin";
 import VideoPlugin from "./plugins/VideoPlugin";
+import { EMPTY_CONTENT } from "../../utils/common/constants";
 
-export default function Editor() {
+export interface EditorProps {
+  docData: DocumentType;
+}
+
+export default function Editor({ docData }: EditorProps) {
   const scrollRef = useRef();
   const historyState = useMemo(() => createEmptyHistoryState(), []);
   const [editor] = useLexicalComposerContext();
   const editable: boolean = useSelector((state: RootState) => state.editable);
+  const userToken: string = useSelector((state: RootState) => state.userToken);
+  const { docId, projectId } = useParams();
+
+  // useEffect(() => {
+  //   console.log('docData', docData?.textContent);
+  //   if(docData?.textContent) {
+  //     const savedEditorState = editor.parseEditorState(docData.textContent);
+  //     editor.setEditorState(savedEditorState);
+  //   } else {
+  //     const parsedState = editor.parseEditorState(EMPTY_CONTENT);
+  //     editor.setEditorState(parsedState);
+  //   }
+  // });
   
   useEffect(() => {
     editor.setEditable(editable);
@@ -41,14 +61,25 @@ export default function Editor() {
       editor.focus();
     }
   }, [editor, editable]);
-
-  editor.registerUpdateListener(({ editorState }) => {
-    console.log(editorState);
-  });
+  useEffect(() => {
+    const removeUpdateListener = editor.registerUpdateListener(async ({ editorState }) => {
+      const editorStateStr = JSON.stringify(editorState.toJSON());
+      await updateDocument(
+        userToken, {
+          name: docData.name,
+          textContent: editorStateStr,
+          id: docId,
+          ProjectId: projectId,
+        })
+    });
+    return () => {
+      removeUpdateListener();
+    }
+  }, []);
 
   return (
     <>
-    <LeftToolbarPlugin/> 
+    {/* <LeftToolbarPlugin/>  */}
       {editable &&<ToolbarPlugin /> }
       <div ref={scrollRef}>
         <AutoFocusPlugin />
