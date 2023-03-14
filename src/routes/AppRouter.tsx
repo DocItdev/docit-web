@@ -25,7 +25,7 @@ export default function AppRouter() {
             }
           >
             <Route
-              path=":docId"
+              path=":projectId/:docId"
               element={
                 <RequireAuth>
                   <Document />
