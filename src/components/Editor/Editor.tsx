@@ -24,6 +24,8 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../config/reduxConfig";
 import LeftToolbarPlugin from "./plugins/LeftToolbar";
 import DraggableBlockPlugin from "./plugins/DraggableBlockPlugin";
+import ScreenshotPlugin from "./plugins/ScreenshotPlugin";
+import VideoPlugin from "./plugins/VideoPlugin";
 
 export default function Editor() {
   const scrollRef = useRef();
@@ -66,6 +68,8 @@ export default function Editor() {
         <YouTubePlugin />
         <FigmaPlugin />
         <ImagesPlugin />
+        <ScreenshotPlugin captionsEnabled={undefined}/>
+        <VideoPlugin/>
         <HorizontalRulePlugin />
         <RichTextPlugin
           contentEditable={

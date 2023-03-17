@@ -89,7 +89,7 @@ export class YouTubeNode extends DecoratorBlockNode {
 
   updateDOM(): false {
     return false;
-  }
+  } 
 
   getId(): string {
     return this.__id;

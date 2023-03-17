@@ -5,7 +5,7 @@ import Cancel from "@mui/icons-material/Cancel";
 import UndoIcon from "@mui/icons-material/Undo";
 import ReactCrop, { Crop, PixelCrop } from "react-image-crop";
 import "react-image-crop/dist/ReactCrop.css";
-import { INSERT_IMAGE_COMMAND } from "./plugins/ImagePlugin";
+import { INSERT_IMAGE_COMMAND } from "./plugins/ScreenshotPlugin";
 import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
 import axios from "axios";
 
@@ -260,15 +260,20 @@ export default function ScreenShot(props) {
           alignItems="center"
         >
             <button onClick={async ()=>{
-                let respon = await uploadMediaFile(mediaBlobUrl)
-                console.log(respon.path)
-                let image = await getFile(respon.path)
-                console.log(image.mediaDownloadUrl)
+                // let respon = await uploadMediaFile(mediaBlobUrl)
+                // console.log(respon.path)
+                // let image = await getFile(respon.path)
+                // console.log(image.mediaDownloadUrl)
+
+                // editor.dispatchCommand(INSERT_IMAGE_COMMAND, {
+                //     altText: "Screenshot",
+                //     src: image.mediaDownloadUrl
+                // });
 
                 editor.dispatchCommand(INSERT_IMAGE_COMMAND, {
-                    altText: "Screenshot",
-                    src: image.mediaDownloadUrl
-                });
+                  altText: "Screenshot",
+                  src: mediaBlobUrl
+                })
             }}>Save</button>
           <Grid item xs={1}>
             <IconButton onClick={handleUndo} sx={{ marginLeft: "auto" }}>
