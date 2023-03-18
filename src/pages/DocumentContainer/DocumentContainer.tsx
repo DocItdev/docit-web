@@ -12,13 +12,9 @@ import Loader from "../../components/common/Loader/Loader";
 export default function DocumentContainer() {
   const { docId, projectId } = useParams();
   const userToken: string = useSelector((state:RootState) => state.userToken);
-  const { isLoading, data, refetch } = useQuery('document', () => getDocument(userToken, projectId, docId), {
-    enabled: false,
+  const { isLoading, data } = useQuery(docId, () => getDocument(userToken, projectId, docId), {
     refetchOnWindowFocus: false,
   })
-  useEffect(() => {
-    refetch();
-  }, [docId]);
   return isLoading ?  <Loader /> : (
     <Container
       style={{

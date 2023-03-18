@@ -46,6 +46,7 @@ export default function DocTreeItem({ docName, docId, projectId }: DocTreeItemPr
   const handleClick = (event) => {
     event.stopPropagation();
     navigate(`../${workspaceId}/${projectId}/${docId}`);
+    queryClient.invalidateQueries(docId);
   };
 
   const toggleOpened = () => {

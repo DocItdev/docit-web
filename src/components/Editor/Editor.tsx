@@ -13,6 +13,7 @@ import { ListPlugin } from "@lexical/react/LexicalListPlugin";
 import { RichTextPlugin } from "@lexical/react/LexicalRichTextPlugin";
 import { TablePlugin } from "@lexical/react/LexicalTablePlugin";
 import { ContentEditable } from "@lexical/react/LexicalContentEditable";
+import { OnChangePlugin } from "@lexical/react/LexicalOnChangePlugin";
 import ToolbarPlugin from "./plugins/ToolbarPlugin";
 import YouTubePlugin from "./plugins/YouTubePlugin";
 import AutoEmbedPlugin from "./plugins/AutoEmbedPlugin";
@@ -24,6 +25,8 @@ import { RootState } from "../../config/reduxConfig";
 import updateDocument from "../../utils/documents/updateDocument";
 import { useParams } from "react-router-dom";
 import LeftToolbarPlugin from "./plugins/LeftToolbar";
+import { EditorState } from "lexical";
+import { DocumentType } from "../../@types/Document";
 import { EMPTY_CONTENT } from "../../utils/common/constants";
 
 export interface EditorProps {
@@ -38,17 +41,16 @@ export default function Editor({ docData }: EditorProps) {
   const userToken: string = useSelector((state: RootState) => state.userToken);
   const { docId, projectId } = useParams();
 
-  // useEffect(() => {
-  //   console.log('docData', docData?.textContent);
-  //   if(docData?.textContent) {
-  //     const savedEditorState = editor.parseEditorState(docData.textContent);
-  //     editor.setEditorState(savedEditorState);
-  //   } else {
-  //     const parsedState = editor.parseEditorState(EMPTY_CONTENT);
-  //     editor.setEditorState(parsedState);
-  //   }
-  // });
-  
+  useEffect(() => {
+    if (docData?.textContent && docId === docData.id) {
+      const savedEditorState = editor.parseEditorState(docData.textContent);
+      editor.setEditorState(savedEditorState);
+    } else {
+      const emptyEditorState = editor.parseEditorState(EMPTY_CONTENT);
+      editor.setEditorState(emptyEditorState);
+    }
+  });
+
   useEffect(() => {
     editor.setEditable(editable);
   }, [editable, editor]);
@@ -58,26 +60,24 @@ export default function Editor({ docData }: EditorProps) {
       editor.focus();
     }
   }, [editor, editable]);
-  useEffect(() => {
-    const removeUpdateListener = editor.registerUpdateListener(async ({ editorState }) => {
+
+  const handleStateChange = async () => {
+    if (editable) {
+      const editorState: EditorState = editor.getEditorState();
       const editorStateStr = JSON.stringify(editorState.toJSON());
-      await updateDocument(
-        userToken, {
-          name: docData.name,
-          textContent: editorStateStr,
-          id: docId,
-          ProjectId: projectId,
-        })
-    });
-    return () => {
-      removeUpdateListener();
+      await updateDocument(userToken, {
+        name: docData.name,
+        textContent: editorStateStr,
+        id: docId,
+        ProjectId: projectId,
+      });
     }
-  }, []);
+  };
 
   return (
     <>
-    {/* <LeftToolbarPlugin/>  */}
-      {editable &&<ToolbarPlugin /> }
+      <LeftToolbarPlugin/> 
+      {editable && <ToolbarPlugin />}
       <div ref={scrollRef}>
         <AutoFocusPlugin />
         <ClearEditorPlugin />
@@ -92,6 +92,10 @@ export default function Editor({ docData }: EditorProps) {
         <FigmaPlugin />
         <ImagesPlugin />
         <HorizontalRulePlugin />
+        <OnChangePlugin
+          onChange={handleStateChange}
+          ignoreSelectionChange={true}
+        />
         <RichTextPlugin
           contentEditable={
             <ContentEditable className="TableNode__contentEditable" />

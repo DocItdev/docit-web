@@ -37,7 +37,6 @@ export default function ScreenShot() {
       canvas.toBlob((blob) => {
         const url = URL.createObjectURL(blob);
         setMediaBlobUrl(url);
-        console.log(url);
         // dispatch(setMediaBlobUrl(url));
         // dispatch(setMediaType(MediaTypes.IMAGE));
       });
@@ -261,9 +260,7 @@ export default function ScreenShot() {
         >
             <button onClick={async ()=>{
                 let respon = await uploadMediaFile(mediaBlobUrl)
-                console.log(respon.path)
                 let image = await getFile(respon.path)
-                console.log(image.mediaDownloadUrl)
 
                 editor.dispatchCommand(INSERT_IMAGE_COMMAND, {
                     altText: "Screenshot",

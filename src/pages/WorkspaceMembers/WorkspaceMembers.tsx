@@ -34,7 +34,7 @@ export default function WorkspaceMembers() {
     const navigate = useNavigate();
     const location = useLocation();
     const workspaceData = (location.state as { workspaceData: WorkspaceType })?.workspaceData
-    console.log('loc state', location.state);
+    
   useEffect(() => {
     if (fields.length === 0) {
       append({ email: "" });
@@ -43,7 +43,6 @@ export default function WorkspaceMembers() {
 
   const onSubmit = (values: WorkspaceType) => {
     const selectedWorkspaceId = workspaceData ? workspaceData.id : workspaceId;
-    console.log('selected workspace', selectedWorkspaceId);
     const workspacesMembers: WorkspaceUsers = {
       WorkspaceId: selectedWorkspaceId,
       emails: values.Users.map((user) => user.email),
