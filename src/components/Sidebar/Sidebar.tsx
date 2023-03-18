@@ -13,7 +13,7 @@ import AddIcon from "@mui/icons-material/Add";
 import ProjectTreeView from "../ProjectTreeView";
 import ProjectForm from "../common/ProjectForm";
 import Loader from "../common/Loader";
-import { useQuery } from "react-query";
+import { useQuery, useQueryClient } from "react-query";
 import { useSelector, useDispatch } from "react-redux";
 import fetchAllProjects from "../../utils/projects/fetchAllProjects";
 import postProject from "../../utils/projects/postProject";
@@ -46,6 +46,7 @@ export default function Sidebar({ drawerIsOpened, onClose }: SidebarProps) {
       enabled: workspaceId !== undefined || workspaceId !== null,
     }
   );
+  const queryClient = useQueryClient();
 
   const toggleOpened = (event: SyntheticEvent) => {
     event?.stopPropagation();
@@ -54,6 +55,9 @@ export default function Sidebar({ drawerIsOpened, onClose }: SidebarProps) {
 
   const handleChange = (event) => {
     dispatch(setEditable(event.target.checked));
+    if(event.target.checked === false) {
+      queryClient.invalidateQueries(docId);
+    }
   };
   return isLoading ? (
     <Loader />

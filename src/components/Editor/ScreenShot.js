@@ -37,7 +37,6 @@ export default function ScreenShot() {
       canvas.toBlob((blob) => {
         const url = URL.createObjectURL(blob);
         setMediaBlobUrl(url);
-        console.log(url);
         // dispatch(setMediaBlobUrl(url));
         // dispatch(setMediaType(MediaTypes.IMAGE));
       });
