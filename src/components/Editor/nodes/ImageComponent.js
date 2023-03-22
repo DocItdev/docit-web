@@ -24,19 +24,19 @@ function LazyImage({
   src,
   width,
   height,
-  maxWidth
-}){
+  maxWidth,
+}) {
   useSuspenseImage(src);
   return (
     <img
-      className={className || undefined}
+      className={className}
       src={src}
       alt={altText}
       ref={imageRef}
       style={{
         height,
         maxWidth,
-        width
+        width,
       }}
     />
   );
@@ -47,25 +47,21 @@ export default function ImageComponent({
   altText,
   width,
   height,
-  maxWidth
+  maxWidth,
 }) {
   const imageRef = useRef(null);
 
   return (
     <Suspense fallback={null}>
-      <>
-        <div>
-          <LazyImage
-            className=""
-            src={src}
-            altText={altText}
-            imageRef={imageRef}
-            width={width}
-            height={height}
-            maxWidth={maxWidth}
-          />
-        </div>
-      </>
+      <LazyImage
+        className=""
+        src={src}
+        altText={altText}
+        imageRef={imageRef}
+        width={width}
+        height={height}
+        maxWidth={maxWidth}
+      />
     </Suspense>
   );
 }

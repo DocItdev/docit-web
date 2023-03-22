@@ -56,7 +56,9 @@ export default function VideoRecorderBar() {
                 
                 editor.dispatchCommand(INSERT_VIDEO_COMMAND, {
                   altText: "Screen recording",
-                  src: mediaBlobUrl
+                  src: mediaBlobUrl,
+                  width: "800",
+                  height: "600"
                 })}}>
         save
       </button>

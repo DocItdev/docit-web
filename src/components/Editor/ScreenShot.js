@@ -260,16 +260,6 @@ export default function ScreenShot(props) {
           alignItems="center"
         >
             <button onClick={async ()=>{
-                // let respon = await uploadMediaFile(mediaBlobUrl)
-                // console.log(respon.path)
-                // let image = await getFile(respon.path)
-                // console.log(image.mediaDownloadUrl)
-
-                // editor.dispatchCommand(INSERT_IMAGE_COMMAND, {
-                //     altText: "Screenshot",
-                //     src: image.mediaDownloadUrl
-                // });
-
                 editor.dispatchCommand(INSERT_IMAGE_COMMAND, {
                   altText: "Screenshot",
                   src: mediaBlobUrl
