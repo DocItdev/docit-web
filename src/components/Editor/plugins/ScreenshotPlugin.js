@@ -17,14 +17,14 @@ export const INSERT_IMAGE_COMMAND= createCommand(
   "INSERT_IMAGE_COMMAND"
 );
 
-export default function ImagesPlugin({
+export default function ScreenshotPlugin({
   captionsEnabled
 }){
   const [editor] = useLexicalComposerContext();
 
   useEffect(() => {
     if (!editor.hasNodes([ImageNode])) {
-      throw new Error("ImagesPlugin: ImageNode not registered on editor");
+      throw new Error("ScreenshotPlugin: ImageNode not registered on editor");
     }
 
     return mergeRegister(

@@ -2,62 +2,48 @@
 import * as React from "react";
 import { Suspense, useRef } from "react";
 
-const imageCache = new Set();
-
-function useSuspenseImage(src) {
-  if (!imageCache.has(src)) {
-    throw new Promise((resolve) => {
-      const img = new Image();
-      img.src = src;
-      img.onload = () => {
-        imageCache.add(src);
-        resolve(null);
-      };
-    });
-  }
-}
-
-function LazyImage({
+function LazyVideo({
   altText,
   className,
-  imageRef,
+  videoRef,
   src,
   width,
   height,
   maxWidth,
 }) {
-  useSuspenseImage(src);
   return (
-    <img
+    <video
+      controls
       className={className}
-      src={src}
       alt={altText}
-      ref={imageRef}
+      ref={videoRef}
       style={{
         height,
         maxWidth,
         width,
       }}
-    />
+    >
+      <source src={src} type="video/mp4" />
+    </video>
   );
 }
 
-export default function ImageComponent({
+export default function VideoComponent({
   src,
   altText,
   width,
   height,
   maxWidth,
 }) {
-  const imageRef = useRef(null);
+  const videoRef = useRef(null);
 
   return (
     <Suspense fallback={null}>
-      <LazyImage
+      <LazyVideo
         className=""
         src={src}
         altText={altText}
-        imageRef={imageRef}
+        videoRef={videoRef}
         width={width}
         height={height}
         maxWidth={maxWidth}

@@ -2,11 +2,12 @@ import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext
 import * as React from "react";
 import BasicModal from "../BasicModal";
 import ScreenShot from "../ScreenShot";
+import ScreenRecording from "../ScreenRecording"
 
 import "../styles.css";
 
-import { InsertImagePayload } from "./ImagePlugin";
-import { INSERT_IMAGE_COMMAND } from "./ImagePlugin.js";
+import { InsertImagePayload } from "./ScreenshotPlugin";
+import { INSERT_IMAGE_COMMAND } from "./ScreenshotPlugin";
 
 
 export function FillURL() {
@@ -26,6 +27,7 @@ export default function LeftToolbarPlugin() {
     <div className="toolbar">
       
       <BasicModal title="ScreenShot" component={<ScreenShot/>} />
+      <BasicModal title="ScreenRecording" component={<ScreenRecording/>}/>
       <button
         onClick={() =>
           onClick({

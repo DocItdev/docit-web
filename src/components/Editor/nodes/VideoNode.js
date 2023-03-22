@@ -1,41 +1,23 @@
- 
-  import { createEditor, DecoratorNode } from "lexical";
-  import * as React from "react";
-  import { Suspense } from "react";
-  
-  const ImageComponent = React.lazy(
-    // @ts-ignore
-    () => import("./ImageComponent")
-  );
-  
-  
-  function convertImageElement(domNode) {
-    if (domNode instanceof HTMLImageElement) {
-      const { alt: altText, src } = domNode;
-      const node = $createImageNode({ altText, src });
-      return { node };
-    }
-    return null;
+import { createEditor, DecoratorNode } from "lexical";
+import * as React from "react";
+
+function convertVideoElement(domNode) {
+  if (domNode instanceof HTMLVideoElement) {
+    const { altText, src } = domNode;
+    const node = $createVideoNode({ altText, src });
+    return { node };
   }
-  
-  
-  export class ImageNode extends DecoratorNode {
-    // __src: string;
-    // __altText: string;
-    // __width: "inherit" | number;
-    // __height: "inherit" | number;
-    // __maxWidth: number;
-    // __showCaption: boolean;
-    // __caption: LexicalEditor;
-    // // Captions cannot yet be used within editor cells
-    // __captionsEnabled: boolean;
+  return null;
+}
+
+export class VideoNode extends DecoratorNode {
   
     static getType() {
-      return "image";
+      return 'video';
     }
   
     static clone(node) {
-      return new ImageNode(
+      return new VideoNode(
         node.__src,
         node.__altText,
         node.__maxWidth,
@@ -58,7 +40,8 @@
         src,
         showCaption
       } = serializedNode;
-      const node = $createImageNode({
+
+      const node = $createVideoNode({
         altText,
         height,
         maxWidth,
@@ -73,9 +56,9 @@
       }
       return node;
     }
-  
+
     exportDOM() {
-      const element = document.createElement("img");
+      const element = document.createElement("video");
       element.setAttribute("src", this.__src);
       element.setAttribute("alt", this.__altText);
       return { element };
@@ -84,12 +67,12 @@
     static importDOM() {
       return {
         img: (node) => ({
-          conversion: convertImageElement,
+          conversion: convertVideoElement,
           priority: 0
         })
       };
     }
-  
+
     constructor(
       src,
       altText,
@@ -111,7 +94,7 @@
       this.__caption = caption || createEditor();
       this.__captionsEnabled = captionsEnabled || captionsEnabled === undefined;
     }
-  
+
     exportJSON() {
       return {
         altText: this.getAltText(),
@@ -120,12 +103,12 @@
         maxWidth: this.__maxWidth,
         showCaption: this.__showCaption,
         src: this.getSrc(),
-        type: "image",
+        type: "video",
         version: 1,
         width: this.__width === "inherit" ? 0 : this.__width
       };
     }
-  
+
     setWidthAndHeight(
       width,
       height
@@ -139,19 +122,17 @@
       const writable = this.getWritable();
       writable.__showCaption = showCaption;
     }
-  
-    // View
-  
+
     createDOM(config) {
       const span = document.createElement("span");
       const theme = config.theme;
-      const className = theme.image;
+      const className = theme.video;
       if (className !== undefined) {
         span.className = className;
       }
       return span;
     }
-  
+
     updateDOM() {
       return false;
     }
@@ -163,31 +144,27 @@
     getAltText() {
       return this.__altText;
     }
-  
+
     decorate() {
       return (
-        <Suspense fallback={null}>
-          <ImageComponent
-            src={this.__src}
-            altText={this.__altText}
+        
+          <video
+            controls
             width={this.__width}
             height={this.__height}
-            maxWidth={this.__maxWidth}
-            nodeKey={this.getKey()}
-            showCaption={this.__showCaption}
-            caption={this.__caption}
-            captionsEnabled={this.__captionsEnabled}
-            resizable={true}
-          />
-        </Suspense>
+            
+          >
+            <source src={this.__src} type="video/mp4"/>
+            </video>
+        
       );
     }
   }
-  
-  export function $createImageNode({
+
+  export function $createVideoNode({
     altText,
     height,
-    maxWidth="100%",
+    maxWidth = 500,
     captionsEnabled,
     src,
     width,
@@ -195,7 +172,7 @@
     caption,
     key
   }) {
-    return new ImageNode(
+    return new VideoNode(
       src,
       altText,
       maxWidth,
@@ -208,9 +185,10 @@
     );
   }
   
-  export function $isImageNode(
+  export function $isVideoNode(
     node
   ) {
-    return node instanceof ImageNode;
+    return node instanceof VideoNode;
   }
   
+
