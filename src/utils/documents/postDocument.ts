@@ -4,7 +4,6 @@ import { DocumentType } from "../../@types/Document";
 
 export default async function postDocument(
   userToken: string,
-  projectId: string,
   document: DocumentType
 ) {
   if (userToken) {
@@ -13,7 +12,7 @@ export default async function postDocument(
         Authorization: `Bearer ${userToken}`,
       },
     };
-    const url = `${env.API_HOST}/api/documents?projectId=${projectId}`;
+    const url = `${env.API_HOST}/api/documents`;
     const response = await axios.post(url, document, opts);
     return response.data;
   }

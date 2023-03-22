@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Login from "../pages/Login";
 import DocItLayout from "../pages/DocItLayout";
 import Document from "../pages/DocumentContainer";
@@ -14,6 +14,7 @@ export default function AppRouter() {
     <>
       <BrowserRouter>
         <Routes>
+          <Route path="/" element={<Navigate to="/login" replace />} />
           <Route path="/login" element={<Login />} />
           <Route
             path=":workspaceId"
@@ -24,7 +25,7 @@ export default function AppRouter() {
             }
           >
             <Route
-              path=":docId"
+              path=":projectId/:docId"
               element={
                 <RequireAuth>
                   <Document />
