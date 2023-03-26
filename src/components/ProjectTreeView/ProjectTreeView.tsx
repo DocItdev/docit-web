@@ -35,7 +35,6 @@ export default function ProjectTreeView({ projects }: ProjectTreeViewProps) {
                   <DocTreeItem
                     key={document.id}
                     docId={document.id}
-                    projectId={id}
                     docName={document.name}
                   />
                 ))

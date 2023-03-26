@@ -106,7 +106,7 @@ export default function ProjectTreeItem({
             buttonText="Create"
             open={opened}
             onClose={toggleOpened}
-            onMutate={(newDoc) => postDocument(userToken, { ...newDoc, ProjectId: projectId,  })}
+            onMutate={(newDoc) => postDocument(userToken, projectId, newDoc)}
           />
           <ProjectForm
             title="Update Project"

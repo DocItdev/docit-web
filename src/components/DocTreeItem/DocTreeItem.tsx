@@ -19,10 +19,9 @@ import { useNavigate, useParams } from "react-router-dom";
 export interface DocTreeItemProps {
   docName: string;
   docId: string;
-  projectId: string;
 }
 
-export default function DocTreeItem({ docName, docId, projectId }: DocTreeItemProps) {
+export default function DocTreeItem({ docName, docId }: DocTreeItemProps) {
   const { userToken } = useSelector((state: RootState) => state);
   const navigate = useNavigate();
   const { workspaceId } = useParams();
@@ -45,8 +44,7 @@ export default function DocTreeItem({ docName, docId, projectId }: DocTreeItemPr
 
   const handleClick = (event) => {
     event.stopPropagation();
-    navigate(`../${workspaceId}/${projectId}/${docId}`);
-    queryClient.invalidateQueries(docId);
+    navigate(`../${workspaceId}/${docId}`);
   };
 
   const toggleOpened = () => {
@@ -93,6 +91,7 @@ export default function DocTreeItem({ docName, docId, projectId }: DocTreeItemPr
             <Grid
               item
               xs={2}
+              spacing={0}
               sx={{
                 display: "none",
                 ...(hover && { display: "flex" }),
@@ -110,7 +109,7 @@ export default function DocTreeItem({ docName, docId, projectId }: DocTreeItemPr
         buttonText="Update"
         open={opened}
         onClose={toggleOpened}
-        onMutate={(docData) => updateDocument(userToken, {ProjectId: projectId, id: docId, ...docData})}
+        onMutate={(docData) => updateDocument(userToken, docId, docData)}
         initialValues={{ title: docName }}
       />
     </>
