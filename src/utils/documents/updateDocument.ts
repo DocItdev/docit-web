@@ -4,16 +4,21 @@ import { DocumentType } from "../../@types/Document";
 
 export default async function updateDocument(
   userToken: string,
-  document: DocumentType
+  docId: string,
+  docData: DocumentType
 ) {
-  if (userToken) {
+  if (userToken && docId) {
     const opts = {
       headers: {
         Authorization: `Bearer ${userToken}`,
       },
     };
-    const url = `${env.API_HOST}/api/documents`;
-    const response = await axios.put(url, document, opts);
+    const response = await axios.put(
+      `${env.API_HOST}/api/documents/${docId}`,
+      docData,
+      opts
+    );
     return response.data;
   }
+  throw new Error("Missing document id and/or user token");
 }
