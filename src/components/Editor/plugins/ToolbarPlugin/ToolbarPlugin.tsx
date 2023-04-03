@@ -836,19 +836,6 @@ export default function ToolbarPlugin(): JSX.Element {
               <i className="icon table" />
               <span className="text">Table</span>
             </DropDownItem>
-            <DropDownItem
-              onClick={() => {
-                showModal('Insert Table', (onClose) => (
-                  <InsertNewTableDialog
-                    activeEditor={activeEditor}
-                    onClose={onClose}
-                  />
-                ));
-              }}
-              className="item">
-              <i className="icon table" />
-              <span className="text">Table (Experimental)</span>
-            </DropDownItem>
             {EmbedConfigs.map((embedConfig) => (
               <DropDownItem
                 key={embedConfig.type}

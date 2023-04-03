@@ -89,6 +89,8 @@ header h1 {
 .editor {
   height: 100%;
   position: relative;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
 }
 
 .test-recorder-output {
