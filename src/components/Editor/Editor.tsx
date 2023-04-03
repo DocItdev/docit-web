@@ -53,6 +53,7 @@ export default function Editor({ docData }: EditorProps) {
       editor.setEditorState(emptyEditorState);
     }
   });
+  const elementRef = useRef();
 
   useEffect(() => {
     editor.setEditable(editable);
@@ -94,16 +95,23 @@ export default function Editor({ docData }: EditorProps) {
         <YouTubePlugin />
         <FigmaPlugin />
         <ImagesPlugin />
-        <ScreenshotPlugin captionsEnabled={undefined}/>
-        <VideoPlugin/>
+        <ScreenshotPlugin captionsEnabled={undefined} />
+        <VideoPlugin />
         <HorizontalRulePlugin />
         <OnChangePlugin
           onChange={handleStateChange}
           ignoreSelectionChange={true}
         />
+        {elementRef.current && (
+          <>
+            <DraggableBlockPlugin anchorElem={elementRef.current}/>
+          </>
+        )}
         <RichTextPlugin
           contentEditable={
-            <ContentEditable className="TableNode__contentEditable" />
+            <div className="editor" ref={elementRef}>
+              <ContentEditable className="TableNode__contentEditable" />
+            </div>
           }
           placeholder={null}
         />
