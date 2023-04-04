@@ -4,8 +4,11 @@ import Editor from './Editor';
 import DocItNodes from "./DocItNodes";
 import DocItEditorTheme from "./themes/PlaygroundEditorTheme";
 
+export interface EditorWrapperProps {
+   docData: DocumentType,
+}
 
-export default function EditorWrapper() {
+export default function EditorWrapper({ docData }: EditorWrapperProps) {
   const initialConfig = {
     editorState: null,
     namespace: "DocIt",
@@ -15,10 +18,9 @@ export default function EditorWrapper() {
       throw error;
     },
   };
-
   return (
     <LexicalComposer initialConfig={initialConfig}>
-      <Editor />
+      <Editor docData={docData} />
     </LexicalComposer>
   )
 }

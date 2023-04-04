@@ -3,14 +3,14 @@ import IconButton from "@mui/material/IconButton";
 import Grid from "@mui/material/Grid";
 import Cancel from "@mui/icons-material/Cancel";
 import UndoIcon from "@mui/icons-material/Undo";
-import ReactCrop, { Crop, PixelCrop } from "react-image-crop";
+import ReactCrop from "react-image-crop";
 import "react-image-crop/dist/ReactCrop.css";
 import { INSERT_IMAGE_COMMAND } from "./plugins/ScreenshotPlugin";
 import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
 import axios from "axios";
 
 
-export default function ScreenShot(props) {
+export default function ScreenShot() {
   const [start, setStart] = useState(false);
 
 
@@ -37,7 +37,6 @@ export default function ScreenShot(props) {
       canvas.toBlob((blob) => {
         const url = URL.createObjectURL(blob);
         setMediaBlobUrl(url);
-        console.log(url);
         // dispatch(setMediaBlobUrl(url));
         // dispatch(setMediaType(MediaTypes.IMAGE));
       });
