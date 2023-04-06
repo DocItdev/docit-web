@@ -31,6 +31,9 @@ import VideoPlugin from "./plugins/VideoPlugin";
 import { EditorState } from "lexical";
 import { DocumentType } from "../../@types/Document";
 import { EMPTY_CONTENT } from "../../utils/common/constants";
+import ExcalidrawPlugin from "./plugins/ExcalidrawPlugin";
+import ClickableLinkPlugin from "./plugins/ClickableLinkPlugin";
+import FloatingLinkEditorPlugin from "./plugins/FloatingLinkEditorPlugin";
 
 export interface EditorProps {
   docData: DocumentType;
@@ -85,6 +88,7 @@ export default function Editor({ docData }: EditorProps) {
       <div ref={scrollRef}>
         <AutoFocusPlugin />
         <ClearEditorPlugin />
+        <ClickableLinkPlugin />
         <HashtagPlugin />
         <HistoryPlugin externalHistoryState={historyState} />
         <ListPlugin />
@@ -95,6 +99,7 @@ export default function Editor({ docData }: EditorProps) {
         <YouTubePlugin />
         <FigmaPlugin />
         <ImagesPlugin />
+        <ExcalidrawPlugin />
         <ScreenshotPlugin captionsEnabled={undefined} />
         <VideoPlugin />
         <HorizontalRulePlugin />
@@ -105,6 +110,7 @@ export default function Editor({ docData }: EditorProps) {
         {elementRef.current && (
           <>
             <DraggableBlockPlugin anchorElem={elementRef.current}/>
+            <FloatingLinkEditorPlugin anchorElem={elementRef.current} />
           </>
         )}
         <RichTextPlugin

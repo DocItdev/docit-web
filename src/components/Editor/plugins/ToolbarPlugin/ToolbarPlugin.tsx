@@ -22,6 +22,7 @@ import {INSERT_EMBED_COMMAND} from '@lexical/react/LexicalAutoEmbedPlugin';
 import {useLexicalComposerContext} from '@lexical/react/LexicalComposerContext';
 import {$isDecoratorBlockNode} from '@lexical/react/LexicalDecoratorBlockNode';
 import {INSERT_HORIZONTAL_RULE_COMMAND} from '@lexical/react/LexicalHorizontalRuleNode';
+import { INSERT_EXCALIDRAW_COMMAND } from '../ExcalidrawPlugin';
 import {
   $createHeadingNode,
   $createQuoteNode,
@@ -822,6 +823,17 @@ export default function ToolbarPlugin(): JSX.Element {
               className="item">
               <i className="icon image" />
               <span className="text">Image</span>
+            </DropDownItem>
+            <DropDownItem
+              onClick={() => {
+                activeEditor.dispatchCommand(
+                  INSERT_EXCALIDRAW_COMMAND,
+                  undefined,
+                );
+              }}
+              className="item">
+              <i className="icon diagram-2" />
+              <span className="text">Excalidraw</span>
             </DropDownItem>
             <DropDownItem
               onClick={() => {
