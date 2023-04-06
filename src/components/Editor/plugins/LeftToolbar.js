@@ -8,6 +8,7 @@ import "../styles.css";
 
 import { InsertImagePayload } from "./ScreenshotPlugin";
 import { INSERT_IMAGE_COMMAND } from "./ScreenshotPlugin";
+import UploadFile from "../UploadFile";
 
 
 export function FillURL() {
@@ -28,6 +29,7 @@ export default function LeftToolbarPlugin() {
       
       <BasicModal title="ScreenShot" component={<ScreenShot/>} />
       <BasicModal title="ScreenRecording" component={<ScreenRecording/>}/>
+      <BasicModal title="UploadFile" component={<UploadFile />}/>
       <button
         onClick={() =>
           onClick({

@@ -31,6 +31,7 @@ import VideoPlugin from "./plugins/VideoPlugin";
 import { EditorState } from "lexical";
 import { DocumentType } from "../../@types/Document";
 import { EMPTY_CONTENT } from "../../utils/common/constants";
+import FilePlugin from "./plugins/FilePlugin";
 
 export interface EditorProps {
   docData: DocumentType;
@@ -97,6 +98,7 @@ export default function Editor({ docData }: EditorProps) {
         <ScreenshotPlugin captionsEnabled={undefined}/>
         <VideoPlugin/>
         <HorizontalRulePlugin />
+        <FilePlugin/>
         <OnChangePlugin
           onChange={handleStateChange}
           ignoreSelectionChange={true}
