@@ -1,13 +1,5 @@
-/**
- * Copyright (c) Meta Platforms, Inc. and affiliates.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
- *
- */
-
 import {useLexicalComposerContext} from '@lexical/react/LexicalComposerContext';
-import {$insertBlockNode} from '@lexical/utils';
+import {$insertNodeToNearestRoot} from '@lexical/utils';
 import {COMMAND_PRIORITY_EDITOR, createCommand, LexicalCommand} from 'lexical';
 import {useEffect} from 'react';
 
@@ -27,7 +19,7 @@ export default function YouTubePlugin(): JSX.Element | null {
       INSERT_YOUTUBE_COMMAND,
       (payload) => {
         const youTubeNode = $createYouTubeNode(payload);
-        $insertBlockNode(youTubeNode);
+        $insertNodeToNearestRoot(youTubeNode);
 
         return true;
       },

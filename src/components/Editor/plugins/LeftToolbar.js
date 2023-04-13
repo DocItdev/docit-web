@@ -4,9 +4,6 @@ import BasicModal from "../BasicModal";
 import ScreenShot from "../ScreenShot";
 import ScreenRecording from "../ScreenRecording"
 
-import "../styles.css";
-
-import { InsertImagePayload } from "./ScreenshotPlugin";
 import { INSERT_IMAGE_COMMAND } from "./ScreenshotPlugin";
 
 

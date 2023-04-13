@@ -31,6 +31,9 @@ import VideoPlugin from "./plugins/VideoPlugin";
 import { EditorState } from "lexical";
 import { DocumentType } from "../../@types/Document";
 import { EMPTY_CONTENT } from "../../utils/common/constants";
+import ExcalidrawPlugin from "./plugins/ExcalidrawPlugin";
+import ClickableLinkPlugin from "./plugins/ClickableLinkPlugin";
+import FloatingLinkEditorPlugin from "./plugins/FloatingLinkEditorPlugin";
 
 export interface EditorProps {
   docData: DocumentType;
@@ -53,6 +56,7 @@ export default function Editor({ docData }: EditorProps) {
       editor.setEditorState(emptyEditorState);
     }
   });
+  const elementRef = useRef();
 
   useEffect(() => {
     editor.setEditable(editable);
@@ -84,6 +88,7 @@ export default function Editor({ docData }: EditorProps) {
       <div ref={scrollRef}>
         <AutoFocusPlugin />
         <ClearEditorPlugin />
+        <ClickableLinkPlugin />
         <HashtagPlugin />
         <HistoryPlugin externalHistoryState={historyState} />
         <ListPlugin />
@@ -94,16 +99,25 @@ export default function Editor({ docData }: EditorProps) {
         <YouTubePlugin />
         <FigmaPlugin />
         <ImagesPlugin />
-        <ScreenshotPlugin captionsEnabled={undefined}/>
-        <VideoPlugin/>
+        <ExcalidrawPlugin />
+        <ScreenshotPlugin captionsEnabled={undefined} />
+        <VideoPlugin />
         <HorizontalRulePlugin />
         <OnChangePlugin
           onChange={handleStateChange}
           ignoreSelectionChange={true}
         />
+        {elementRef.current && (
+          <>
+            <DraggableBlockPlugin anchorElem={elementRef.current}/>
+            <FloatingLinkEditorPlugin anchorElem={elementRef.current} />
+          </>
+        )}
         <RichTextPlugin
           contentEditable={
-            <ContentEditable className="TableNode__contentEditable" />
+            <div className="editor" ref={elementRef}>
+              <ContentEditable className="TableNode__contentEditable" />
+            </div>
           }
           placeholder={null}
         />
