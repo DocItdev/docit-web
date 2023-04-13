@@ -1,21 +1,7 @@
 /* eslint-disable react/prop-types */
-import * as React from "react";
-import { Suspense, useRef } from "react";
-
-const imageCache = new Set();
-
-function useSuspenseImage(src) {
-  if (!imageCache.has(src)) {
-    throw new Promise((resolve) => {
-      const img = new Image();
-      img.src = src;
-      img.onload = () => {
-        imageCache.add(src);
-        resolve(null);
-      };
-    });
-  }
-}
+import React, { useRef } from "react";
+import { LazyLoadImage } from "react-lazy-load-image-component";
+import useFile from "../../../hooks/useFile";
 
 function LazyImage({
   altText,
@@ -26,13 +12,13 @@ function LazyImage({
   height,
   maxWidth,
 }) {
-  useSuspenseImage(src);
   return (
-    <img
+    <LazyLoadImage
       className={className}
       src={src}
       alt={altText}
       ref={imageRef}
+      effect="blur"
       style={{
         height,
         maxWidth,
@@ -48,20 +34,33 @@ export default function ImageComponent({
   width,
   height,
   maxWidth,
+  fileKey,
 }) {
   const imageRef = useRef(null);
-
+  const { data } = useFile(fileKey);
   return (
-    <Suspense fallback={null}>
-      <LazyImage
-        className=""
-        src={src}
-        altText={altText}
-        imageRef={imageRef}
-        width={width}
-        height={height}
-        maxWidth={maxWidth}
-      />
-    </Suspense>
+    <>
+      {data?.mediaDownloadUrl ? (
+        <LazyImage
+          className="refreshed"
+          src={data.mediaDownloadUrl}
+          altText={altText}
+          imageRef={imageRef}
+          width={width}
+          height={height}
+          maxWidth={maxWidth}
+        />
+      ) : (
+        <LazyImage
+          className=""
+          src={src}
+          altText={altText}
+          imageRef={imageRef}
+          width={width}
+          height={height}
+          maxWidth={maxWidth}
+        />
+      )}
+    </>
   );
 }

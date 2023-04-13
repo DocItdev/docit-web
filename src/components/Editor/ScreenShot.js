@@ -5,13 +5,9 @@ import Cancel from "@mui/icons-material/Cancel";
 import UndoIcon from "@mui/icons-material/Undo";
 import ReactCrop from "react-image-crop";
 import "react-image-crop/dist/ReactCrop.css";
-import { useSelector } from "react-redux";
 import Button from "../common/AsyncButton";
 import { INSERT_IMAGE_COMMAND } from "./plugins/ScreenshotPlugin";
 import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
-import { useMutation } from "react-query";
-import uploadMediaFile from "../../utils/mediaStorage/uploadMediaFile";
-import { useParams } from "react-router-dom";
 import useFileUpload from "../../hooks/useFileUpload";
 
 

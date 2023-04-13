@@ -29,6 +29,30 @@
     // __caption: LexicalEditor;
     // // Captions cannot yet be used within editor cells
     // __captionsEnabled: boolean;
+
+    constructor(
+      src,
+      altText,
+      maxWidth,
+      width,
+      height,
+      showCaption,
+      caption,
+      captionsEnabled,
+      key,
+      fileKey,
+    ) {
+      super(key);
+      this.__src = src;
+      this.__altText = altText;
+      this.__maxWidth = maxWidth;
+      this.__width = width || "inherit";
+      this.__height = height || "inherit";
+      this.__showCaption = showCaption || false;
+      this.__caption = caption || createEditor();
+      this.__captionsEnabled = captionsEnabled || captionsEnabled === undefined;
+      this.__fileKey = fileKey;
+    }
   
     static getType() {
       return "image";
@@ -44,7 +68,8 @@
         node.__showCaption,
         node.__caption,
         node.__captionsEnabled,
-        node.__key
+        node.__key,
+        node.__fileKey,
       );
     }
   
@@ -56,7 +81,8 @@
         maxWidth,
         caption,
         src,
-        showCaption
+        showCaption,
+        fileKey,
       } = serializedNode;
       const node = $createImageNode({
         altText,
@@ -64,7 +90,8 @@
         maxWidth,
         showCaption,
         src,
-        width
+        width,
+        fileKey,
       });
       const nestedEditor = node.__caption;
       const editorState = nestedEditor.parseEditorState(caption.editorState);
@@ -90,28 +117,6 @@
       };
     }
   
-    constructor(
-      src,
-      altText,
-      maxWidth,
-      width,
-      height,
-      showCaption,
-      caption,
-      captionsEnabled,
-      key
-    ) {
-      super(key);
-      this.__src = src;
-      this.__altText = altText;
-      this.__maxWidth = maxWidth;
-      this.__width = width || "inherit";
-      this.__height = height || "inherit";
-      this.__showCaption = showCaption || false;
-      this.__caption = caption || createEditor();
-      this.__captionsEnabled = captionsEnabled || captionsEnabled === undefined;
-    }
-  
     exportJSON() {
       return {
         altText: this.getAltText(),
@@ -122,7 +127,8 @@
         src: this.getSrc(),
         type: "image",
         version: 1,
-        width: this.__width === "inherit" ? 0 : this.__width
+        width: this.__width === "inherit" ? 0 : this.__width,
+        fileKey: this.getFileKey(),
       };
     }
   
@@ -163,6 +169,10 @@
     getAltText() {
       return this.__altText;
     }
+
+    getFileKey() {
+      return this.__fileKey;
+    }
   
     decorate() {
       return (
@@ -178,6 +188,7 @@
             caption={this.__caption}
             captionsEnabled={this.__captionsEnabled}
             resizable={true}
+            fileKey={this.getFileKey()}
           />
         </Suspense>
       );
@@ -193,7 +204,8 @@
     width,
     showCaption,
     caption,
-    key
+    key,
+    fileKey,
   }) {
     return new ImageNode(
       src,
@@ -204,7 +216,8 @@
       showCaption,
       caption,
       captionsEnabled,
-      key
+      key,
+      fileKey,
     );
   }
   
