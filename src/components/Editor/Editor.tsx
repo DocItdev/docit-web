@@ -83,7 +83,7 @@ export default function Editor({ docData }: EditorProps) {
 
   return (
     <>
-      <LeftToolbarPlugin/> 
+      {editable && <LeftToolbarPlugin/>}
       {editable && <ToolbarPlugin />}
       <div ref={scrollRef}>
         <AutoFocusPlugin />

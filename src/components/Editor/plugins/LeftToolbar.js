@@ -15,7 +15,6 @@ export function FillURL() {
 
 export default function LeftToolbarPlugin() {
   const [editor] = useLexicalComposerContext();
-  const [openSnipModal, setOpenSnipModal] = React.useState(false)
   const onClick = (payload) => {
     editor.dispatchCommand(INSERT_IMAGE_COMMAND, payload);
   };
