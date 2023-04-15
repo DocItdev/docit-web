@@ -13,7 +13,9 @@ import { YouTubeNode } from "./nodes/YouTubeNode";
 import { FigmaNode } from "./nodes/FigmaNode";
 import { ImageNode } from "./nodes/ImageNode";
 import { VideoNode } from "./nodes/VideoNode";
+import { FileNode } from "./nodes/FileNode";
 import { ExcalidrawNode } from './nodes/ExcalidrawNode';
+
 
 const DocItNodes: Array<Klass<LexicalNode>> = [
   CodeHighlightNode,
@@ -35,7 +37,8 @@ const DocItNodes: Array<Klass<LexicalNode>> = [
   FigmaNode,
   ImageNode,
   VideoNode,
-  ExcalidrawNode
+  FileNode,
+  ExcalidrawNode,
 ];
 
 export default DocItNodes;
