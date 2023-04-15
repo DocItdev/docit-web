@@ -4,9 +4,6 @@ import BasicModal from "../BasicModal";
 import ScreenShot from "../ScreenShot";
 import ScreenRecording from "../ScreenRecording"
 
-import "../styles.css";
-
-import { InsertImagePayload } from "./ScreenshotPlugin";
 import { INSERT_IMAGE_COMMAND } from "./ScreenshotPlugin";
 import UploadFile from "../UploadFile";
 
@@ -19,7 +16,6 @@ export function FillURL() {
 
 export default function LeftToolbarPlugin() {
   const [editor] = useLexicalComposerContext();
-  const [openSnipModal, setOpenSnipModal] = React.useState(false)
   const onClick = (payload) => {
     editor.dispatchCommand(INSERT_IMAGE_COMMAND, payload);
   };

@@ -5,9 +5,10 @@ import Cancel from "@mui/icons-material/Cancel";
 import UndoIcon from "@mui/icons-material/Undo";
 import ReactCrop from "react-image-crop";
 import "react-image-crop/dist/ReactCrop.css";
+import Button from "../common/AsyncButton";
 import { INSERT_IMAGE_COMMAND } from "./plugins/ScreenshotPlugin";
 import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
-import axios from "axios";
+import useFileUpload from "../../hooks/useFileUpload";
 
 
 export default function ScreenShot() {
@@ -30,6 +31,7 @@ export default function ScreenShot() {
   const [finalSnip, setFinalSnip] = useState("");
   const [hover, setHover] = useState(false);
   const [imageDynamicWidth, setImageDynamicWidth] = useState(200);
+  const { upload, isLoading, error, isError } = useFileUpload();
 
   useEffect(() => {
     const handleStart = async () => {
@@ -37,8 +39,6 @@ export default function ScreenShot() {
       canvas.toBlob((blob) => {
         const url = URL.createObjectURL(blob);
         setMediaBlobUrl(url);
-        // dispatch(setMediaBlobUrl(url));
-        // dispatch(setMediaType(MediaTypes.IMAGE));
       });
     };
     if (start) {
@@ -220,28 +220,21 @@ export default function ScreenShot() {
     setHover(false);
   };
 
-  async function getFile(filePath){
-    const response = await axios.get(`http://localhost:8081/api/storage?filePath=${filePath}`);
-    return response.data;
+  const handleSave = () => {
+    const body = {
+      fileUrl: mediaBlobUrl,
+      fileName: 'screenshot'
+    };
+    upload(body, {
+      onSuccess: (data) => {
+        editor.dispatchCommand(INSERT_IMAGE_COMMAND, {
+          altText: "Screenshot",
+          src: data.url,
+          fileKey: data.key,
+        })
+      }
+    })
   }
-
-  async function uploadMediaFile(
-    mediaBlobUrl,
-    fileName = "blob"
-  ) {
-      const localRes = await fetch(mediaBlobUrl);
-      const blob = await localRes.blob();
-      const formData = new FormData();
-      formData.append("media_file", blob, fileName);
-      const opts = {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      };
-      const response = await axios.post(`http://localhost:8081/api/storage`, formData, opts);
-  
-      return response.data;
-    }
 
   return (
     <>
@@ -258,12 +251,13 @@ export default function ScreenShot() {
           justifyContent="right"
           alignItems="center"
         >
-            <button onClick={async ()=>{
-                editor.dispatchCommand(INSERT_IMAGE_COMMAND, {
-                  altText: "Screenshot",
-                  src: mediaBlobUrl
-                })
-            }}>Save</button>
+            <Button 
+              loading={isLoading}
+              error={isError ? error.message : ""}
+              onClick={handleSave}
+            >
+              Save
+            </Button>
           <Grid item xs={1}>
             <IconButton onClick={handleUndo} sx={{ marginLeft: "auto" }}>
               <UndoIcon color="primary" fontSize="large" />

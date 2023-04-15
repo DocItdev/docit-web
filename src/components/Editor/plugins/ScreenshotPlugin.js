@@ -7,11 +7,10 @@ import {
   $isRootOrShadowRoot,
   COMMAND_PRIORITY_EDITOR,
   createCommand,
-  LexicalCommand
 } from "lexical";
 import { useEffect } from "react";
 
-import { $createImageNode, ImageNode, ImagePayload } from "../nodes/ImageNode";
+import { $createImageNode, ImageNode } from "../nodes/ImageNode";
 
 export const INSERT_IMAGE_COMMAND= createCommand(
   "INSERT_IMAGE_COMMAND"

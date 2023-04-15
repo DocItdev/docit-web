@@ -1,9 +1,11 @@
 import axios from "axios";
 import env from "../../config/envConfig";
+import getFile from "./getFile";
 
 export default async function uploadMediaFile(
   userToken: string,
   mediaBlobUrl: string,
+  docId: string,
   fileName = "blob"
 ) {
   if (userToken) {
@@ -18,12 +20,13 @@ export default async function uploadMediaFile(
       },
     };
     const response = await axios.post(
-      `${env.API_HOST}/api/storage`,
+      `${env.API_HOST}/api/storage/${docId}`,
       formData,
       opts
     );
+    const fileData = await getFile(userToken, response.data.key);
 
-    return response.data;
+    return { ...response.data, url: fileData.mediaDownloadUrl };
   }
 
   throw new Error("Missing or incorrect user token.");

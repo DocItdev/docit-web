@@ -22,6 +22,7 @@ import {INSERT_EMBED_COMMAND} from '@lexical/react/LexicalAutoEmbedPlugin';
 import {useLexicalComposerContext} from '@lexical/react/LexicalComposerContext';
 import {$isDecoratorBlockNode} from '@lexical/react/LexicalDecoratorBlockNode';
 import {INSERT_HORIZONTAL_RULE_COMMAND} from '@lexical/react/LexicalHorizontalRuleNode';
+import { INSERT_EXCALIDRAW_COMMAND } from '../ExcalidrawPlugin';
 import {
   $createHeadingNode,
   $createQuoteNode,
@@ -825,6 +826,17 @@ export default function ToolbarPlugin(): JSX.Element {
             </DropDownItem>
             <DropDownItem
               onClick={() => {
+                activeEditor.dispatchCommand(
+                  INSERT_EXCALIDRAW_COMMAND,
+                  undefined,
+                );
+              }}
+              className="item">
+              <i className="icon diagram-2" />
+              <span className="text">Excalidraw</span>
+            </DropDownItem>
+            <DropDownItem
+              onClick={() => {
                 showModal('Insert Table', (onClose) => (
                   <InsertTableDialog
                     activeEditor={activeEditor}
@@ -835,19 +847,6 @@ export default function ToolbarPlugin(): JSX.Element {
               className="item">
               <i className="icon table" />
               <span className="text">Table</span>
-            </DropDownItem>
-            <DropDownItem
-              onClick={() => {
-                showModal('Insert Table', (onClose) => (
-                  <InsertNewTableDialog
-                    activeEditor={activeEditor}
-                    onClose={onClose}
-                  />
-                ));
-              }}
-              className="item">
-              <i className="icon table" />
-              <span className="text">Table (Experimental)</span>
             </DropDownItem>
             {EmbedConfigs.map((embedConfig) => (
               <DropDownItem

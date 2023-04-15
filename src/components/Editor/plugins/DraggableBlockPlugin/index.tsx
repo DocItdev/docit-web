@@ -1,14 +1,6 @@
-/**
- * Copyright (c) Meta Platforms, Inc. and affiliates.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
- *
- */
 import './index.css';
 
 import {useLexicalComposerContext} from '@lexical/react/LexicalComposerContext';
-import {eventFiles} from '@lexical/rich-text';
 import {mergeRegister} from '@lexical/utils';
 import {
   $getNearestNodeFromDOMNode,
@@ -24,7 +16,7 @@ import * as React from 'react';
 import {DragEvent as ReactDragEvent, useEffect, useRef, useState} from 'react';
 import {createPortal} from 'react-dom';
 
-import {isHTMLElement} from '../../../../utils/common/guard'
+import {isHTMLElement} from '../../../../utils/common/guard';
 import {Point} from '../../../../utils/common/point';
 import {Rect} from '../../../../utils/common/rect';
 
@@ -201,7 +193,6 @@ function hideTargetLine(targetLineElem: HTMLElement | null) {
 function useDraggableBlockMenu(
   editor: LexicalEditor,
   anchorElem: HTMLElement,
-  isEditable: boolean,
 ): JSX.Element {
   const scrollerElem = anchorElem.parentElement;
 
@@ -248,10 +239,6 @@ function useDraggableBlockMenu(
 
   useEffect(() => {
     function onDragover(event: DragEvent): boolean {
-      const [isFileTransfer] = eventFiles(event);
-      if (isFileTransfer) {
-        return false;
-      }
       const {pageY, target} = event;
       if (!isHTMLElement(target)) {
         return false;
@@ -268,10 +255,6 @@ function useDraggableBlockMenu(
     }
 
     function onDrop(event: DragEvent): boolean {
-      const [isFileTransfer] = eventFiles(event);
-      if (isFileTransfer) {
-        return false;
-      }
       const {target, dataTransfer, pageY} = event;
       const dragData = dataTransfer?.getData(DRAG_DATA_FORMAT) || '';
       const draggedNode = $getNodeByKey(dragData);
@@ -307,14 +290,14 @@ function useDraggableBlockMenu(
     return mergeRegister(
       editor.registerCommand(
         DRAGOVER_COMMAND,
-        (event) => {
+        (event: DragEvent) => {
           return onDragover(event);
         },
         COMMAND_PRIORITY_LOW,
       ),
       editor.registerCommand(
         DROP_COMMAND,
-        (event) => {
+        (event: DragEvent) => {
           return onDrop(event);
         },
         COMMAND_PRIORITY_HIGH,
@@ -350,7 +333,7 @@ function useDraggableBlockMenu(
         draggable={true}
         onDragStart={onDragStart}
         onDragEnd={onDragEnd}>
-        <div className={isEditable ? 'icon' : ''} />
+        <div className={editor.isEditable ? 'icon' : ''} />
       </div>
       <div className="draggable-block-target-line" ref={targetLineRef} />
     </>,
@@ -364,5 +347,5 @@ export default function DraggableBlockPlugin({
   anchorElem?: HTMLElement;
 }): JSX.Element {
   const [editor] = useLexicalComposerContext();
-  return useDraggableBlockMenu(editor, anchorElem, editor._editable);
+  return useDraggableBlockMenu(editor, anchorElem);
 }
