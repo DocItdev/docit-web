@@ -6,7 +6,18 @@ import ScreenRecording from "../ScreenRecording"
 
 import { INSERT_IMAGE_COMMAND } from "./ScreenshotPlugin";
 import UploadFile from "../UploadFile";
+import ScreenshotMonitorIcon from '@mui/icons-material/ScreenshotMonitor';
+import VideoCameraBackIcon from '@mui/icons-material/VideoCameraBack';
+import UploadFileIcon from '@mui/icons-material/UploadFile';
+import { Button } from "@mui/material";
 
+
+// const ICONS = {
+//   "ScreenShot": <ScreenshotMonitorIcon/>,
+//   "ScreenRecording":<VideoCameraBackIcon/>,
+//   "UploadFile":<UploadFileIcon/>,
+
+// }
 
 export function FillURL() {
   const srcfile = prompt("Enter the URL of the image:", "");
@@ -21,12 +32,12 @@ export default function LeftToolbarPlugin() {
   };
 
   return (
-    <div className="toolbar">
+    <div className="">
       
-      <BasicModal title="ScreenShot" component={<ScreenShot/>} />
-      <BasicModal title="ScreenRecording" component={<ScreenRecording/>}/>
-      <BasicModal title="UploadFile" component={<UploadFile />}/>
-      <button
+      <BasicModal title="ScreenShot" icon={ <ScreenshotMonitorIcon/>} component={<ScreenShot/>} />
+      <BasicModal title="ScreenRecording" icon={<VideoCameraBackIcon/>} component={<ScreenRecording/>}/>
+      <BasicModal title="UploadFile" icon={<UploadFileIcon/>} component={<UploadFile />}/>
+      <Button
         onClick={() =>
           onClick({
             altText: "Pink flowers",
@@ -34,21 +45,21 @@ export default function LeftToolbarPlugin() {
               "https://images.pexels.com/photos/5656637/pexels-photo-5656637.jpeg?auto=compress&cs=tinysrgb&w=200"
           })
         }
-        className={"toolbar-item spaced "}
       >
-        <span className="text">Insert Sample</span>
-      </button>
-      <button
+        S
+      </Button>
+      <br/> 
+      <Button
         onClick={() =>
           onClick({
             altText: "URL image",
             src: FillURL()
           })
         }
-        className={"toolbar-item spaced "}
+        
       >
-        <span className="text">Insert from URL</span>
-      </button>
+        URL
+      </Button>
     </div>
   );
 }

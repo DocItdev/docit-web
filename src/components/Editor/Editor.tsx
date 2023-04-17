@@ -84,8 +84,7 @@ export default function Editor({ docData }: EditorProps) {
 
   return (
     <>
-      {editable && <LeftToolbarPlugin/>}
-      {editable && <ToolbarPlugin />}
+      
       <div ref={scrollRef}>
         <AutoFocusPlugin />
         <ClearEditorPlugin />
@@ -110,7 +109,9 @@ export default function Editor({ docData }: EditorProps) {
           ignoreSelectionChange={true}
         />
         {elementRef.current && (
+          
           <>
+          {console.log(elementRef.current)}
             <DraggableBlockPlugin anchorElem={elementRef.current}/>
             <FloatingLinkEditorPlugin anchorElem={elementRef.current} />
           </>
@@ -118,7 +119,7 @@ export default function Editor({ docData }: EditorProps) {
         <RichTextPlugin
           contentEditable={
             <div className="editor" ref={elementRef}>
-              <ContentEditable className="TableNode__contentEditable" />
+              <ContentEditable  className="TableNode__contentEditable" />
             </div>
           }
           placeholder={null}

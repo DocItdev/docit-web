@@ -25,7 +25,7 @@ export default function BasicModal(props) {
 
   return (
     <div>
-      <Button onClick={handleOpen}>{props.title}</Button>
+      <Button onClick={handleOpen}>{props.icon}</Button>
       <Modal
         open={open}
         onClose={handleClose}
