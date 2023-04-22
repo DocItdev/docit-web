@@ -2,11 +2,11 @@ import React, { useEffect, useState } from "react";
 import { useReactMediaRecorder } from "react-media-recorder";
 import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
 import { INSERT_VIDEO_COMMAND } from "./plugins/VideoPlugin";
+import useFileUpload from "../../hooks/useFileUpload";
 
 export default function VideoRecorderBar() {
   const [editor] = useLexicalComposerContext();
   const {
-    status,
     startRecording,
     stopRecording,
     pauseRecording,
@@ -20,12 +20,7 @@ export default function VideoRecorderBar() {
     screen: true,
     blobPropertyBag: { type: "video/mp4" },
   });
-  useEffect(() => {
-    if (mediaBlobUrl) {
-      // dispatch(setMediaBlobUrl(mediaBlobUrl));
-      // dispatch(setMediaType(MediaTypes.VIDEO));
-    }
-  }, [mediaBlobUrl]);
+  const { upload, isLoading, error, isError } = useFileUpload();
 
   const handlePause = () => {
     pauseRecording();
@@ -44,6 +39,25 @@ export default function VideoRecorderBar() {
     startRecording();
   };
 
+  const handleSave = (e) => {
+    e.stopPropagation();
+    const body = {
+      fileUrl: mediaBlobUrl,
+      fileName: 'Screen recording'
+    };
+    upload(body, {
+      onSuccess: (data) => {
+        editor.dispatchCommand(INSERT_VIDEO_COMMAND, {
+          altText: "Screen recording",
+          src: data.url,
+          fileKey: data.key,
+          width: "800",
+          height: "600"
+        })
+      }
+    })
+  }
+
   return (
     <div>
       <h3>Screen Recording</h3>
@@ -52,14 +66,7 @@ export default function VideoRecorderBar() {
       <button onClick={handleResume}>resume recording</button>
       <button onClick={handleStop}>stop</button>
       <button onClick={isAudioMuted ? unMuteAudio : muteAudio}>mic off</button>
-      <button onClick={()=>{
-                
-                editor.dispatchCommand(INSERT_VIDEO_COMMAND, {
-                  altText: "Screen recording",
-                  src: mediaBlobUrl,
-                  width: "800",
-                  height: "600"
-                })}}>
+      <button onClick={handleSave}>
         save
       </button>
 
