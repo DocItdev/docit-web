@@ -14,7 +14,6 @@ import { RichTextPlugin } from "@lexical/react/LexicalRichTextPlugin";
 import { TablePlugin } from "@lexical/react/LexicalTablePlugin";
 import { ContentEditable } from "@lexical/react/LexicalContentEditable";
 import { OnChangePlugin } from "@lexical/react/LexicalOnChangePlugin";
-import ToolbarPlugin from "./plugins/ToolbarPlugin";
 import YouTubePlugin from "./plugins/YouTubePlugin";
 import AutoEmbedPlugin from "./plugins/AutoEmbedPlugin";
 import FigmaPlugin from "./plugins/FigmaPlugin";
@@ -111,7 +110,6 @@ export default function Editor({ docData }: EditorProps) {
         {elementRef.current && (
           
           <>
-          {console.log(elementRef.current)}
             <DraggableBlockPlugin anchorElem={elementRef.current}/>
             <FloatingLinkEditorPlugin anchorElem={elementRef.current} />
           </>
