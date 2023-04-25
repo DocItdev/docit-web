@@ -10,7 +10,9 @@ import ScreenshotMonitorIcon from '@mui/icons-material/ScreenshotMonitor';
 import VideoCameraBackIcon from '@mui/icons-material/VideoCameraBack';
 import UploadFileIcon from '@mui/icons-material/UploadFile';
 import { Button } from "@mui/material";
-
+import { INSERT_EXCALIDRAW_COMMAND } from './ExcalidrawPlugin';
+import SchemaIcon from '@mui/icons-material/Schema';
+import MemeMaker from "./MemeMaker";
 
 // const ICONS = {
 //   "ScreenShot": <ScreenshotMonitorIcon/>,
@@ -31,12 +33,25 @@ export default function LeftToolbarPlugin() {
     editor.dispatchCommand(INSERT_IMAGE_COMMAND, payload);
   };
 
+  const SX = {
+    color: "gray"
+  }
   return (
     <div className="">
       
-      <BasicModal title="ScreenShot" icon={ <ScreenshotMonitorIcon/>} component={<ScreenShot/>} />
-      <BasicModal title="ScreenRecording" icon={<VideoCameraBackIcon/>} component={<ScreenRecording/>}/>
-      <BasicModal title="UploadFile" icon={<UploadFileIcon/>} component={<UploadFile />}/>
+      <BasicModal title="ScreenShot" icon={ <ScreenshotMonitorIcon fontSize="large" sx={SX} />} component={<ScreenShot/>} />
+      <BasicModal title="ScreenRecording" icon={<VideoCameraBackIcon fontSize="large" sx={SX}/>} component={<ScreenRecording/>}/>
+      <BasicModal title="UploadFile" icon={<UploadFileIcon fontSize="large"sx={SX}/>} component={<UploadFile />}/>
+      <BasicModal title="UploadFile" icon={"meme"} component={<MemeMaker />}/>
+      <Button onClick={() => {
+                editor.dispatchCommand(
+                  INSERT_EXCALIDRAW_COMMAND,
+                  undefined,
+                );
+              }}>
+                <SchemaIcon fontSize="large" sx={SX}/>
+      </Button>
+      <br/>
       <Button
         onClick={() =>
           onClick({

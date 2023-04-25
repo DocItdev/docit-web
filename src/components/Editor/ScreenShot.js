@@ -9,12 +9,9 @@ import Button from "../common/AsyncButton";
 import { INSERT_IMAGE_COMMAND } from "./plugins/ScreenshotPlugin";
 import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
 import useFileUpload from "../../hooks/useFileUpload";
-
+import { ButtonBase } from "@mui/material";
 
 export default function ScreenShot() {
-  const [start, setStart] = useState(false);
-
-
   const [editor] = useLexicalComposerContext();
 
   const [mediaBlobUrl, setMediaBlobUrl] = useState("");
@@ -32,19 +29,6 @@ export default function ScreenShot() {
   const [hover, setHover] = useState(false);
   const [imageDynamicWidth, setImageDynamicWidth] = useState(200);
   const { upload, isLoading, error, isError } = useFileUpload();
-
-  useEffect(() => {
-    const handleStart = async () => {
-      const canvas = await takeScreenshotCanvas();
-      canvas.toBlob((blob) => {
-        const url = URL.createObjectURL(blob);
-        setMediaBlobUrl(url);
-      });
-    };
-    if (start) {
-      handleStart();
-    }
-  }, [start]);
 
   useEffect(() => {
     if (mediaBlobUrl === "") {
@@ -70,7 +54,6 @@ export default function ScreenShot() {
       clearTimeout(t);
     };
   }, [completedCrop]);
-
 
   function getDisplayMedia(options) {
     if (navigator?.mediaDevices?.getDisplayMedia) {
@@ -138,8 +121,12 @@ export default function ScreenShot() {
     return result;
   }
 
-  function handleStartScreenshot() {
-    setStart(true);
+  async function handleStartScreenshot() {
+    const canvas = await takeScreenshotCanvas();
+    canvas.toBlob((blob) => {
+      const url = URL.createObjectURL(blob);
+      setMediaBlobUrl(url);
+    });
   }
 
   const handleDelete = () => {
@@ -162,9 +149,7 @@ export default function ScreenShot() {
     image.srcset = mediaBlobUrl;
 
     //get the dynamic height and width of the screenshot-preview image and set them in the state
-    const screenshotPreview = document.getElementById(
-      "screenshot-preview"
-    );
+    const screenshotPreview = document.getElementById("screenshot-preview");
     setImageDynamicWidth(screenshotPreview.width);
     // create a canvas element which will be used to draw and scale the image to get a crop
     const canvas = document.createElement("canvas");
@@ -223,7 +208,7 @@ export default function ScreenShot() {
   const handleSave = () => {
     const body = {
       fileUrl: mediaBlobUrl,
-      fileName: 'screenshot'
+      fileName: "screenshot",
     };
     upload(body, {
       onSuccess: (data) => {
@@ -231,80 +216,94 @@ export default function ScreenShot() {
           altText: "Screenshot",
           src: data.url,
           fileKey: data.key,
-        })
-      }
-    })
-  }
+        });
+      },
+    });
+  };
 
   return (
     <>
-      <div>
-        <h3>Take Screenshot</h3>
-        <button onClick={handleStartScreenshot}>Take Screenshot</button>
-      </div>
-      {mediaBlobUrl ? (
       <Grid container spacing={0}>
         <Grid
           item
           xs={12}
           display="inline-flex"
           justifyContent="right"
-          alignItems="center"
+          alignItems="right"
         >
-            <Button 
-              loading={isLoading}
-              error={isError ? error.message : ""}
-              onClick={handleSave}
-            >
-              Save
-            </Button>
-          <Grid item xs={1}>
-            <IconButton onClick={handleUndo} sx={{ marginLeft: "auto" }}>
-              <UndoIcon color="primary" fontSize="large" />
-            </IconButton>
-          </Grid>
-          <Grid item xs={1}>
-            <IconButton
-              onClick={handleDelete}
-              sx={{ marginLeft: "auto" }}
-              onMouseEnter={handleOnMouseEnter}
-              onMouseLeave={handleOnMouseLeave}
-            >
-              <Cancel fontSize="small" color={hover ? "error" : "disabled"} />
-            </IconButton>
-          </Grid>
-        </Grid>
-        <Grid item xs={12}>
-          {mediaBlobUrl && displayCrop && (
-            <ReactCrop
-              crop={crop}
-              onChange={(c) => {
-                setCrop(c);
-              }}
-              onComplete={(c) => setCompletedCrop(c)}
-            >
-              <img
-                id="screenshot-preview"
-                src={mediaBlobUrl}
-                style={{ objectFit: "contain" }}
-                alt="test"
-              />
-            </ReactCrop>
-          )}
-          {finalSnip && (
-            <img
-              id="cropedImg"
-              src={finalSnip}
-              alt="test"
-              style={{ maxWidth: imageDynamicWidth }}
-            />
-          )}
+
+          <Button variant="contained" onClick={handleStartScreenshot}>
+            { mediaBlobUrl ? "Retake":"Screenshot"}
+          </Button>
+
+          {
+            mediaBlobUrl && 
+            <>
+              <Button
+            loading={isLoading}
+            error={isError ? error.message : ""}
+            onClick={handleSave}
+          >
+            Save
+          </Button>
+
+          <IconButton onClick={handleUndo} >
+            <UndoIcon color="primary" fontSize="large" />
+          </IconButton>
+            </>
+            
+          }
+         
+
+          <IconButton
+            onClick={handleDelete}
+            sx={{ marginLeft: "5%" }}
+            onMouseEnter={handleOnMouseEnter}
+            onMouseLeave={handleOnMouseLeave}
+          >
+            <Cancel fontSize="small" color={hover ? "error" : "disabled"} />
+          </IconButton>
         </Grid>
       </Grid>
-      ) : (
-      <span />
-      )}
 
+      {mediaBlobUrl ? (
+        <Grid container spacing={0}>
+          <Grid
+            item
+            xs={12}
+            display="inline-flex"
+            justifyContent="center"
+            alignItems="center"
+          >
+            {mediaBlobUrl && displayCrop && (
+              <ReactCrop
+                crop={crop}
+                onChange={(c) => {
+                  setCrop(c);
+                }}
+                onComplete={(c) => setCompletedCrop(c)}
+              >
+                <img
+                  id="screenshot-preview"
+                  src={mediaBlobUrl}
+                  style={{ objectFit: "contain", height: "500px" }}
+                  alt="test"
+                />
+              </ReactCrop>
+            )}
+            {finalSnip && (
+              <img
+                id="cropedImg"
+                src={finalSnip}
+                alt="test"
+                style={{ maxWidth: imageDynamicWidth, maxHeight: "500px" }}
+              />
+            )}
+          </Grid>
+        </Grid>
+      ) : (
+        <span />
+      )}
     </>
   );
 }

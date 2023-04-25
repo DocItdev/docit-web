@@ -35,7 +35,7 @@ export default function EditorWrapper({ docData }: EditorWrapperProps) {
       <Box >
         <CssBaseline />
         <Box style ={{}}>
-          <div style={{ backgroundColor:"white", height:"50px", top:"10", padding:"20px", position:"fixed", zIndex:"4"}}>
+          <div style={{ backgroundColor:"white", height:"50px", top:"0", padding:"20px", position:"fixed", zIndex:"4"}}>
             {editable && <ToolbarPlugin />}
           </div>
         </Box>

@@ -10,12 +10,13 @@ const style = {
   top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
-  width: '80%',
-  height:' 80%',
+  width: '90%',
+  height:' 90%',
   bgcolor: 'background.paper',
   border: '2px solid #000',
   boxShadow: 24,
   p: 4,
+  maxHeight: '700px'
 };
 
 export default function BasicModal(props) {
@@ -24,7 +25,7 @@ export default function BasicModal(props) {
   const handleClose = () => setOpen(false);
 
   return (
-    <div>
+    <div style={{}}>
       <Button onClick={handleOpen}>{props.icon}</Button>
       <Modal
         open={open}

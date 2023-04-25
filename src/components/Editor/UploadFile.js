@@ -11,6 +11,7 @@ import Cancel from "@mui/icons-material/Cancel";
 import FilePresentIcon from '@mui/icons-material/FilePresent';
 import { INSERT_FILE_COMMAND } from "./plugins/FilePlugin";
 import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
+import { Button } from '@mui/material';
 
 const baseStyle = {
     flex: 1,
@@ -56,6 +57,7 @@ function UploadFile() {
 
     const handleDelete = () => {
        setMediaBlobUrl('')
+       setShowDropzone(true)
     }
 
     const onDrop = useCallback(acceptedFile => {
@@ -85,15 +87,19 @@ function UploadFile() {
 
     return (
         <div>
-            <button onClick={()=>{
+            {mediaBlobUrl && (
+                <Button 
+                variant='contained'
+                onClick={()=>{
                 
-                editor.dispatchCommand(INSERT_FILE_COMMAND, {
-                  url: mediaBlobUrl,
-                  name: fileName
-                })
-            }}>Save</button>
+                    editor.dispatchCommand(INSERT_FILE_COMMAND, {
+                      url: mediaBlobUrl,
+                      name: fileName
+                    })
+                }}>Save</Button>
+            )}
             {showDropzone && < div >
-                Upload File
+                
                 < div {...getRootProps({ style })}>
                     <input {...getInputProps()} />
                     <p>{"Drag 'n' drop a file here, or click to select a file"}</p>
@@ -119,7 +125,7 @@ function UploadFile() {
                         <Grid item xs={1}>
                             <CardActions disableSpacing>
                                 <IconButton onClick={handleDelete} sx={{ marginLeft: "auto" }}>
-                                    <Cancel color="error" fontSize="small" />
+                                    <Cancel color="error" fontSize="large" />
                                 </IconButton>
                             </CardActions>
                         </Grid>
