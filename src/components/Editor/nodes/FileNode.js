@@ -1,12 +1,7 @@
-import { createEditor, DecoratorNode } from "lexical";
-import * as React from "react";
-import IconButton from "@mui/material/IconButton";
-import Card from "@mui/material/Card";
-import CardActions from "@mui/material/CardActions";
-import CardContent from "@mui/material/CardContent";
-import Grid from "@mui/material/Grid";
-import Cancel from "@mui/icons-material/Cancel";
-import FilePresentIcon from "@mui/icons-material/FilePresent";
+import { DecoratorNode } from "lexical";
+import React, { Suspense } from "react";
+
+const FileComponent = React.lazy(() => import('./FileComponent'));
 
 /**
  * A node is just a class
@@ -24,8 +19,6 @@ export class FileNode extends DecoratorNode {
     super(key);
     this.__url = url;
     this.__name = name;
-    console.log("url: ", url);
-    console.log("name: ", name);
   }
 
   createDOM() {
@@ -68,35 +61,9 @@ export class FileNode extends DecoratorNode {
 
   decorate() {
     return (
-      <Card
-        component={Grid}
-        item
-        xs={12}
-        sx={{ margin: "1rem" }}
-        variant="outlined"
-      >
-        <Grid container>
-          <Grid item xs={11}>
-            <CardContent>
-              <FilePresentIcon style={{ color: "#1F5980", fontSize: "35px" }} />
-              <p>{this.__name}</p>
-              <p>{this.__url}</p>
-            </CardContent>
-          </Grid>
-        </Grid>
-        <Grid container alignItems="center" justifyContent="center">
-          <a href={this.__url} target="_blank" rel="noreferrer" download>
-            <Grid item>
-              <CardContent>
-                <FilePresentIcon
-                  style={{ color: "#1F5980", fontSize: "35px" }}
-                />
-                {this.__name}
-              </CardContent>
-            </Grid>
-          </a>
-        </Grid>
-      </Card>
+      <Suspense fallback={null}>
+        <FileComponent name={this.__name} url={this.__url} />
+      </Suspense>
     );
   }
 }

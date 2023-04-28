@@ -1,6 +1,5 @@
 import React from 'react';
 import FormControl from '@mui/material/FormControl';
-import InputLabel from '@mui/material/InputLabel';
 
 export interface FileInputProps {
   label: string;
@@ -9,10 +8,9 @@ export interface FileInputProps {
   dataTestId?: string;
 }
 
-export default function FileInput({ label, accept, onChange, dataTestId }: FileInputProps) {
+export default function FileInput({ accept, onChange, dataTestId }: FileInputProps) {
   return (
     <FormControl>
-      <InputLabel className="Input__label">{label}</InputLabel>
       <input
         type="file"
         accept={accept}
