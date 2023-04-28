@@ -140,6 +140,7 @@ export class VideoNode extends DecoratorNode {
     video.setAttribute("height", this.__height);
     video.setAttribute("preload", "metadata");
     video.setAttribute("controls", true)
+    video.setAttribute('controllist', 'nodownload');
     return video;
   }
 

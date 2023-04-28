@@ -3,6 +3,7 @@ import { useReactMediaRecorder } from "react-media-recorder";
 import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
 import { INSERT_VIDEO_COMMAND } from "./plugins/VideoPlugin";
 import useFileUpload from "../../hooks/useFileUpload";
+import AsyncButton from "../common/AsyncButton/AsyncButton";
 
 export default function VideoRecorderBar() {
   const [editor] = useLexicalComposerContext();
@@ -66,9 +67,13 @@ export default function VideoRecorderBar() {
       <button onClick={handleResume}>resume recording</button>
       <button onClick={handleStop}>stop</button>
       <button onClick={isAudioMuted ? unMuteAudio : muteAudio}>mic off</button>
-      <button onClick={handleSave}>
+      <AsyncButton
+        onClick={handleSave}
+        loading={isLoading}
+        error={isError ? error.message : ""}
+      >
         save
-      </button>
+      </AsyncButton>
 
       {mediaBlobUrl?(
         <video controls width="100%" height="70%">

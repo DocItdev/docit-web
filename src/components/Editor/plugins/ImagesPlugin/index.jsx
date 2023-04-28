@@ -14,19 +14,17 @@ import FileInput from "../../../common/FileInput";
 
 import { $createImageNode, ImageNode } from "../../nodes/ImageNode";
 import { DialogActions, DialogButtonsList } from "../../../common/Dialog";
-import { Button, Box } from "@mui/material";
+import { Button, Box, Card, CardContent, CardActions, Typography } from "@mui/material";
+import useFileUpload from "../../../../hooks/useFileUpload";
+import AsyncButton from "../../../common/AsyncButton/AsyncButton";
 
-export const INSERT_IMAGE_COMMAND= createCommand(
-  "INSERT_IMAGE_COMMAND"
-);
+export const INSERT_IMAGE_COMMAND = createCommand("INSERT_IMAGE_COMMAND");
 
-export function InsertImageUriDialogBody({
-  onClick,
-}) {
-  const [src, setSrc] = useState('');
-  const [altText, setAltText] = useState('');
+export function InsertImageUriDialogBody({ onClick }) {
+  const [src, setSrc] = useState("");
+  const [altText, setAltText] = useState("");
 
-  const isDisabled = src === '';
+  const isDisabled = src === "";
 
   return (
     <>
@@ -48,7 +46,8 @@ export function InsertImageUriDialogBody({
         <Button
           data-test-id="image-modal-confirm-btn"
           disabled={isDisabled}
-          onClick={() => onClick({altText, src})}>
+          onClick={() => onClick({ altText, src })}
+        >
           Confirm
         </Button>
       </DialogActions>
@@ -56,51 +55,66 @@ export function InsertImageUriDialogBody({
   );
 }
 
-export function InsertImageUploadedDialogBody({
-  onClick,
-}) {
-  const [src, setSrc] = useState('');
-  const [altText, setAltText] = useState('');
+export function InsertImageUploadedDialogBody({ onClick }) {
+  const [src, setSrc] = useState("");
+  const [altText, setAltText] = useState("");
+  const { upload, isError, isLoading, error } = useFileUpload();
 
-  const isDisabled = src === '';
+  const isDisabled = src === "";
 
   const loadImage = (files) => {
     const imageUrl = URL.createObjectURL(files[0]);
-    console.log(imageUrl)
     setSrc(imageUrl);
   };
 
+  const handleSave = (e) => {
+    e.stopPropagation();
+    const body = {
+      fileUrl: src,
+      fileName: "Screen recording",
+    };
+    upload(body, {
+      onSuccess: (data) => {
+        onClick({ altText, src: data.url, fileKey: data.key });
+      },
+    });
+  };
+
   return (
-    <Box>
-      <FileInput
-        label="Image Upload"
-        onChange={loadImage}
-        accept="image/*"
-        data-test-id="image-modal-file-upload"
-      />
-      <TextInput
-        label="Alt Text"
-        placeholder="Descriptive alternative text"
-        onChange={setAltText}
-        value={altText}
-        data-test-id="image-modal-alt-text-input"
-      />
-      <DialogActions>
-        <Button
-          data-test-id="image-modal-file-upload-btn"
-          disabled={isDisabled}
-          onClick={() => onClick({altText, src})}>
-          Confirm
-        </Button>
-      </DialogActions>
-    </Box>
+    <Card>
+      <CardContent>
+      <Typography component="h1">Image Upload</Typography>
+        <FileInput
+          onChange={loadImage}
+          accept="image/*"
+          data-test-id="image-modal-file-upload"
+        />
+        <TextInput
+          label="Alt Text"
+          placeholder="Descriptive alternative text"
+          onChange={setAltText}
+          value={altText}
+          data-test-id="image-modal-alt-text-input"
+        />
+      </CardContent>
+      <CardActions>
+        <DialogActions>
+          <AsyncButton
+            data-test-id="image-modal-file-upload-btn"
+            disabled={isDisabled}
+            onClick={handleSave}
+            loading={isLoading}
+            error={isError ? error : ""}
+          >
+            Confirm
+          </AsyncButton>
+        </DialogActions>
+      </CardActions>
+    </Card>
   );
 }
 
-export function InsertImageDialog({
-  activeEditor,
-  onClose,
-}) {
+export function InsertImageDialog({ activeEditor, onClose }) {
   const [mode, setMode] = useState(null);
   const hasModifier = useRef(false);
 
@@ -109,9 +123,9 @@ export function InsertImageDialog({
     const handler = (e) => {
       hasModifier.current = e.altKey;
     };
-    document.addEventListener('keydown', handler);
+    document.addEventListener("keydown", handler);
     return () => {
-      document.removeEventListener('keydown', handler);
+      document.removeEventListener("keydown", handler);
     };
   }, [activeEditor]);
 
@@ -126,18 +140,20 @@ export function InsertImageDialog({
         <DialogButtonsList>
           <Button
             data-test-id="image-modal-option-url"
-            onClick={() => setMode('url')}>
+            onClick={() => setMode("url")}
+          >
             URL
           </Button>
           <Button
             data-test-id="image-modal-option-file"
-            onClick={() => setMode('file')}>
+            onClick={() => setMode("file")}
+          >
             File
           </Button>
         </DialogButtonsList>
       )}
-      {mode === 'url' && <InsertImageUriDialogBody onClick={onClick} />}
-      {mode === 'file' && <InsertImageUploadedDialogBody onClick={onClick} />}
+      {mode === "url" && <InsertImageUriDialogBody onClick={onClick} />}
+      {mode === "file" && <InsertImageUploadedDialogBody onClick={onClick} />}
     </>
   );
 }
